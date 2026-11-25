@@ -1,0 +1,13 @@
+--- a/com/zurrtum/create/foundation/blockEntity/behaviour/scrollValue/ServerScrollValueBehaviour.java
++++ b/com/zurrtum/create/foundation/blockEntity/behaviour/scrollValue/ServerScrollValueBehaviour.java
+@@ -52,6 +52,10 @@
+         return max;
+     }
+ 
++    public int getMin() {
++        return min;
++    }
++
+     @Override
+     public boolean isSafeNBT() {
+         return true;

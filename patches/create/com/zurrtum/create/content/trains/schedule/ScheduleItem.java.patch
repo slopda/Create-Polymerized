@@ -1,0 +1,10 @@
+--- a/com/zurrtum/create/content/trains/schedule/ScheduleItem.java
++++ b/com/zurrtum/create/content/trains/schedule/ScheduleItem.java
+@@ -9,6 +9,7 @@
+ import com.zurrtum.create.content.trains.entity.CarriageContraption;
+ import com.zurrtum.create.content.trains.entity.CarriageContraptionEntity;
+ import com.zurrtum.create.content.trains.entity.Train;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerStationForm;
+ import com.zurrtum.create.content.trains.schedule.destination.DestinationInstruction;
+ import com.zurrtum.create.foundation.gui.menu.MenuProvider;
+ import com.zurrtum.create.foundation.recipe.ItemCopyingRecipe.SupportsItemCopying;

@@ -1,0 +1,55 @@
+--- a/com/zurrtum/create/content/logistics/depot/EjectorItemEntity.java
++++ b/com/zurrtum/create/content/logistics/depot/EjectorItemEntity.java
+@@ -99,7 +99,11 @@
+     public void addAdditionalSaveData(ValueOutput view) {
+         view.putBoolean("Alive", alive);
+         view.putInt("Progress", progress);
+-        if (!alive && !(level().getBlockEntity(blockPosition()) instanceof EjectorBlockEntity)) {
++        // The server moves an in-flight item along its arc (tick), so unlike in Create it can sit over an unloaded chunk when
++        // saved, and getBlockEntity there would load the chunk and block the server thread during shutdown. Only look at a
++        // loaded chunk; otherwise store the launcher, as when no ejector is there.
++        BlockPos at = blockPosition();
++        if (!alive && !(level().isLoaded(at) && level().getBlockEntity(at) instanceof EjectorBlockEntity)) {
+             view.store("Launcher", EntityLauncher.CODEC, launcher);
+             view.store("Direction", Direction.CODEC, direction);
+         }
+@@ -172,6 +176,12 @@
+             return;
+         }
+         progress++;
++        if (!isClient) {
++            setPos(getLaunchedItemLocation(progress));
++            setDeltaMovement(getLaunchedItemLocation(progress + 1).subtract(position()));
++            needsSync = true;
++            hurtMarked = true;
++        }
+     }
+ 
+     private boolean isVirtual() {
+@@ -198,6 +208,10 @@
+         setPos(ejectVec.x, ejectVec.y, ejectVec.z);
+         setOldPos();
+         setDeltaMovement(ejectMotionVec);
++        if (!isClient) {
++            needsSync = true;
++            hurtMarked = true;
++        }
+         if (stack.getItem() instanceof EntityItem item) {
+             if (!isClient) {
+                 Level level = level();
+@@ -270,10 +284,6 @@
+         return launcher.getGlobalVelocity(time, direction).scale(0.5f);
+     }
+ 
+-    @Override
+-    public void moveOrInterpolateTo(Vec3 pos, float yaw, float pitch) {
+-    }
+-
+     public class RenderData {
+         public float rotateY;
+         public AABB renderBox = getBoundingBox();
+@@ -303,3 +313,4 @@
+         }
+     }
+ }
++

@@ -1,0 +1,14 @@
+--- a/com/zurrtum/create/content/redstone/displayLink/DisplayLinkBlock.java
++++ b/com/zurrtum/create/content/redstone/displayLink/DisplayLinkBlock.java
+@@ -12,8 +12,11 @@
+ import com.zurrtum.create.foundation.block.IBE;
+ import com.zurrtum.create.foundation.block.NeighborUpdateListeningBlock;
+ import com.zurrtum.create.foundation.block.WrenchableDirectionalBlock;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerMachineDialogs;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
++import net.minecraft.server.level.ServerLevel;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.world.InteractionResult;
+ import net.minecraft.world.entity.LivingEntity;
+ import net.minecraft.world.entity.player.Player;

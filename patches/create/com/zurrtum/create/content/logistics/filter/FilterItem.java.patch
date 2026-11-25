@@ -1,0 +1,10 @@
+--- a/com/zurrtum/create/content/logistics/filter/FilterItem.java
++++ b/com/zurrtum/create/content/logistics/filter/FilterItem.java
+@@ -7,6 +7,7 @@
+ import com.zurrtum.create.foundation.gui.menu.MenuProvider;
+ import com.zurrtum.create.foundation.item.ItemHelper;
+ import com.zurrtum.create.foundation.recipe.ItemCopyingRecipe.SupportsItemCopying;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerFilterForms;
+ import net.minecraft.core.component.DataComponentType;
+ import net.minecraft.core.component.DataComponents;
+ import net.minecraft.core.component.TypedDataComponent;

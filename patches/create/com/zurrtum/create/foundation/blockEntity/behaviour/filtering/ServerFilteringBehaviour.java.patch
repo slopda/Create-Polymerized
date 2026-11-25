@@ -1,0 +1,31 @@
+--- a/com/zurrtum/create/foundation/blockEntity/behaviour/filtering/ServerFilteringBehaviour.java
++++ b/com/zurrtum/create/foundation/blockEntity/behaviour/filtering/ServerFilteringBehaviour.java
+@@ -312,13 +312,7 @@
+             return;
+         }
+ 
+-        ItemStack filter = getFilter(side);
+-        if (filter.getItem() instanceof FilterItem) {
+-            Inventory inventory = player.getInventory();
+-            if (!player.isCreative() || inventory.count(filter, 1) == 0) {
+-                inventory.placeItemBackInInventory(filter.copy());
+-            }
+-        }
++        ItemStack filter = getFilter(side).copy();
+ 
+         if (toApply.getItem() instanceof FilterItem) {
+             toApply.setCount(1);
+@@ -330,6 +324,13 @@
+             return;
+         }
+ 
++        if (filter.getItem() instanceof FilterItem) {
++            Inventory inventory = player.getInventory();
++            if (!player.isCreative() || inventory.count(filter, 1) == 0) {
++                inventory.placeItemBackInInventory(filter);
++            }
++        }
++
+         if (!player.isCreative()) {
+             if (toApply.getItem() instanceof FilterItem) {
+                 if (itemInHand.getCount() == 1) {

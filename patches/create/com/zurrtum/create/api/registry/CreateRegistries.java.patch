@@ -1,0 +1,16 @@
+--- a/com/zurrtum/create/api/registry/CreateRegistries.java
++++ b/com/zurrtum/create/api/registry/CreateRegistries.java
+@@ -15,6 +15,8 @@
+ import com.zurrtum.create.content.logistics.item.filter.attribute.ItemAttributeType;
+ import com.zurrtum.create.content.logistics.packagePort.PackagePortTargetType;
+ import com.zurrtum.create.foundation.gui.menu.MenuType;
++import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
++import net.fabricmc.fabric.api.event.registry.RegistryAttributeHolder;
+ import net.minecraft.core.MappedRegistry;
+ import net.minecraft.core.RegistrationInfo;
+ import net.minecraft.core.Registry;
+@@ -63,3 +65,4 @@
+     public static void register() {
+     }
+ }
++

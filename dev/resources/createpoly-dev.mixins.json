@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "dev.veeda.createpoly.devmixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "PackWriteRecorderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

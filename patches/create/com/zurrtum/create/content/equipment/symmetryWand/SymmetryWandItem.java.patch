@@ -1,0 +1,23 @@
+--- a/com/zurrtum/create/content/equipment/symmetryWand/SymmetryWandItem.java
++++ b/com/zurrtum/create/content/equipment/symmetryWand/SymmetryWandItem.java
+@@ -1,7 +1,7 @@
+ package com.zurrtum.create.content.equipment.symmetryWand;
+ 
++import com.zurrtum.create.AllClientHandle;
+ import com.zurrtum.create.AllBlocks;
+-import com.zurrtum.create.AllClientHandle;
+ import com.zurrtum.create.AllDataComponents;
+ import com.zurrtum.create.AllItems;
+ import com.zurrtum.create.catnip.data.Iterate;
+@@ -14,9 +14,11 @@
+ import com.zurrtum.create.infrastructure.component.SymmetryMirror;
+ import com.zurrtum.create.infrastructure.config.AllConfigs;
+ import com.zurrtum.create.infrastructure.packet.s2c.SymmetryEffectPacket;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerToolDialogs;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+ import net.minecraft.server.level.ServerLevel;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+ import net.minecraft.world.entity.player.Inventory;

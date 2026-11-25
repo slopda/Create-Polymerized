@@ -1,0 +1,1259 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": true,
+  "textures": {
+    "0": "create:block/blaze_heater_brazier",
+    "1": "block/campfire_fire",
+    "particle": "create:block/dark_metal_block",
+    "polymer_material_blazier": "create:block/blaze_heater_brazier",
+    "polymer_material_campfire": "block/campfire_fire"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        4,
+        8
+      ],
+      "to": [
+        16,
+        20,
+        8.02
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_campfire",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          12,
+          8
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        0,
+        4,
+        7.98
+      ],
+      "to": [
+        16,
+        20,
+        8
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_campfire",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          12,
+          8
+        ],
+        "axis": "y",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        0,
+        4,
+        8
+      ],
+      "to": [
+        16,
+        20,
+        8.02
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_campfire",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          12,
+          8
+        ],
+        "axis": "y",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        0,
+        4,
+        7.98
+      ],
+      "to": [
+        16,
+        20,
+        8
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_campfire",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          12,
+          8
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        2.02,
+        4,
+        14
+      ],
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            9,
+            8,
+            15,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        4,
+        2.02
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            9,
+            8,
+            15,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        13.98,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        4,
+        14
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            9,
+            8,
+            15,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        0,
+        13.98
+      ],
+      "to": [
+        14,
+        4,
+        14
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            9,
+            8,
+            15,
+            10
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        0.02,
+        14
+      ],
+      "faces": {
+        "down": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            9,
+            10,
+            15,
+            16
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        3.98,
+        2
+      ],
+      "to": [
+        14,
+        4,
+        14
+      ],
+      "faces": {
+        "up": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            9,
+            1,
+            15,
+            7
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        5,
+        14.98
+      ],
+      "to": [
+        15,
+        14,
+        15
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        3.7929,
+        14.48
+      ],
+      "to": [
+        15,
+        5.2071,
+        14.5
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          4.5,
+          14.5
+        ],
+        "axis": "x",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        13.7929,
+        15.48
+      ],
+      "to": [
+        15,
+        15.2071,
+        15.5
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          14.5,
+          15.5
+        ],
+        "axis": "x",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        14.98,
+        5,
+        1
+      ],
+      "to": [
+        15,
+        14,
+        15
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        14.48,
+        3.7929,
+        1
+      ],
+      "to": [
+        14.5,
+        5.2071,
+        15
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          14.5,
+          4.5,
+          8
+        ],
+        "axis": "z",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        15.48,
+        13.7929,
+        1
+      ],
+      "to": [
+        15.5,
+        15.2071,
+        15
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          15.5,
+          14.5,
+          8
+        ],
+        "axis": "z",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        5,
+        1
+      ],
+      "to": [
+        15,
+        14,
+        1.02
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        4.5,
+        0.7929
+      ],
+      "to": [
+        15,
+        4.52,
+        2.2071
+      ],
+      "faces": {
+        "down": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          4.5,
+          1.5
+        ],
+        "axis": "x",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        14.5,
+        -0.2071
+      ],
+      "to": [
+        15,
+        14.52,
+        1.2071
+      ],
+      "faces": {
+        "down": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          14.5,
+          0.5
+        ],
+        "axis": "x",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        5,
+        1
+      ],
+      "to": [
+        1.02,
+        14,
+        15
+      ],
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1.5,
+        3.7929,
+        1
+      ],
+      "to": [
+        1.52,
+        5.2071,
+        15
+      ],
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          1.5,
+          4.5,
+          8
+        ],
+        "axis": "z",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        0.5,
+        13.7929,
+        1
+      ],
+      "to": [
+        0.52,
+        15.2071,
+        15
+      ],
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          0.5,
+          14.5,
+          8
+        ],
+        "axis": "z",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        13.5858,
+        0,
+        14.98
+      ],
+      "to": [
+        16.4142,
+        5,
+        15
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          15,
+          2.5,
+          15
+        ],
+        "axis": "y",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        13.5858,
+        0,
+        0.98
+      ],
+      "to": [
+        16.4142,
+        5,
+        1
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          15,
+          2.5,
+          1
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        0.98,
+        0,
+        -0.4142
+      ],
+      "to": [
+        1,
+        5,
+        2.4142
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          1,
+          2.5,
+          1
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        -0.4142,
+        0,
+        15
+      ],
+      "to": [
+        2.4142,
+        5,
+        15.02
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          1,
+          2.5,
+          15
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        5,
+        15
+      ],
+      "to": [
+        15,
+        14,
+        15.02
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        3.7929,
+        14.5
+      ],
+      "to": [
+        15,
+        5.2071,
+        14.52
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          4.5,
+          14.5
+        ],
+        "axis": "x",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        13.7929,
+        15.5
+      ],
+      "to": [
+        15,
+        15.2071,
+        15.52
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          14.5,
+          15.5
+        ],
+        "axis": "x",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        15,
+        5,
+        1
+      ],
+      "to": [
+        15.02,
+        14,
+        15
+      ],
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        13.7929,
+        4.48,
+        1
+      ],
+      "to": [
+        15.2071,
+        4.5,
+        15
+      ],
+      "faces": {
+        "up": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          14.5,
+          4.5,
+          8
+        ],
+        "axis": "z",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        14.7929,
+        14.48,
+        1
+      ],
+      "to": [
+        16.2071,
+        14.5,
+        15
+      ],
+      "faces": {
+        "up": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          15.5,
+          14.5,
+          8
+        ],
+        "axis": "z",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        5,
+        0.98
+      ],
+      "to": [
+        15,
+        14,
+        1
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        3.7929,
+        1.48
+      ],
+      "to": [
+        15,
+        5.2071,
+        1.5
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          4.5,
+          1.5
+        ],
+        "axis": "x",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        1,
+        13.7929,
+        0.48
+      ],
+      "to": [
+        15,
+        15.2071,
+        0.5
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          14.5,
+          0.5
+        ],
+        "axis": "x",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        0.98,
+        5,
+        1
+      ],
+      "to": [
+        1,
+        14,
+        15
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            3,
+            7.5,
+            7.5
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        1.48,
+        3.7929,
+        1
+      ],
+      "to": [
+        1.5,
+        5.2071,
+        15
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            7.5,
+            7.5,
+            8
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          1.5,
+          4.5,
+          8
+        ],
+        "axis": "z",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        0.48,
+        13.7929,
+        1
+      ],
+      "to": [
+        0.5,
+        15.2071,
+        15
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            0.5,
+            2.5,
+            7.5,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          0.5,
+          14.5,
+          8
+        ],
+        "axis": "z",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        14.98,
+        0,
+        13.5858
+      ],
+      "to": [
+        15,
+        5,
+        16.4142
+      ],
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          15,
+          2.5,
+          15
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        13.5858,
+        0,
+        1
+      ],
+      "to": [
+        16.4142,
+        5,
+        1.02
+      ],
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          15,
+          2.5,
+          1
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        -0.4142,
+        0,
+        0.98
+      ],
+      "to": [
+        2.4142,
+        5,
+        1
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          1,
+          2.5,
+          1
+        ],
+        "axis": "y",
+        "angle": -45,
+        "rescale": false
+      }
+    },
+    {
+      "from": [
+        -0.4142,
+        0,
+        14.98
+      ],
+      "to": [
+        2.4142,
+        5,
+        15
+      ],
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_blazier",
+          "uv": [
+            14.5,
+            8,
+            16,
+            10.5
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          1,
+          2.5,
+          15
+        ],
+        "axis": "y",
+        "angle": 45,
+        "rescale": false
+      }
+    }
+  ]
+}

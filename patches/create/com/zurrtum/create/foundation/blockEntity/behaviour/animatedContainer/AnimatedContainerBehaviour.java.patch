@@ -1,0 +1,17 @@
+--- a/com/zurrtum/create/foundation/blockEntity/behaviour/animatedContainer/AnimatedContainerBehaviour.java
++++ b/com/zurrtum/create/foundation/blockEntity/behaviour/animatedContainer/AnimatedContainerBehaviour.java
+@@ -67,7 +67,13 @@
+         openCount = 0;
+ 
+         for (Player playerentity : level.getEntitiesOfClass(Player.class, new AABB(getPos()).inflate(8))) {
+-            if (menuClass.isInstance(playerentity.containerMenu) && menuClass.cast(playerentity.containerMenu).contentHolder == blockEntity) {
++            if (menuClass.isInstance(playerentity.containerMenu)
++                    && menuClass.cast(playerentity.containerMenu).contentHolder == blockEntity
++                || playerentity.containerMenu instanceof AnimatedContainerMenu animatedMenu
++                    && animatedMenu.getAnimatedContainerBlockEntity() == blockEntity
++                || playerentity.containerMenu instanceof eu.pb4.sgui.api.containerwrappers.SlotBasedWrapperMenu wrapper
++                    && wrapper.getBackingGui() instanceof AnimatedContainerMenu animatedGui
++                    && animatedGui.getAnimatedContainerBlockEntity() == blockEntity) {
+                 openCount++;
+             }
+         }

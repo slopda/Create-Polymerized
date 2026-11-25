@@ -1,0 +1,24 @@
+--- a/com/zurrtum/create/content/logistics/vault/ItemVaultBlockEntity.java
++++ b/com/zurrtum/create/content/logistics/vault/ItemVaultBlockEntity.java
+@@ -509,6 +509,8 @@
+         }
+ 
+         public void write(ValueOutput view) {
++            view.store("InventorySlots", com.zurrtum.create.foundation.item.ItemSlots.CODEC,
++                com.zurrtum.create.foundation.item.ItemSlots.fromHandler(this));
+             ValueOutput.TypedOutputList<ItemStack> list = view.list("Inventory", ItemStack.CODEC);
+             for (ItemStack stack : stacks) {
+                 if (stack.isEmpty()) {
+@@ -519,6 +521,12 @@
+         }
+ 
+         public void read(ValueInput view) {
++            var slots = view.read("InventorySlots", com.zurrtum.create.foundation.item.ItemSlots.CODEC);
++            if (slots.isPresent()) {
++                stacks.clear();
++                slots.get().forEach((slot, stack) -> stacks.set(slot, stack));
++                return;
++            }
+             ValueInput.TypedInputList<ItemStack> list = view.listOrEmpty("Inventory", ItemStack.CODEC);
+             int i = 0;
+             for (ItemStack itemStack : list) {

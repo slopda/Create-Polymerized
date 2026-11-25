@@ -1,0 +1,14 @@
+--- a/com/zurrtum/create/content/contraptions/actors/harvester/HarvesterBlockEntity.java
++++ b/com/zurrtum/create/content/contraptions/actors/harvester/HarvesterBlockEntity.java
+@@ -28,5 +28,11 @@
+         manuallyAnimatedSpeed = speed;
+     }
+ 
++    @Override
++    public void setRemoved() {
++        super.setRemoved();
++        com.zurrtum.create.infrastructure.polymer.block.PolymerBlockParts.remove(this);
++    }
++
+ }
+ 

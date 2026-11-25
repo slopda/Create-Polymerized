@@ -1,0 +1,14 @@
+--- a/com/zurrtum/create/content/logistics/box/PackageEntity.java
++++ b/com/zurrtum/create/content/logistics/box/PackageEntity.java
+@@ -1,5 +1,6 @@
+ package com.zurrtum.create.content.logistics.box;
+ 
++import com.zurrtum.create.infrastructure.polymer.block.PolymerPackageVisuals;
+ import com.zurrtum.create.AllDataComponents;
+ import com.zurrtum.create.AllEntityTypes;
+ import com.zurrtum.create.AllSoundEvents;
+@@ -512,3 +513,4 @@
+         return box.has(DataComponents.DAMAGE_RESISTANT) || super.fireImmune();
+     }
+ }
++

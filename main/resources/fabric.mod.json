@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "createpoly",
+  "version": "${version}",
+  "name": "Polymer Patch: Create Fly",
+  "description": "Server-side vanilla-client compatibility for the pinned original Create Fly release.",
+  "authors": [
+    "veeda"
+  ],
+  "environment": "server",
+  "license": "MIT",
+  "entrypoints": {
+    "main": [
+      "dev.veeda.createpoly.PolymerPatchCreate"
+    ]
+  },
+  "accessWidener": "createpoly.classtweaker",
+  "mixins": [
+    "createpoly.mixins.json",
+    "createpoly-shift.mixins.json"
+  ],
+  "jars": [
+    {
+      "file": "META-INF/jars/sgui-2.1.0+26.2.jar"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": ">=26.2- <26.3-",
+    "java": ">=25",
+    "fabric-api": ">=0.161.0+26.2",
+    "create": "=6.0.9-2",
+    "polymer-core": ">=0.17.5+26.2",
+    "polymer-blocks": ">=0.17.5+26.2",
+    "polymer-virtual-entity": ">=0.17.5+26.2",
+    "polymer-resource-pack": ">=0.17.5+26.2",
+    "polymer-autohost": ">=0.17.5+26.2"
+  }
+}

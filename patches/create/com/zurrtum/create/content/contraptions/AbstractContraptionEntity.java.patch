@@ -1,0 +1,10 @@
+--- a/com/zurrtum/create/content/contraptions/AbstractContraptionEntity.java
++++ b/com/zurrtum/create/content/contraptions/AbstractContraptionEntity.java
+@@ -14,6 +14,7 @@
+ import com.zurrtum.create.content.trains.entity.CarriageContraption;
+ import com.zurrtum.create.content.trains.entity.CarriageContraptionEntity;
+ import com.zurrtum.create.content.trains.entity.Train;
++import com.zurrtum.create.infrastructure.polymer.contraption.PolymerContraptionVisuals;
+ import com.zurrtum.create.foundation.collision.Matrix3d;
+ import com.zurrtum.create.infrastructure.packet.s2c.*;
+ import io.netty.handler.codec.DecoderException;

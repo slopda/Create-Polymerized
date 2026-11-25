@@ -1,0 +1,15 @@
+--- a/com/zurrtum/create/AllPackets.java
++++ b/com/zurrtum/create/AllPackets.java
+@@ -23,6 +23,12 @@
+     public static final Map<PacketType<Packet<ServerGamePacketListener>>, StreamCodec<? super RegistryFriendlyByteBuf, Packet<ServerGamePacketListener>>> C2S = new LinkedHashMap<>();
+     public static final Map<PacketType<Packet<ClientGamePacketListener>>, StreamCodec<? super RegistryFriendlyByteBuf, Packet<ClientGamePacketListener>>> S2C = new LinkedHashMap<>();
+     public static final Map<PacketType<Packet<ClientConfigurationPacketListener>>, StreamCodec<? super RegistryFriendlyByteBuf, Packet<ClientConfigurationPacketListener>>> S2C_CONFIG = new LinkedHashMap<>();
++
++    public static boolean isCreateClientbound(Packet<?> packet) {
++        PacketType<?> type = packet.type();
++        return type.id().getNamespace().equals(MOD_ID);
++    }
++
+     public static final PacketType<ConfigureSchematicannonPacket> CONFIGURE_SCHEMATICANNON = c2s("configure_schematicannon",
+         ConfigureSchematicannonPacket.CODEC
+     );

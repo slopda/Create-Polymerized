@@ -1,0 +1,2087 @@
+{
+  "analog_lever": {
+    "title": "Controlling signals using the Analog Lever",
+    "messages": [
+      "Analog Levers make for a compact and precise source of redstone power",
+      "Right-click to increase its analog power output",
+      "Right-click while Sneaking to decrease the power output again"
+    ],
+    "aliases": [
+      "analog_lever"
+    ]
+  },
+  "andesite_tunnel": {
+    "title": "Using Andesite Tunnels",
+    "messages": [
+      "Andesite Tunnels can be used to cover up your belts",
+      "Whenever an Andesite Tunnel has connections to the sides...",
+      "...they will split exactly one item off of any passing stacks",
+      "The remainder will continue on its path"
+    ],
+    "aliases": [
+      "andesite_tunnel"
+    ]
+  },
+  "auto_schedule": {
+    "title": "Stations & Scheduling",
+    "messages": [
+      "Schedules can be used to provide drivers with a destination",
+      "Comparators will receive a signal whenever a Train is present",
+      "Mind that a Station can only be approached from the indicated direction",
+      "Stations can also be used to assign new Schedules automatically",
+      "The Schedule placed on a station will automatically copy itself to present trains",
+      "As opposed to manual scheduling, drivers will not take the item with them"
+    ],
+    "aliases": [
+      "auto_schedule"
+    ]
+  },
+  "basin": {
+    "title": "Processing Items in the Basin",
+    "messages": [
+      "A Basin can hold Items and Fluids for Processing",
+      "After a processing step, basins try to output below to the side of them",
+      "When a valid component is present, the Basin will show an output faucet",
+      "A number of options are applicable here",
+      "Outputs will be caught by the inventory below",
+      "Without output faucet, the Basin will retain items created in its processing",
+      "This can be useful if outputs should be re-used as ingredients",
+      "Desired outputs will then have to be extracted from the basin",
+      "A Filter might be necessary to avoid pulling out un-processed items"
+    ],
+    "aliases": [
+      "basin"
+    ]
+  },
+  "bearing_modes": {
+    "title": "Movement Modes of the Mechanical Bearing",
+    "messages": [
+      "When Stopped, the Bearing will place the structure at the nearest grid-aligned Angle",
+      "It can be configured never to revert to solid blocks, or only near the angle it started at"
+    ],
+    "aliases": [
+      "bearing_modes"
+    ]
+  },
+  "belt_casing": {
+    "title": "Encasing Belts",
+    "messages": [
+      "Brass or Andesite Casing can be used to decorate Mechanical Belts",
+      "A wrench can be used to remove the casing"
+    ],
+    "aliases": [
+      "belt_casing"
+    ]
+  },
+  "belt_connector": {
+    "title": "Using Mechanical Belts",
+    "messages": [
+      "Right-Clicking two shafts with a belt item will connect them together",
+      "Accidental selections can be canceled with Right-Click while Sneaking",
+      "Additional Shafts can be added throughout the Belt",
+      "Shafts connected via Belts will rotate with Identical Speed and Direction",
+      "Added shafts can be removed using the wrench",
+      "Mechanical Belts can be dyed for aesthetic purposes"
+    ],
+    "aliases": [
+      "belt_connector"
+    ]
+  },
+  "belt_directions": {
+    "title": "Valid Orientations for Mechanical Belts",
+    "messages": [
+      "Belts cannot connect in arbitrary directions",
+      "1. They can connect horizontally",
+      "2. They can connect diagonally",
+      "3. They can connect vertically",
+      "4. And they can connect vertical shafts horizontally",
+      "These are all possible directions. Belts can span any Length between 2 and 20 blocks"
+    ],
+    "aliases": [
+      "belt_directions"
+    ]
+  },
+  "belt_transport": {
+    "title": "Using Mechanical Belts for Logistics",
+    "messages": [
+      "Moving belts will transport Items and other Entities",
+      "Right-Click with an empty hand to take items off a belt"
+    ],
+    "aliases": [
+      "belt_transport"
+    ]
+  },
+  "blaze_burner": {
+    "title": "Feeding Blaze Burners",
+    "messages": [
+      "Blaze Burners can provide Heat to Items processed in a Basin",
+      "For this, the Blaze has to be fed with flammable items",
+      "With a Blaze Cake, the Burner can reach an even stronger level of heat",
+      "The feeding process can be automated using Deployers or Mechanical Arms"
+    ],
+    "aliases": [
+      "blaze_burner"
+    ]
+  },
+  "brass_funnel": {
+    "title": "The Brass Funnel",
+    "messages": [
+      "Andesite Funnels can only ever extract single items.",
+      "Brass Funnels can extract up to a full stack.",
+      "The value panel allows for precise control over the extracted stack size.",
+      "Using items on the filter slot will restrict the funnel to only transfer matching stacks."
+    ],
+    "aliases": [
+      "brass_funnel"
+    ]
+  },
+  "brass_tunnel": {
+    "title": "Using Brass Tunnels",
+    "messages": [
+      "Brass Tunnels can be used to cover up your belts",
+      "Brass Tunnels have filter slots on each open side",
+      "Filters on inbound connections simply block non-matching items",
+      "Filters on outbound connections can be used to sort items by type",
+      "Whenever a passing item has multiple valid exits, the distribution mode will decide how to handle it",
+      "Brass Tunnels on parallel belts will form a group",
+      "Incoming Items will now be distributed across all connected exits",
+      "For this, items can also be inserted into the Tunnel block directly"
+    ],
+    "aliases": [
+      "brass_tunnel"
+    ]
+  },
+  "brass_tunnel_modes": {
+    "title": "Distribution Modes of the Brass Tunnel",
+    "messages": [
+      "The distribution behaviour of Brass Tunnels can be configured",
+      "'Split' will attempt to distribute the stack evenly between available outputs",
+      "If an output is unable to take more items, it will be skipped",
+      "'Forced Split' will never skip outputs, and instead wait until they are free",
+      "'Round Robin' keeps stacks whole, and cycles through outputs iteratively",
+      "Once Again, if an output is unable to take more items, it will be skipped",
+      "'Forced Round Robin' never skips outputs",
+      "'Prefer Nearest' prioritizes the outputs closest to the items' input location",
+      "'Randomize' will distribute whole stacks to randomly picked outputs",
+      "'Synchronize Inputs' is a unique setting for Brass Tunnels",
+      "Items are only allowed past if every tunnel in the group has one waiting",
+      "This ensures that all affected belts supply items at the same rate"
+    ],
+    "aliases": [
+      "brass_tunnel_modes"
+    ]
+  },
+  "cart_assembler": {
+    "title": "Moving Structures using Cart Assemblers",
+    "messages": [
+      "Powered Cart Assemblers mount attached structures to passing Minecarts",
+      "Without a redstone signal, it disassembles passing cart contraptions back into blocks",
+      "Using a Wrench on the Minecart will let you carry the Contraption elsewhere"
+    ],
+    "aliases": [
+      "cart_assembler"
+    ]
+  },
+  "cart_assembler_dual": {
+    "title": "Assembling Carriage Contraptions",
+    "messages": [
+      "Whenever two Cart Assemblers share an attached structure...",
+      "Powering either of them will create a Carriage Contraption",
+      "The carts will behave like those connected via Minecart Coupling"
+    ],
+    "aliases": [
+      "cart_assembler_dual"
+    ]
+  },
+  "cart_assembler_modes": {
+    "title": "Orientation Settings for Minecart Contraptions",
+    "messages": [
+      "Cart Contraptions will rotate to face towards their carts' motion",
+      "This Arrow indicates which side of the Structure will be considered the front",
+      "If the Assembler is set to Lock Rotation, the contraptions' orientation will never change"
+    ],
+    "aliases": [
+      "cart_assembler_modes"
+    ]
+  },
+  "cart_assembler_rails": {
+    "title": "Other types of Minecarts and Rails",
+    "messages": [
+      "Cart Assemblers on Regular Tracks will not affect the passing carts' motion",
+      "When on Powered or Controller Rail, the carts will be held in place until it's Powered",
+      "Other types of Minecarts can be used as the anchor",
+      "Furnace Carts will keep themselves powered, pulling fuel from any attached inventories"
+    ],
+    "aliases": [
+      "cart_assembler_rails"
+    ]
+  },
+  "chain_conveyor": {
+    "title": "Relaying rotational force using Chain Conveyors",
+    "messages": [
+      "Right-click two conveyors with chains to connect them",
+      "Chain conveyors relay rotational power between each other..",
+      "..and connect to shafts above or below them",
+      "Right-click holding a wrench to start travelling on the chain",
+      "At a junction, face towards a chain to follow it"
+    ],
+    "aliases": [
+      "chain_conveyor"
+    ]
+  },
+  "chain_drive": {
+    "title": "Relaying rotational force with Chain Drives",
+    "messages": [
+      "Chain Drives relay rotation to each other in a row",
+      "All shafts connected like this will rotate in the same direction",
+      "Any part of the row can be rotated by 90 degrees"
+    ],
+    "aliases": [
+      "chain_drive"
+    ]
+  },
+  "chain_gearshift": {
+    "title": "Controlling rotational speed with Chain Gearshifts",
+    "messages": [
+      "Unpowered Chain Gearshifts behave exactly like Chain Drives",
+      "When Powered, the speed transmitted to other Chain Drives in the row is doubled",
+      "Whenever the Powered Gearshift is not at the source, its speed will be halved instead",
+      "In both cases, Chain Drives in the row always run at 2x the speed of the Powered Gearshift",
+      "Using analog signals, the ratio can be adjusted more precisely between 1 and 2",
+      "12 RPM"
+    ],
+    "aliases": [
+      "chain_gearshift"
+    ]
+  },
+  "chute": {
+    "title": "Transporting Items downward via Chutes",
+    "messages": [
+      "Chutes can transport items vertically from and to inventories",
+      "Using the Wrench, a window can be created",
+      "Using Industrial Iron Blocks, chutes can be encased",
+      "Placing chutes targeting the side faces of another will make it diagonal"
+    ],
+    "aliases": [
+      "chute"
+    ]
+  },
+  "chute_upward": {
+    "title": "Transporting Items upward via Chutes",
+    "messages": [
+      "Using Encased Fans at the top or bottom, a Chute can move items upward",
+      "Inspecting chutes with Engineers' Goggles reveals information about the movement direction",
+      "On the 'blocked' end, items will have to be inserted/taken from the sides"
+    ],
+    "aliases": [
+      "chute_upward"
+    ]
+  },
+  "clockwork_bearing": {
+    "title": "Animating Structures using Clockwork Bearings",
+    "messages": [
+      "Clockwork Bearings attach to blocks in front of them",
+      "Upon receiving Rotational Force, the structure will be rotated according to the hour of the day",
+      "3:00",
+      "4:00",
+      "Right-Click the bearing to start or stop animating the structure",
+      "In front of the Hour Hand, a second structure can be added",
+      "Ensure that the two Structures are not glued to each other",
+      "The Second Structure will now rotate as the Minute Hand"
+    ],
+    "aliases": [
+      "clockwork_bearing"
+    ]
+  },
+  "clutch": {
+    "title": "Controlling rotational force using a Clutch",
+    "messages": [
+      "Clutches will relay rotation in a straight line",
+      "When powered by Redstone, it breaks the connection"
+    ],
+    "aliases": [
+      "clutch"
+    ]
+  },
+  "cog_speedup": {
+    "title": "Gearshifting with Cogs",
+    "messages": [
+      "Large and Small cogs can be connected diagonally",
+      "Shifting from large to small cogs, the conveyed speed will be doubled",
+      "Shifting the opposite way, the conveyed speed will be halved"
+    ],
+    "aliases": [
+      "cog_speedup"
+    ]
+  },
+  "cogwheel": {
+    "title": "Relaying rotational force using Cogwheels",
+    "messages": [
+      "Cogwheels will relay rotation to other adjacent cogwheels",
+      "Neighbouring shafts connected like this will rotate in opposite directions"
+    ],
+    "aliases": [
+      "cogwheel"
+    ]
+  },
+  "cogwheel_casing": {
+    "title": "Encasing Cogwheels",
+    "messages": [
+      "Brass or Andesite Casing can be used to decorate Cogwheels",
+      "Components added after encasing will not connect to the shaft outputs",
+      "The Wrench can be used to toggle connections"
+    ],
+    "aliases": [
+      "cogwheel_casing"
+    ]
+  },
+  "contraption_controls": {
+    "title": "Using Contraption Controls",
+    "messages": [
+      "Actors on moving contraptions are always active by default",
+      "Contraption Controls can be used to toggle them on the fly",
+      "They can be attached anywhere on the contraption",
+      "While disassembled, the filter can be changed to target specific types of actors",
+      "If it is redstone-activated during assembly...",
+      "...targeted actors will be turned off from the start"
+    ],
+    "aliases": [
+      "contraption_controls"
+    ]
+  },
+  "creative_fluid_tank": {
+    "title": "Creative Fluid Tanks",
+    "messages": [
+      "Creative Fluid Tanks can be used to provide a bottomless supply of fluid",
+      "Right-Click with a fluid containing item to configure it",
+      "Pipe Networks can now endlessly draw the assigned fluid from the tank",
+      "Any Fluids pushed back into a Creative Fluid Tank will be voided"
+    ],
+    "aliases": [
+      "creative_fluid_tank"
+    ]
+  },
+  "creative_motor": {
+    "title": "Generating Rotational Force using Creative Motors",
+    "messages": [
+      "Creative motors are a compact and configurable source of Rotational Force",
+      "The generated speed can be configured on its input panels"
+    ],
+    "aliases": [
+      "creative_motor"
+    ]
+  },
+  "creative_motor_mojang": {
+    "title": "Mojang's Enigma",
+    "messages": [],
+    "aliases": [
+      "creative_motor_mojang"
+    ]
+  },
+  "crushing_wheels": {
+    "title": "Processing Items with Crushing Wheels",
+    "messages": [
+      "A pair of Crushing Wheels can grind items very effectively",
+      "Their Rotational Input has to make them spin into each other",
+      "Items thrown or inserted into the top will get processed",
+      "Items can be inserted and picked up through automated means as well"
+    ],
+    "aliases": [
+      "crushing_wheels"
+    ]
+  },
+  "deployer": {
+    "title": "Using the Deployer",
+    "messages": [
+      "Given Rotational Force, a Deployer can imitate player interactions",
+      "It will always interact with the position 2 blocks in front of itself",
+      "Blocks directly in front will not obstruct it",
+      "Deployers can:",
+      "Place Blocks,",
+      "Use Items,",
+      "Activate Blocks,",
+      "Harvest blocks",
+      "and Attack Mobs",
+      "Right-click the front to give it an Item to use",
+      "Items can also be inserted automatically",
+      "Deployers carry a filter slot",
+      "When a filter is set, it activates only while holding a matching item",
+      "Only items matching the filter can now be inserted...",
+      "...and only non-matching items will be extracted"
+    ],
+    "aliases": [
+      "deployer"
+    ]
+  },
+  "deployer_contraption": {
+    "title": "Using Deployers on Contraptions",
+    "messages": [
+      "Whenever Deployers are moved as part of an animated Contraption...",
+      "They activate at each visited location, using items from inventories anywhere on the contraption",
+      "The Filter slot can be used to specify which items to pull"
+    ],
+    "aliases": [
+      "deployer_contraption"
+    ]
+  },
+  "deployer_modes": {
+    "title": "Modes of the Deployer",
+    "messages": [
+      "By default, a Deployer imitates a Right-click interaction",
+      "Using a Wrench, it can be set to imitate a Left-click instead"
+    ],
+    "aliases": [
+      "deployer_modes"
+    ]
+  },
+  "deployer_processing": {
+    "title": "Processing Items using Deployers",
+    "messages": [
+      "With a fitting held item, Deployers can process items provided beneath them",
+      "The Input items can be dropped or placed on a Depot under the Deployer",
+      "When items are provided on a belt...",
+      "The Deployer will hold and process them automatically"
+    ],
+    "aliases": [
+      "deployer_processing"
+    ]
+  },
+  "deployer_redstone": {
+    "title": "Controlling Deployers with Redstone",
+    "messages": [
+      "When powered by Redstone, Deployers will not activate",
+      "Before stopping, the Deployer will finish any started cycles",
+      "Thus, a negative pulse can be used to trigger exactly one activation cycle"
+    ],
+    "aliases": [
+      "deployer_redstone"
+    ]
+  },
+  "depot": {
+    "title": "Using Depots",
+    "messages": [
+      "Depots can serve as 'stationary' belt elements",
+      "Right-Click to manually place or remove Items from it",
+      "Just like Mechanical Belts, it can provide items to processing",
+      "...as well as provide Items to Mechanical Arms"
+    ],
+    "aliases": [
+      "depot"
+    ]
+  },
+  "display_board": {
+    "title": "Using Display Boards",
+    "messages": [
+      "Display Boards are a scalable alternative to the sign",
+      "They require Rotational Force to operate",
+      "Static text can be applied using written Clipboards",
+      "And dynamic text through the use of Display Links",
+      "Dyes can be applied to individual lines of the board",
+      "Lines can be reset by clicking them with an empty hand"
+    ],
+    "aliases": [
+      "display_board"
+    ]
+  },
+  "display_link": {
+    "title": "Setting up Display Links",
+    "messages": [
+      "Display Links can be used to visualise dynamic information",
+      "First, right-click the target display...",
+      "...then attach it to the block to read from",
+      "Open the Interface to select and configure what is sent",
+      "The display will now receive information from the link",
+      "Not every block can act as a source",
+      "Each compatible block provides unique information",
+      "The Display Link can work with several different displays"
+    ],
+    "aliases": [
+      "display_link"
+    ]
+  },
+  "display_link_redstone": {
+    "title": "Redstone Control",
+    "messages": [
+      "When powered by Redstone, Display Links stop sending updates",
+      "Once unpowered, the Timer is reset and new info is sent immediately",
+      "Signals emitted from the source do not affect the Link"
+    ],
+    "aliases": [
+      "display_link_redstone"
+    ]
+  },
+  "elevator_pulley": {
+    "title": "Using the Elevator Pulley",
+    "messages": [
+      "Elevator Pulleys can move structures vertically between marked locations",
+      "Start by constructing a cabin",
+      "Place a pair of Redstone Contacts facing each other...",
+      "...and glue one of them to your moving structure",
+      "Contraption Controls can be attached to make floor selection easier",
+      "Ensure that the pulley is supplied with Rotational Power",
+      "Right-Clicking the pulley assembles the elevator",
+      "The stationary contact now turns into an Elevator Contact",
+      "Elevator Contacts represent a 'floor' and can be configured",
+      "Any redstone contact sharing this column will be converted",
+      "Supply a redstone pulse to call the elevator to the contact",
+      "The movement speed depends on the rotation input on the pulley",
+      "Scroll and click on the controls block to choose a floor while on-board",
+      "Right-Clicking the assembled pulley will turn the cabin back into blocks",
+      "Sliding doors attached to the cabin will open and close automatically",
+      "Elevator Contacts emit a signal while the cabin is on their floor",
+      "This can be useful to trigger doors or special effects upon arrival",
+      "Display Links on any of the contacts can show the current floor of the elevator"
+    ],
+    "aliases": [
+      "elevator_pulley"
+    ]
+  },
+  "elevator_pulley_multi_rope": {
+    "title": "Synchronised Pulley Movement",
+    "messages": [
+      "Whenever a pulley assembles a contraption...",
+      "...other pulleys on the same layer will connect to the structure",
+      "They do not require to be powered, the effect is purely cosmetic"
+    ],
+    "aliases": [
+      "elevator_pulley_multi_rope"
+    ]
+  },
+  "empty_blaze_burner": {
+    "title": "Using Empty Blaze Burners",
+    "messages": [
+      "Right-click a Blaze with the empty burner to capture it",
+      "Alternatively, Blazes can be collected from their Spawners directly",
+      "You now have an ideal heat source for various machines",
+      "For Aesthetic purposes, Empty Blaze Burners can also be lit using Flint and Steel",
+      "The flame can be transformed using a soul-infused item",
+      "However, without a blaze they are not suitable for industrial heating"
+    ],
+    "aliases": [
+      "empty_blaze_burner"
+    ]
+  },
+  "encased_fluid_pipe": {
+    "title": "Encasing Fluid Pipes",
+    "messages": [
+      "Copper Casing can be used to decorate Fluid Pipes",
+      "Aside from being concealed, Encased Pipes are locked into their connectivity state",
+      "It will no longer react to any neighbouring blocks being added or removed"
+    ],
+    "aliases": [
+      "encased_fluid_pipe"
+    ]
+  },
+  "factory_gauge_crafting": {
+    "title": "Automatic Crafting with Factory Gauges",
+    "messages": [
+      "Factory gauges provide auto-arrangement for crafting table recipes",
+      "Connect the required ingredients as before",
+      "When a valid recipe is detected, a new button appears in the UI",
+      "With auto-arrangement active, the boxes can be unwrapped into crafters directly",
+      "The setup must be 3x3 and the crafters have to be connected via wrench",
+      "Hold Right-click on the gauge to set the target amount",
+      "This crafter can now be used universally, by more gauges with different recipes",
+      "Outputs should be sent back to a linked inventory to close the loop",
+      "Using a Re-packager is recommended to prevent fragmentation of input packages"
+    ],
+    "aliases": [
+      "factory_gauge_crafting"
+    ]
+  },
+  "factory_gauge_links": {
+    "title": "Connecting Gauges to other Blocks",
+    "messages": [
+      "When adding a new connection from the UI...",
+      "...the gauge also accepts Redstone and Display Links",
+      "Redstone links will be powered when the stock level is at or above the target amount",
+      "In receiver mode, links can stop the gauge from sending requests",
+      "Display links can provide a status overview of connected gauges"
+    ],
+    "aliases": [
+      "factory_gauge_links"
+    ]
+  },
+  "factory_gauge_recipe": {
+    "title": "Automated Recipes with Factory Gauges",
+    "messages": [
+      "Whenever gauges are not placed on a packager...",
+      "They will instead monitor stock levels of all linked inventories",
+      "Right-click it with the item that should be monitored",
+      "It will now display the total amount present on the network",
+      "The gauge can replenish stock levels by sending other items to be processed",
+      "First, add the required ingredients as new factory gauges",
+      "From the target's UI, new connections can be made",
+      "For aesthetics, input panels can be wrenched to change the pathing",
+      "In the UI, review the inputs and specify how much of the output gets made per batch",
+      "Specify the address that ingredients should be sent to",
+      "The target amount to maintain can now be set by holding Right-click on the gauge",
+      "Whenever the network has fewer items than the amount...",
+      "...it will send new ingredients to the specified address",
+      "The outputs then need to return to any of the linked inventories",
+      "Green connections indicate that the target amount has been reached",
+      "The board of gauges can expand to include more recipe steps",
+      "Each gauge maintains the stock level of its item independently"
+    ],
+    "aliases": [
+      "factory_gauge_recipe"
+    ]
+  },
+  "factory_gauge_restocker": {
+    "title": "Restocking with Factory Gauges",
+    "messages": [
+      "Right-click a Stock link before placement to connect to its network",
+      "When placed on a packager, factory gauges can monitor items inside the inventory",
+      "Right-click it with the item that should be monitored",
+      "It will now display the amount present in the inventory",
+      "The gauge can refill this inventory from the logistics network",
+      "Right-click it again to open its configuration UI",
+      "Set an address that should be used for the requested items",
+      "The target amount to maintain can now be set by holding Right-click on the gauge",
+      "Whenever the chest has fewer items than this amount...",
+      "...the logistics network sends more, with the specified address",
+      "From there, they can be routed to the packager"
+    ],
+    "aliases": [
+      "factory_gauge_restocker"
+    ]
+  },
+  "fan_direction": {
+    "title": "Air flow of Encased Fans",
+    "messages": [
+      "Encased Fans use Rotational Force to create an Air Current",
+      "Strength and Direction of Flow depends on the Rotational Input"
+    ],
+    "aliases": [
+      "fan_direction"
+    ]
+  },
+  "fan_processing": {
+    "title": "Processing Items using Encased Fans",
+    "messages": [
+      "When passing through lava, the Air Flow becomes Heated",
+      "Items caught in the area will be smelted",
+      "Food items thrown here would be incinerated",
+      "Instead, a setup for Smoking using Fire should be used for them",
+      "Air Flows passing through water create a Washing Setup",
+      "Some interesting new processing can be done with it",
+      "The Speed of the Fan does NOT affect the processing speed, only its range",
+      "Fan Processing can also be applied to Items on Depots and Belts"
+    ],
+    "aliases": [
+      "fan_processing"
+    ]
+  },
+  "fluid_pipe_flow": {
+    "title": "Moving Fluids using Copper Pipes",
+    "messages": [
+      "Fluid Pipes can connect two or more fluid sources and targets",
+      "Using a wrench, a straight pipe segment can be given a window",
+      "Windowed pipes will not connect to any other adjacent pipe segments",
+      "Powered by Mechanical Pumps, the Pipes can transport Fluids",
+      "No fluid is being extracted at first",
+      "Once the flow connects them, the endpoints gradually transfer their contents",
+      "Thus, the Pipe blocks themselves never 'physically' contain any fluid"
+    ],
+    "aliases": [
+      "fluid_pipe_flow"
+    ]
+  },
+  "fluid_pipe_interaction": {
+    "title": "Draining and Filling fluid containers",
+    "messages": [
+      "Endpoints of a pipe network can interact with a variety of blocks",
+      "Any block with fluid storage capabilities can be filled or drained",
+      "Source blocks right in front of an open end can be picked up...",
+      "...while spilling into empty spaces can create fluid sources",
+      "Pipes can also extract fluids from a handful of other blocks directly"
+    ],
+    "aliases": [
+      "fluid_pipe_interaction"
+    ]
+  },
+  "fluid_tank_sizes": {
+    "title": "Dimensions of a Fluid tank",
+    "messages": [
+      "Fluid Tanks can be combined to increase the total capacity",
+      "Their base square can be up to 3 blocks wide...",
+      "...and grow in height by more than 30 additional layers",
+      "Using a Wrench, a tanks' window can be toggled"
+    ],
+    "aliases": [
+      "fluid_tank_sizes"
+    ]
+  },
+  "fluid_tank_storage": {
+    "title": "Storing Fluids in Fluid Tanks",
+    "messages": [
+      "Fluid Tanks can be used to store large amounts of fluid",
+      "Pipe networks can push and pull fluids from any side",
+      "The contained fluid can be measured by a Comparator",
+      "However, in Survival Mode Fluids cannot be added or taken manually",
+      "You can use Basins, Item Drains and Spouts to drain or fill fluid containing items"
+    ],
+    "aliases": [
+      "fluid_tank_storage"
+    ]
+  },
+  "funnel_compat": {
+    "title": "Funnel compatibility",
+    "messages": [
+      "Funnels should also interact nicely with a handful of other components.",
+      "Vertical Saws",
+      "Depots",
+      "Item Drains"
+    ],
+    "aliases": [
+      "funnel_compat"
+    ]
+  },
+  "funnel_direction": {
+    "title": "Direction of Transfer",
+    "messages": [
+      "Placed normally, it pulls items from the inventory.",
+      "Placed while sneaking, it puts items into the inventory.",
+      "Using a wrench, the funnel can be flipped after placement.",
+      "Same rules will apply for most orientations.",
+      "Funnels on belts will extract/insert depending on its movement direction."
+    ],
+    "aliases": [
+      "funnel_direction"
+    ]
+  },
+  "funnel_intro": {
+    "title": "Using funnels",
+    "messages": [
+      "Funnels are ideal for transferring items from and to inventories."
+    ],
+    "aliases": [
+      "funnel_intro"
+    ]
+  },
+  "funnel_redstone": {
+    "title": "Redstone control",
+    "messages": [
+      "Redstone power will prevent any funnel from acting"
+    ],
+    "aliases": [
+      "funnel_redstone"
+    ]
+  },
+  "funnel_transfer": {
+    "title": "Direct transfer",
+    "messages": [
+      "Funnels cannot ever transfer between closed inventories directly.",
+      "Chutes or Smart chutes might be more suitable for such purposes.",
+      "Same applies for horizontal movement. A mechanical belt should help here."
+    ],
+    "aliases": [
+      "funnel_transfer"
+    ]
+  },
+  "gantry_cascaded": {
+    "title": "Cascaded Gantries",
+    "messages": [
+      "Gantry shafts attach to a carriage without the need of super glue",
+      "Same applies for carriages on moved Gantry Shafts",
+      "Thus, a gantry system can be cascaded to cover multiple axes of movement"
+    ],
+    "aliases": [
+      "gantry_cascaded"
+    ]
+  },
+  "gantry_direction": {
+    "title": "Gantry Movement Direction",
+    "messages": [
+      "Gantry Shafts can have opposite orientations",
+      "The movement direction of carriages depend on their shafts' orientation",
+      "...as well as the rotation direction of the shaft",
+      "Same rules apply for the propagated rotation"
+    ],
+    "aliases": [
+      "gantry_direction"
+    ]
+  },
+  "gantry_redstone": {
+    "title": "Gantry Power Propagation",
+    "messages": [
+      "Redstone-powered gantry shafts stop moving their carriages",
+      "Instead, its rotational force is relayed to the carriages' output shaft"
+    ],
+    "aliases": [
+      "gantry_redstone"
+    ]
+  },
+  "gearbox": {
+    "title": "Relaying rotational force using Gearboxes",
+    "messages": [
+      "Jumping between axes of rotation can get bulky quickly",
+      "A gearbox is the more compact equivalent of this setup",
+      "Shafts around corners rotate in mirrored directions",
+      "Straight connections will be reversed"
+    ],
+    "aliases": [
+      "gearbox"
+    ]
+  },
+  "gearshift": {
+    "title": "Controlling rotational force using a Gearshift",
+    "messages": [
+      "Gearshifts will relay rotation in a straight line",
+      "When powered by Redstone, it reverses the transmission"
+    ],
+    "aliases": [
+      "gearshift"
+    ]
+  },
+  "hand_crank": {
+    "title": "Generating Rotational Force using Hand Cranks",
+    "messages": [
+      "Hand Cranks can be used by players to apply rotational force manually",
+      "Hold Right-Click to rotate it Counter-Clockwise",
+      "Sneak and Hold Right-Click to rotate it Clockwise"
+    ],
+    "aliases": [
+      "hand_crank"
+    ]
+  },
+  "hose_pulley": {
+    "title": "Source Filling and Draining using Hose Pulleys",
+    "messages": [
+      "Hose Pulleys can be used to fill or drain large bodies of Fluid",
+      "With the Kinetic Input, the height of the pulleys' hose can be controlled",
+      "The Pulley retracts while the input rotation is inverted",
+      "On the opposite side, pipes can be connected",
+      "Attached pipe networks can either provide fluid to the hose...",
+      "...or pull from it, draining the pool instead",
+      "Fill and Drain speed of the pulley depends entirely on the fluid networks' throughput"
+    ],
+    "aliases": [
+      "hose_pulley"
+    ]
+  },
+  "hose_pulley_infinite": {
+    "title": "Passively Filling and Draining large bodies of Fluid",
+    "messages": [
+      "When deploying the Hose Pulley into a large enough ocean...",
+      "It will provide/dispose fluids without affecting the source",
+      "Pipe networks can limitlessly take fluids from/to such pulleys"
+    ],
+    "aliases": [
+      "hose_pulley_infinite"
+    ]
+  },
+  "hose_pulley_level": {
+    "title": "Fill and Drain level of Hose Pulleys",
+    "messages": [
+      "While fully retracted, the Hose Pulley cannot operate",
+      "Draining runs from top to bottom",
+      "The surface level will end up just below where the hose ends",
+      "Filling runs from bottom to top",
+      "The filled pool will not grow beyond the layer above the hose end"
+    ],
+    "aliases": [
+      "hose_pulley_level"
+    ]
+  },
+  "item_drain": {
+    "title": "Emptying Fluid Containers using Item Drains",
+    "messages": [
+      "Item Drains can extract fluids from items",
+      "Right-click it to pour fluids from your held item into it",
+      "When items are inserted from the side...",
+      "...they roll across, emptying out their contained fluid",
+      "Pipe Networks can now pull the fluid from the drains' internal buffer"
+    ],
+    "aliases": [
+      "item_drain"
+    ]
+  },
+  "item_vault_sizes": {
+    "title": "Dimensions of an Item Vault",
+    "messages": [
+      "Item Vaults can be combined to increase the total capacity",
+      "Their base square can be up to 3 blocks wide...",
+      "...and grow in length up to 3x their diameter"
+    ],
+    "aliases": [
+      "item_vault_sizes"
+    ]
+  },
+  "item_vault_storage": {
+    "title": "Storing Items in Vaults",
+    "messages": [
+      "Item Vaults can be used to store large amounts of items",
+      "However, contents cannot be added or taken manually",
+      "Any components for item transfer can both insert...",
+      "...and take contents from this container"
+    ],
+    "aliases": [
+      "item_vault_storage"
+    ]
+  },
+  "large_cogwheel": {
+    "title": "Relaying rotational force using Large Cogwheels",
+    "messages": [
+      "Large cogwheels can connect to each other at right angles",
+      "It will help relaying conveyed speed to other axes of rotation"
+    ],
+    "aliases": [
+      "large_cogwheel"
+    ]
+  },
+  "large_water_wheel": {
+    "title": "Generating Rotational Force using Large Water Wheels",
+    "messages": [
+      "Large Water Wheels draw force from adjacent Water Currents",
+      "Covering additional sides will not improve its kinetic output further",
+      "These rotate only at half the speed of regular water wheels...",
+      "...but provide a substantially higher stress capacity",
+      "Use wood planks on the wheel to change its appearance"
+    ],
+    "aliases": [
+      "large_water_wheel"
+    ]
+  },
+  "linear_chassis_attachment": {
+    "title": "Attaching blocks using Linear Chassis",
+    "messages": [
+      "The open faces of a Linear Chassis can be made Sticky",
+      "Click again to make the opposite side sticky",
+      "Sneak and Right-Click with an empty hand to remove the slime",
+      "Stickied faces of the Linear Chassis will attach a line of blocks in front of it",
+      "Using a Wrench, a precise Range can be specified for this chassis",
+      "Holding CTRL adjusts the range of all connected Chassis Blocks",
+      "Attaching blocks to any other side requires the use of Super Glue",
+      "Using these mechanics, structures of any shape can move as a Contraption"
+    ],
+    "aliases": [
+      "linear_chassis_attachment"
+    ]
+  },
+  "linear_chassis_group": {
+    "title": "Moving Linear Chassis in groups",
+    "messages": [
+      "Linear Chassis connect to identical Chassis blocks next to them",
+      "When one is moved by a Contraption, the others are dragged with it",
+      "Chassis of a different type or facing another direction will not attach"
+    ],
+    "aliases": [
+      "linear_chassis_group"
+    ]
+  },
+  "mechanical_arm": {
+    "title": "Setting up Mechanical Arms",
+    "messages": [
+      "Mechanical Arms have to be assigned their in- and outputs before they are placed",
+      "Right-Click inventories while holding the Arm to assign them as Targets",
+      "Right-Click again to toggle between Input (Blue) and Output (Yellow)",
+      "Left-Click components to remove their Selection",
+      "Once placed, the Mechanical Arm will target the blocks selected previously",
+      "They can have any amount of in- and outputs within their range",
+      "However, not every type of Inventory can be interacted with directly",
+      "Funnels and Depots can help to Bridge that gap"
+    ],
+    "aliases": [
+      "mechanical_arm"
+    ]
+  },
+  "mechanical_arm_filtering": {
+    "title": "Filtering Outputs of the Mechanical Arm",
+    "messages": [
+      "Inputs",
+      "Outputs",
+      "Sometimes it is desirable to restrict targets of the Arm by matching a filter",
+      "Mechanical Arms by themselves do not provide any options for filtering",
+      "Brass Funnels as Targets do however communicate their own filter to the Arm",
+      "The Arm is smart enough not to pick up items it couldn't distribute"
+    ],
+    "aliases": [
+      "mechanical_arm_filtering"
+    ]
+  },
+  "mechanical_arm_modes": {
+    "title": "Distribution modes of the Mechanical Arm",
+    "messages": [
+      "Input",
+      "Outputs",
+      "Whenever an Arm has to choose between multiple valid outputs...",
+      "...it will act according to its setting",
+      "The value panel will allow you to configure it",
+      "Round Robin mode simply cycles through all outputs that are available",
+      "If an output is unable to take more items, it will be skipped",
+      "Forced Round Robin mode will never skip outputs, and instead wait until they are free",
+      "Prefer First prioritizes the outputs selected earliest when configuring this Arm"
+    ],
+    "aliases": [
+      "mechanical_arm_modes"
+    ]
+  },
+  "mechanical_arm_redstone": {
+    "title": "Controlling Mechanical Arms with Redstone",
+    "messages": [
+      "When powered by Redstone, Mechanical Arms will not activate",
+      "Before stopping, it will finish any started cycles",
+      "Thus, a negative pulse can be used to trigger exactly one activation cycle"
+    ],
+    "aliases": [
+      "mechanical_arm_redstone"
+    ]
+  },
+  "mechanical_bearing": {
+    "title": "Moving Structures using the Mechanical Bearing",
+    "messages": [
+      "Mechanical Bearings attach to the block in front of them",
+      "Upon receiving Rotational Force, it will assemble it into a Rotating Contraption"
+    ],
+    "aliases": [
+      "mechanical_bearing"
+    ]
+  },
+  "mechanical_crafter": {
+    "title": "Setting up Mechanical Crafters",
+    "messages": [
+      "An array of Mechanical Crafters can be used to automate any Crafting Recipe",
+      "Using a Wrench, the Crafters' paths can be arranged",
+      "For a valid setup, all paths have to converge into one exit at any side",
+      "The outputs will be placed into the inventory at the exit",
+      "Mechanical Crafters require Rotational Force to operate",
+      "Right-Click the front to insert Items manually",
+      "Once every slot of a path contains an Item, the crafting process will begin",
+      "For recipes not fully occupying the crafter setup, the start can be forced using a Redstone Pulse"
+    ],
+    "aliases": [
+      "mechanical_crafter"
+    ]
+  },
+  "mechanical_crafter_connect": {
+    "title": "Connecting Inventories of Crafters",
+    "messages": [
+      "Items can be inserted to Crafters automatically",
+      "Using the Wrench at their backs, Mechanical Crafter inputs can be combined",
+      "All connected Crafters can now be accessed by the same input location"
+    ],
+    "aliases": [
+      "mechanical_crafter_connect"
+    ]
+  },
+  "mechanical_crafter_covers": {
+    "title": "Covering slots of Mechanical Crafters",
+    "messages": [
+      "Some recipes will require additional Crafters to bridge gaps in the path",
+      "Using Slot Covers, Crafters can be set to act as an Empty Slot in the arrangement",
+      "Shared Inputs created with the Wrench at the back can also reach across covered Crafters"
+    ],
+    "aliases": [
+      "mechanical_crafter_covers"
+    ]
+  },
+  "mechanical_drill": {
+    "title": "Breaking Blocks with the Mechanical Drill",
+    "messages": [
+      "When given Rotational Force, a Mechanical Drill will break blocks directly in front of it",
+      "Its mining speed depends on the Rotational Input"
+    ],
+    "aliases": [
+      "mechanical_drill"
+    ]
+  },
+  "mechanical_drill_contraption": {
+    "title": "Using Mechanical Drills on Contraptions",
+    "messages": [
+      "Whenever Drills are moved as part of an animated Contraption...",
+      "...they will break blocks the contraption runs them into"
+    ],
+    "aliases": [
+      "mechanical_drill_contraption"
+    ]
+  },
+  "mechanical_harvester": {
+    "title": "Using Mechanical Harvesters on Contraptions",
+    "messages": [
+      "Whenever Harvesters are moved as part of an animated Contraption...",
+      "They will harvest and reset any mature crops on their way"
+    ],
+    "aliases": [
+      "mechanical_harvester"
+    ]
+  },
+  "mechanical_mixer": {
+    "title": "Processing Items with the Mechanical Mixer",
+    "messages": [
+      "With a Mixer and Basin, some Crafting Recipes can be automated",
+      "Available recipes include any Shapeless Crafting Recipe, plus a couple extra ones",
+      "Some of those recipes may require the heat of a Blaze Burner",
+      "The filter slot can be used in case two recipes are conflicting."
+    ],
+    "aliases": [
+      "mechanical_mixer"
+    ]
+  },
+  "mechanical_piston": {
+    "title": "Moving Structures using Mechanical Pistons",
+    "messages": [
+      "Mechanical Pistons can move blocks in front of them",
+      "Speed and direction of movement depend on the Rotational Input",
+      "Sticky Mechanical Pistons can pull the attached blocks back"
+    ],
+    "aliases": [
+      "mechanical_piston"
+    ]
+  },
+  "mechanical_piston_modes": {
+    "title": "Movement Modes of the Mechanical Piston",
+    "messages": [
+      "Whenever Pistons stop moving, the moved structure reverts to blocks",
+      "It can be configured never to revert to solid blocks, or only at the location it started at"
+    ],
+    "aliases": [
+      "mechanical_piston_modes"
+    ]
+  },
+  "mechanical_plough": {
+    "title": "Using Mechanical Ploughs on Contraptions",
+    "messages": [
+      "Whenever Ploughs are moved as part of an animated Contraption...",
+      "...they will break blocks without a solid collision hitbox",
+      "Additionally, ploughs can create farmland",
+      "...they can also launch entities without hurting them"
+    ],
+    "aliases": [
+      "mechanical_plough"
+    ]
+  },
+  "mechanical_press": {
+    "title": "Processing Items with the Mechanical Press",
+    "messages": [
+      "The Mechanical Press can process items provided beneath it",
+      "The Input items can be dropped or placed on a Depot under the Press",
+      "When items are provided on a belt...",
+      "The Press will hold and process them automatically"
+    ],
+    "aliases": [
+      "mechanical_press"
+    ]
+  },
+  "mechanical_press_compacting": {
+    "title": "Compacting items with the Mechanical Press",
+    "messages": [
+      "Pressing items held in a Basin will cause them to be Compacted",
+      "Compacting includes any filled 2x2 or 3x3 Crafting Recipe, plus a couple extra ones",
+      "Some of those recipes may require the heat of a Blaze Burner",
+      "The filter slot can be used in case two recipes are conflicting."
+    ],
+    "aliases": [
+      "mechanical_press_compacting"
+    ]
+  },
+  "mechanical_pump_flow": {
+    "title": "Fluid Transportation using Mechanical Pumps",
+    "messages": [
+      "Mechanical Pumps govern the flow of their attached pipe networks",
+      "Their arrow indicates the direction of flow",
+      "The network behind is now pulling fluids...",
+      "...while the network in front is transferring it outward",
+      "The pumps direction is unaffected by the input rotation",
+      "Instead, a Wrench can be used to reverse the direction"
+    ],
+    "aliases": [
+      "mechanical_pump_flow"
+    ]
+  },
+  "mechanical_pump_speed": {
+    "title": "Throughput of Mechanical Pumps",
+    "messages": [
+      "Regardless of speed, Mechanical Pumps affect pipes connected up to 16 blocks away",
+      "Speeding up the input rotation changes the speed of flow propagation...",
+      "...and the speed at which fluids are transferred",
+      "Pumps can combine their throughputs within shared pipe networks",
+      "Ensure that all of them are facing in the same direction"
+    ],
+    "aliases": [
+      "mechanical_pump_speed"
+    ]
+  },
+  "mechanical_roller_fill": {
+    "title": "Filling terrain with the Roller",
+    "messages": [
+      "While disassembled, rollers can be set to other modes",
+      "The 'fill' modes can help to bridge gaps between pavement and terrain",
+      "On 'straight fill', they will place simple columns down to the surface",
+      "On 'sloped fill', layers placed further down will increase in size",
+      "As opposed to 'clear & pave', neither of these modes will cause the rollers to break existing blocks"
+    ],
+    "aliases": [
+      "mechanical_roller_fill"
+    ]
+  },
+  "mechanical_roller_pave": {
+    "title": "Clearing and Paving with the Roller",
+    "messages": [
+      "Mechanical rollers help to clean up terrain around tracks or paths",
+      "In its default mode, without a material set, it will simply clear blocks like a Drill",
+      "While disassembled, a suitable paving material can be specified",
+      "Materials can be supplied via chests or barrels attached to the structure",
+      "In addition to breaking blocks, it will now replace the layer beneath them",
+      "Note that any block destroyed by a roller has a chance not to yield drops",
+      "Rollers are especially useful on Trains, but can also be used on most other types of moving contraptions"
+    ],
+    "aliases": [
+      "mechanical_roller_pave"
+    ]
+  },
+  "mechanical_saw_breaker": {
+    "title": "Cutting Trees with the Mechanical Saw",
+    "messages": [
+      "When given Rotational Force, a Mechanical Saw will cut trees directly in front of it",
+      "In order to cut the tree fully, the Saw has to break the last block connecting it to the ground"
+    ],
+    "aliases": [
+      "mechanical_saw_breaker"
+    ]
+  },
+  "mechanical_saw_contraption": {
+    "title": "Using Mechanical Saws on Contraptions",
+    "messages": [
+      "Whenever Saws are moved as part of an animated Contraption...",
+      "...they will cut any trees the contraption runs them into"
+    ],
+    "aliases": [
+      "mechanical_saw_contraption"
+    ]
+  },
+  "mechanical_saw_processing": {
+    "title": "Processing Items on the Mechanical Saw",
+    "messages": [
+      "Upward facing Mechanical Saws can process a variety of items",
+      "The processed item always moves against the rotational input to the saw",
+      "Saws can work in-line with Mechanical Belts",
+      "When an ingredient has multiple possible outcomes, the filter slot can specify it",
+      "Without filter, the Saw would cycle through all outcomes instead"
+    ],
+    "aliases": [
+      "mechanical_saw_processing"
+    ]
+  },
+  "millstone": {
+    "title": "Processing Items in the Millstone",
+    "messages": [
+      "Millstones process items by grinding them",
+      "They can be powered from the side using cogwheels",
+      "Throw or Insert items at the top",
+      "After some time, the result can be obtained via Right-click",
+      "The outputs can also be extracted by automation"
+    ],
+    "aliases": [
+      "millstone"
+    ]
+  },
+  "nixie_tube": {
+    "title": "Using Nixie Tubes",
+    "messages": [
+      "When powered by Redstone, Nixie Tubes will display the signal strength",
+      "Using written Clipboards, custom text can be displayed",
+      "Right-Click with Dye to change their display colour"
+    ],
+    "aliases": [
+      "nixie_tube"
+    ]
+  },
+  "package_frogport": {
+    "title": "Transporting packages between Frogports",
+    "messages": [
+      "Right-click a Chain Conveyor and place the Frogport nearby",
+      "Assign it an address in the inventory UI",
+      "If the address of an inserted package does not match it..",
+      "Albert",
+      "→ Peter",
+      "..the Frogport will place the package on the conveyor",
+      "Packages spin in place if they have no valid destination",
+      "More Frogports can be added anywhere on the chain network",
+      "Peter",
+      "Packages find their path to a matching frog on the chain network",
+      "Peter",
+      "→ Peter",
+      "Frogports can directly interface with inventories below them",
+      "This also works with packagers. Items can be packed and shipped directly",
+      "Albert",
+      "Peter",
+      "Addresses packages to 'Peter'",
+      "Right-click Frogports with a clipboard to collect their address",
+      "Clipboards with collected names can help auto-complete address inputs in other UIs"
+    ],
+    "aliases": [
+      "package_frogport"
+    ]
+  },
+  "packager": {
+    "title": "Creating and unwrapping packages",
+    "messages": [
+      "Attach packagers to the inventory they should target",
+      "Given redstone power, it will pack items from the inventory into a package",
+      "These can be picked up and transported like any other item",
+      "Packages inserted will be destroyed, unpacking the contents into the inventory",
+      "Full",
+      "Packagers will not accept packages they cannot fully unpack"
+    ],
+    "aliases": [
+      "packager"
+    ]
+  },
+  "packager_address": {
+    "title": "Routing packages with an address",
+    "messages": [
+      "Warehouse",
+      "When a sign is placed on a packager..",
+      "→ Warehouse",
+      "Created packages will carry the written lines of text as their address",
+      "Package filters route packages based on their address",
+      "→ Warehouse",
+      "Factory",
+      "→ Factory",
+      "Factory",
+      "For compactness, mechanical saws can unpack straight onto a belt",
+      "Aside from filters, Frogports and Postboxes have package routing abilities",
+      "Inspect them to find out more about their behaviour"
+    ],
+    "aliases": [
+      "packager_address"
+    ]
+  },
+  "piston_pole": {
+    "title": "Piston Extension Poles",
+    "messages": [
+      "Without attached Poles, a Mechanical Piston cannot move",
+      "The Length of pole added at its back determines the Extension Range"
+    ],
+    "aliases": [
+      "piston_pole"
+    ]
+  },
+  "portable_fluid_interface": {
+    "title": "Contraption Fluid Exchange",
+    "messages": [
+      "Fluid Tanks on moving contraptions cannot be accessed by any pipes",
+      "This component can interact with fluid tanks without the need to stop the contraption",
+      "Place a second one with a gap of 1 or 2 blocks inbetween",
+      "Whenever they pass by each other, they will engage in a connection",
+      "While engaged, the stationary interface will represent ALL Tanks on the contraption",
+      "Fluid can now be inserted...",
+      "...or extracted from the contraption",
+      "After no contents have been exchanged for a while, the contraption will continue on its way"
+    ],
+    "aliases": [
+      "portable_fluid_interface"
+    ]
+  },
+  "portable_storage_interface": {
+    "title": "Contraption Storage Exchange",
+    "messages": [
+      "Moving inventories can be tricky to access with automation.",
+      "This component can interact with storage without the need to stop the contraption.",
+      "Place a second one with a gap of 1 or 2 blocks inbetween",
+      "Whenever they pass by each other, they will engage in a connection",
+      "While engaged, the stationary interface will represent ALL inventories on the contraption",
+      "Items can now be inserted...",
+      "...or extracted from the contraption",
+      "After no items have been exchanged for a while, the contraption will continue on its way"
+    ],
+    "aliases": [
+      "portable_storage_interface"
+    ]
+  },
+  "portable_storage_interface_redstone": {
+    "title": "Redstone Control",
+    "messages": [
+      "Redstone power will prevent the stationary interface from engaging"
+    ],
+    "aliases": [
+      "portable_storage_interface_redstone"
+    ]
+  },
+  "postbox": {
+    "title": "Transporting packages between Postboxes",
+    "messages": [
+      "Right-click a Train Station and place the Postbox nearby",
+      "Assign it an address in the inventory UI",
+      "If the address of an inserted package does not match it..",
+      "Warehouse",
+      "→ Outpost",
+      "..trains stopping at the station will collect it as cargo",
+      "Conversely, packages matching the address will be dropped off",
+      "Packages that arrived by train can be extracted from the Postbox",
+      "Warehouse",
+      "→ Warehouse",
+      "Just like trains, Postboxes maintain their behaviour in unloaded chunks",
+      "Packages can still be delivered from or to their inventory"
+    ],
+    "aliases": [
+      "postbox"
+    ]
+  },
+  "powered_latch": {
+    "title": "Controlling signals using the Powered Latch",
+    "messages": [
+      "Powered Latches are redstone controllable Levers",
+      "Signals at the back switch it on",
+      "Signals from the side switch it back off",
+      "Powered latches can also be toggled manually"
+    ],
+    "aliases": [
+      "powered_latch"
+    ]
+  },
+  "powered_toggle_latch": {
+    "title": "Controlling signals using the Powered Toggle Latch",
+    "messages": [
+      "Powered Toggle Latches are redstone controllable Levers",
+      "Signals at the back will toggle its state",
+      "...on and back off",
+      "Powered toggle latches can also be toggled manually"
+    ],
+    "aliases": [
+      "powered_toggle_latch"
+    ]
+  },
+  "pulse_extender": {
+    "title": "Controlling signals using Pulse Extenders",
+    "messages": [
+      "Pulse Extenders can lengthen a signal passing through",
+      "They activate after a short delay...",
+      "...and cool down for the configured duration",
+      "Using the value panel, the discharge time can be configured",
+      "The configured duration can range up to an hour"
+    ],
+    "aliases": [
+      "pulse_extender"
+    ]
+  },
+  "pulse_repeater": {
+    "title": "Controlling signals using Pulse Repeaters",
+    "messages": [
+      "Pulse Repeaters emit a short pulse after a delay",
+      "Using the value panel, the charge time can be configured",
+      "Configured delays can range up to an hour"
+    ],
+    "aliases": [
+      "pulse_repeater"
+    ]
+  },
+  "radial_chassis": {
+    "title": "Attaching blocks using Radial Chassis",
+    "messages": [
+      "Radial Chassis connect to identical Chassis blocks in a row",
+      "When one is moved by a Contraption, the others are dragged with it",
+      "The side faces of a Radial Chassis can be made Sticky",
+      "Click again to make all other sides sticky",
+      "Sneak and Right-Click with an empty hand to remove the slime",
+      "Whenever a Block is next to a sticky face...",
+      "...it will attach all reachable blocks within a radius on that layer",
+      "Using a Wrench, a precise Radius can be specified for this chassis",
+      "Blocks not reachable by any sticky face will not attach"
+    ],
+    "aliases": [
+      "radial_chassis"
+    ]
+  },
+  "redstone_contact": {
+    "title": "Redstone Contacts",
+    "messages": [
+      "Redstone Contacts facing each other will emit a redstone signal",
+      "This still applies when one of them is part of a moving Contraption"
+    ],
+    "aliases": [
+      "redstone_contact"
+    ]
+  },
+  "redstone_link": {
+    "title": "Using Redstone Links",
+    "messages": [
+      "Redstone Links can transmit redstone signals wirelessly",
+      "Right-click while Sneaking to toggle receive mode",
+      "A simple Right-click with a Wrench can do the same",
+      "Receivers emit the redstone power of transmitters within 256 blocks",
+      "Placing items in the two slots can specify a Frequency",
+      "Only the links with matching Frequencies will communicate"
+    ],
+    "aliases": [
+      "redstone_link"
+    ]
+  },
+  "redstone_requester": {
+    "title": "Automated orders with Redstone Requesters",
+    "messages": [
+      "Right-click a Stock link before placement to connect to its network",
+      "Just like Stock tickers, Redstone requesters can order items from the logistics network",
+      "Right-click the requester to open its configuration UI",
+      "The order set in the UI will be requested on every redstone pulse",
+      "Alternatively, the requester can be fully configured before placement",
+      "Right-click a Stock keeper with it and set the desired order there"
+    ],
+    "aliases": [
+      "redstone_requester"
+    ]
+  },
+  "repackager": {
+    "title": "Merging packages from a request",
+    "messages": [
+      "Sometimes, it is crucial for logistical requests to arrive as a single package",
+      "Order A",
+      "Order B",
+      "Otherwise, other packages could arrive inbetween",
+      "When this is the case, redirect packages to an inventory",
+      "Attach a re-packager, and power it with redstone",
+      "Once all fragments arrived, they will be exported as a new package",
+      "Now, requested items arrive together and in a predictable order"
+    ],
+    "aliases": [
+      "repackager"
+    ]
+  },
+  "rope_pulley": {
+    "title": "Moving Structures using Rope Pulleys",
+    "messages": [
+      "Rope Pulleys can move blocks vertically when given Rotational Force",
+      "Direction and Speed of movement depend on the Rotational Input"
+    ],
+    "aliases": [
+      "rope_pulley"
+    ]
+  },
+  "rope_pulley_attachment": {
+    "title": "Moving Pulleys as part of a Contraption",
+    "messages": [
+      "Whenever Pulleys are themselves being moved by a Contraption...",
+      "...its attached structure will be dragged with it",
+      "Mind that pulleys are only movable while stopped"
+    ],
+    "aliases": [
+      "rope_pulley_attachment"
+    ]
+  },
+  "rope_pulley_modes": {
+    "title": "Movement Modes of the Rope Pulley",
+    "messages": [
+      "Whenever Pulleys stop moving, the moved structure reverts to blocks",
+      "It can be configured never to revert to solid blocks, or only at the location it started at"
+    ],
+    "aliases": [
+      "rope_pulley_modes"
+    ]
+  },
+  "rope_pulley_multi_rope": {
+    "title": "Synchronised Pulley Movement",
+    "messages": [
+      "Whenever a pulley assembles a contraption...",
+      "...other pulleys on the same layer will connect to the structure",
+      "They do not require to be powered, the effect is purely cosmetic"
+    ],
+    "aliases": [
+      "rope_pulley_multi_rope"
+    ]
+  },
+  "rotation_speed_controller": {
+    "title": "Using the Rotational Speed Controller",
+    "messages": [
+      "Rot. Speed Controllers relay rotation from their axis to a Large Cogwheel above them",
+      "Using the value panel on its side, the conveyed speed can be configured"
+    ],
+    "aliases": [
+      "rotation_speed_controller"
+    ]
+  },
+  "sequenced_gearshift": {
+    "title": "Controlling Rotational Speed using Sequenced Gearshifts",
+    "messages": [
+      "Seq. Gearshifts relay rotation by following a timed list of instructions",
+      "Right-click it to open the Configuration UI",
+      "Upon receiving a Redstone Signal, it will start running its configured sequence",
+      "Once finished, it waits for the next Redstone Signal and starts over",
+      "A redstone comparator can be used to read the current progress"
+    ],
+    "aliases": [
+      "sequenced_gearshift"
+    ]
+  },
+  "shaft": {
+    "title": "Relaying rotational force using Shafts",
+    "messages": [
+      "Shafts will relay rotation in a straight line."
+    ],
+    "aliases": [
+      "shaft"
+    ]
+  },
+  "shaft_casing": {
+    "title": "Encasing Shafts",
+    "messages": [
+      "Brass or Andesite Casing can be used to decorate Shafts"
+    ],
+    "aliases": [
+      "shaft_casing"
+    ]
+  },
+  "smart_chute": {
+    "title": "Filtering Items using Smart Chutes",
+    "messages": [
+      "Smart Chutes are vertical chutes with additional control",
+      "Items in the filter slot specify what to extract or transfer",
+      "Use the value panel to specify the extracted stack size",
+      "Redstone power will prevent Smart Chutes from acting."
+    ],
+    "aliases": [
+      "smart_chute"
+    ]
+  },
+  "smart_observer": {
+    "title": "Advanced detection with Smart Observers",
+    "messages": [
+      "Smart Observers can be used to detect a variety of events",
+      "It can detect items or fluids inside of generic containers",
+      "The filter slot can be used to look for specific contents only",
+      "It also activates when the block itself matches the filter",
+      "Additionally, smart observers can monitor belts, chutes and pipes",
+      "...and will emit a pulse, if an item enters or exits a funnel"
+    ],
+    "aliases": [
+      "smart_observer"
+    ]
+  },
+  "smart_pipe": {
+    "title": "Controlling Fluid flow using Smart Pipes",
+    "messages": [
+      "Smart pipes can help control flows by fluid type",
+      "When placed directly at the source, they can specify the type of fluid to extract",
+      "Simply Right-Click their filter slot with any item containing the desired fluid",
+      "When placed further down a pipe network, smart pipes will only let matching fluids continue"
+    ],
+    "aliases": [
+      "smart_pipe"
+    ]
+  },
+  "spout_filling": {
+    "title": "Filling Items using a Spout",
+    "messages": [
+      "The Spout can fill fluid holding items provided beneath it",
+      "The content of a Spout cannot be accessed manually",
+      "Instead, Pipes can be used to supply it with fluids",
+      "The Input items can be placed on a Depot under the Spout",
+      "When items are provided on a belt...",
+      "The Spout will hold and process them automatically"
+    ],
+    "aliases": [
+      "spout_filling"
+    ]
+  },
+  "stabilized_bearings": {
+    "title": "Stabilized Contraptions",
+    "messages": [
+      "Whenever Mechanical Bearings are themselves part of a moving Structure..",
+      "..they will attempt to keep themselves upright",
+      "Once again, the bearing will attach to the block in front of it",
+      "As a result, the entire sub-Contraption will stay upright"
+    ],
+    "aliases": [
+      "stabilized_bearings"
+    ]
+  },
+  "steam_engine": {
+    "title": "Setting up Steam Engines",
+    "messages": [
+      "Steam Engines can be placed on a Fluid Tank",
+      "Clicking the engine with a Shaft creates the Kinetic Output",
+      "With sufficient Heat, Water and Boiler space...",
+      "...they will generate Rotational Force",
+      "The minimal setup requires 4 Fluid Tanks",
+      "With the help of Blaze Burners, the power output can be increased",
+      "Higher power levels require more Water, Size and Heat",
+      "The boiler's current power level can be inspected with Engineer's Goggles",
+      "With each added power level, an additional Engine can output at full capacity",
+      "Lvl 4",
+      "4 Engines",
+      "Lvl 8",
+      "8 Engines"
+    ],
+    "aliases": [
+      "steam_engine"
+    ]
+  },
+  "steam_whistle": {
+    "title": "Setting up Steam Whistles",
+    "messages": [
+      "Steam Whistles can be placed on a Fluid Tank",
+      "If the tank receives sufficient heat...",
+      "...the Whistle will play a note when activated",
+      "Use a Whistle item on the block to lower its pitch",
+      "Cycle between three different octaves using a Wrench",
+      "Engineer's Goggles can help to find out the current pitch of a Whistle"
+    ],
+    "aliases": [
+      "steam_whistle"
+    ]
+  },
+  "sticker": {
+    "title": "Attaching blocks using the Sticker",
+    "messages": [
+      "Stickers are ideal for Redstone-controlled block attachment",
+      "Upon receiving a signal, it will toggle its state",
+      "If it is now moved in a contraption, the block will move with it",
+      "Toggled once again, the block is no longer attached"
+    ],
+    "aliases": [
+      "sticker"
+    ]
+  },
+  "stock_link": {
+    "title": "Logistics Networks and the Stock Link",
+    "messages": [
+      "When placed, Stock Links create a new stock network",
+      "Right-click an existing link before placing it to bind them",
+      "Stock-linked packagers make their inventory available to the network",
+      "Other components on the network can now find and request their items",
+      "On request, items from the inventories will be placed into packages",
+      "Stock Link signals have unlimited range, but packages require transportation",
+      "Full redstone power will stop a link from broadcasting",
+      "Analog power lowers the priority of a link, causing others to act first"
+    ],
+    "aliases": [
+      "stock_link"
+    ]
+  },
+  "stock_ticker": {
+    "title": "Ordering items with Stock tickers",
+    "messages": [
+      "Right-click a Stock link before placement to connect to its network",
+      "Stock-linked packagers make their attached inventory available to the network",
+      "Stock tickers can order items from these inventories",
+      "Seated mobs or blaze burners in front of it act as the Stock Keeper",
+      "Right-click the keeper to start ordering items",
+      "When an order is submitted, the items will be placed into packages",
+      "From there, they can be transported to the request point",
+      "Using attribute or list filters, categories can be added to the item listings",
+      "Right-click the Stock ticker to open the category editor",
+      "Stock tickers can also order blocks required for the schematicannon",
+      "Simply hand the printed clipboard it generated to the Stock keeper"
+    ],
+    "aliases": [
+      "stock_ticker"
+    ]
+  },
+  "stock_ticker_address": {
+    "title": "Addressing a Stock ticker order",
+    "messages": [
+      "When ordering items, a target address can be set in the request",
+      "→ Workshop",
+      "This address will be on all packages created for the request",
+      "Using package filters, this can control where the packages will go",
+      "→ Workshop",
+      "Workshop",
+      "→ Factory",
+      "→ Factory",
+      "Workshop",
+      "Aside from filters, Frogports and Postboxes have package routing abilities",
+      "Inspect them to find out more about their behaviour"
+    ],
+    "aliases": [
+      "stock_ticker_address"
+    ]
+  },
+  "super_glue": {
+    "title": "Attaching blocks using Super Glue",
+    "messages": [
+      "Super Glue groups blocks together into moving contraptions",
+      "Clicking two endpoints creates a new 'glued' area",
+      "To remove a box, punch it with the glue item in hand",
+      "Adjacent blocks sharing an area will pull each other along",
+      "Overlapping glue volumes will move together",
+      "Blocks hanging on others usually do not require glue"
+    ],
+    "aliases": [
+      "super_glue"
+    ]
+  },
+  "table_cloth": {
+    "title": "Selling items with Table Cloths",
+    "messages": [
+      "Table cloths can be used to display items",
+      "With the help of a logistics system, they can also be used to sell items",
+      "Start with the shop's inventory, a Packager and Stock link",
+      "Bind a Stock ticker to the link and place it in the shop",
+      "Employ a mob or blaze burner as the shop keeper",
+      "Fill the shop inventory with items to be sold",
+      "To create a new trade, interact with the shop keeper while holding a table cloth",
+      "Once placed, set a price in the item slot on the side",
+      "Other players can now interact with the shop",
+      "When checking out at the cashier, the bought items will be placed into a package",
+      "From there, they can be transported to the shop front",
+      "The payments will be stored inside the stock ticker block"
+    ],
+    "aliases": [
+      "table_cloth"
+    ]
+  },
+  "threshold_switch": {
+    "title": "Monitoring with the Threshold Switch",
+    "messages": [
+      "Threshold Switches monitor the fill level of containers",
+      "When the inventory content exceeds the upper threshold...",
+      "...the switch will change its redstone output",
+      "The signal stays until the lower threshold is reached",
+      "The redstone output can now be used to control item supply, keeping the buffer filled",
+      "The specific thresholds can be changed in the UI",
+      "A filter can help to only count specific contents toward the total",
+      "Fluid buffers can be monitored in a similar fashion",
+      "...as well as, curiously, the length of an extended rope pulley"
+    ],
+    "aliases": [
+      "threshold_switch"
+    ]
+  },
+  "track_chunks": {
+    "title": "Traversing unloaded Chunks",
+    "messages": [
+      "Tracks stay functional outside of loaded chunks",
+      "Trains will travel through inactive sections of the world without issue",
+      "They will still stop at stations or red signals",
+      "However, Drills and other on-board machines will not operate",
+      "Once near a Player, the train will re-appear"
+    ],
+    "aliases": [
+      "track_chunks"
+    ]
+  },
+  "track_observer": {
+    "title": "Detecting Trains",
+    "messages": [
+      "Select a Train Track then place the Observer nearby",
+      "The Observer will detect any Trains passing over the marker",
+      "Observers can be filtered to activate for matching cargo"
+    ],
+    "aliases": [
+      "track_observer"
+    ]
+  },
+  "track_placement": {
+    "title": "Placing Train Tracks",
+    "messages": [
+      "A new type of rail designed for Train Contraptions",
+      "To place rows of track in bulk, click on an existing track",
+      "Then place or select a second track",
+      "Tracks can also be placed as turns or slopes",
+      "When connecting, tracks will try to make each turn equally sized",
+      "Holding the sprint key while connecting...",
+      "...will create the longest fitting bend instead",
+      "Materials in the off-hand will be paved under tracks automatically"
+    ],
+    "aliases": [
+      "track_placement"
+    ]
+  },
+  "track_portal": {
+    "title": "Tracks and the Nether",
+    "messages": [
+      "Tracks placed up against a nether portal...",
+      "...will attempt to create a paired track on the other side",
+      "Trains on this track are now able to travel across dimensions"
+    ],
+    "aliases": [
+      "track_portal"
+    ]
+  },
+  "train_assembly": {
+    "title": "Assembling Trains",
+    "messages": [
+      "Select a Train Track then place the Station nearby",
+      "Stations are the Waypoints of your Track Network",
+      "To create a new Train, open the UI and switch to Assembly Mode",
+      "During Assembly no scheduled trains will approach this station",
+      "Create new bogeys by using Train Casing on Tracks",
+      "Click the track again to cycle between bogey designs",
+      "Attach blocks with the help of Super Glue",
+      "Assembled Trains will move faster if they can find fuel in assembled chests or barrels",
+      "Fuel stored in Vaults will not be consumed by the train",
+      "Every Train requires Train Controls on board",
+      "An optional second one allows departure from Stations in both directions",
+      "Open the Station UI and confirm the Assembly process",
+      "Trains can be disassembled back into blocks at stations only",
+      "When used on a station, maps will add a labeled marker at the location",
+      "Assembled Trains can be relocated to nearby Tracks using the Wrench"
+    ],
+    "aliases": [
+      "train_assembly"
+    ]
+  },
+  "train_controls": {
+    "title": "Controlling Trains",
+    "messages": [
+      "Train Controls are required on every train contraption",
+      "Once assembled, right-click the block to start driving",
+      "Accelerate and steer the Train using movement keybinds",
+      "If desired, the top speed can be fine-tuned using the mouse wheel",
+      "Hold space to approach a nearby Station",
+      "Trains can only be disassembled back into blocks at Stations",
+      "Assembled Whistles can be activated with the sprint key",
+      "Sneak or click again to stop controlling the Train"
+    ],
+    "aliases": [
+      "train_controls"
+    ]
+  },
+  "train_schedule": {
+    "title": "Using Train Schedules",
+    "messages": [
+      "Schedules allow Trains to be controlled by other Drivers",
+      "Right-click with the item in hand to open its Interface",
+      "Once programmed, the Schedule can be handed off to a Train Driver",
+      "Any mob or blaze burner sitting in front of Train Controls is an eligible conductor",
+      "Creatures on a lead can be given their seat more conveniently",
+      "Schedules can be retrieved from Drivers at any moment"
+    ],
+    "aliases": [
+      "train_schedule"
+    ]
+  },
+  "train_signal_placement": {
+    "title": "Placing Train Signals",
+    "messages": [
+      "Select a Train Track then place the Signal nearby",
+      "Signals control the flow of Trains not driven by players",
+      "Scheduled Trains will never cross signals in the opposite direction",
+      "...unless a second signal is added facing the opposite way.",
+      "Nixie tubes can be attached to make a signal's lights more visible"
+    ],
+    "aliases": [
+      "train_signal_placement"
+    ]
+  },
+  "train_signal_redstone": {
+    "title": "Signals & Redstone",
+    "messages": [
+      "Signals can be forced red by a redstone signal",
+      "Conversely, red signals emit a comparator output"
+    ],
+    "aliases": [
+      "train_signal_redstone"
+    ]
+  },
+  "train_signal_signaling": {
+    "title": "Collision Prevention with Signals",
+    "messages": [
+      "Train Signals divide a track into segments",
+      "If a Segment is occupied, no other Trains will be allowed entry",
+      "Thus, each Segment will contain only one Train at a time",
+      "A second Signal mode is available via the Wrench",
+      "Segments of a brass signal usually lead into standard signals",
+      "This special Signal can stop trains under a second condition",
+      "It will stop Trains, which, upon entering...",
+      "...would not be able to leave the Segment immediately",
+      "This helps keeping queued Trains out of a busy Segment"
+    ],
+    "aliases": [
+      "train_signal_signaling"
+    ]
+  },
+  "valve_handle": {
+    "title": "Precise rotation using Valve Handles",
+    "messages": [
+      "Valve handles can be used to rotate components by a precise angle",
+      "The angle can be configured on the input panel",
+      "Right-Click to activate one rotation",
+      "Sneak-Right-Click to activate it in the opposite direction",
+      "Mind that Bearings have to be specifically told not to disassemble",
+      "Valve handles can be dyed for aesthetic purposes"
+    ],
+    "aliases": [
+      "valve_handle"
+    ]
+  },
+  "valve_pipe": {
+    "title": "Controlling Fluid flow using Valves",
+    "messages": [
+      "Valve pipes help control fluids propagating through pipe networks",
+      "Their shaft input controls whether fluid is currently allowed through",
+      "Given Rotational Force in the opening direction, the valve will open up",
+      "It can be closed again by reversing the input rotation"
+    ],
+    "aliases": [
+      "valve_pipe"
+    ]
+  },
+  "water_wheel": {
+    "title": "Generating Rotational Force using Water Wheels",
+    "messages": [
+      "Water Wheels draw force from adjacent Water Currents",
+      "Covering additional sides will not improve its kinetic output further",
+      "Use wood planks on the wheel to change its appearance"
+    ],
+    "aliases": [
+      "water_wheel"
+    ]
+  },
+  "weighted_ejector": {
+    "title": "Using Weighted Ejectors",
+    "messages": [
+      "Sneak and Right-Click holding an Ejector to select its target location",
+      "The placed ejector will now launch objects to the marked location",
+      "A valid target can be at any height or distance within range",
+      "They cannot however be off to a side",
+      "If no valid Target was selected, it will simply target the block directly in front",
+      "Supply Rotational Force in order to charge it up",
+      "Items placed on the ejector cause it to trigger",
+      "If Inventories are targeted, the ejector will wait until there is space",
+      "Using the value panel, a required Stack Size can be configured",
+      "It is now limited to this stack size, and only activates when its held stack reaches this amount",
+      "Mobs and Players will always trigger an Ejector when stepping on it"
+    ],
+    "aliases": [
+      "weighted_ejector"
+    ]
+  },
+  "weighted_ejector_redstone": {
+    "title": "Controlling Weighted Ejectors with Redstone",
+    "messages": [
+      "When powered by Redstone, Ejectors will not activate",
+      "Observers can detect when Ejectors activate"
+    ],
+    "aliases": [
+      "weighted_ejector_redstone"
+    ]
+  },
+  "weighted_ejector_tunnel": {
+    "title": "Splitting item stacks using Weighted Ejectors",
+    "messages": [
+      "Combined with Brass Tunnels, Ejectors can split item stacks by specific amounts",
+      "First, configure the Brass Tunnel to 'Prefer Nearest', in order to prioritize its side output",
+      "The Stack Size set on the Ejector now determines the amount to be split off",
+      "While a new stack of the configured size exits the side output...",
+      "...the remainder will continue on its path"
+    ],
+    "aliases": [
+      "weighted_ejector_tunnel"
+    ]
+  },
+  "windmill_source": {
+    "title": "Generating Rotational Force using Windmill Bearings",
+    "messages": [
+      "Windmill Bearings attach to the block in front of them",
+      "Create a movable structure with the help of Super Glue",
+      "If enough Sail-like blocks are included, this can act as a Windmill",
+      "Activated with Right-Click, the Windmill Bearing will start providing Rotational Force",
+      "The Amount of Sail Blocks determine its Rotation Speed",
+      "Use the value panel to configure its rotation direction",
+      "Right-click the Bearing anytime to stop and edit the Structure again"
+    ],
+    "aliases": [
+      "windmill_source"
+    ]
+  },
+  "windmill_structure": {
+    "title": "Windmill Contraptions",
+    "messages": [
+      "Any Structure can count as a valid Windmill, as long as it contains at least 8 sail-like Blocks."
+    ],
+    "aliases": [
+      "windmill_structure"
+    ]
+  }
+}

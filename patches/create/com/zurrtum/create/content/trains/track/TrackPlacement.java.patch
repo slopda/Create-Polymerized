@@ -1,0 +1,93 @@
+--- a/com/zurrtum/create/content/trains/track/TrackPlacement.java
++++ b/com/zurrtum/create/content/trains/track/TrackPlacement.java
+@@ -91,6 +91,17 @@
+         boolean girder,
+         boolean maximiseTurn
+     ) {
++        return tryConnect(level, player, pos2, state2, stack, girder, maximiseTurn, false);
++    }
++
++    public static PlacementInfo previewConnection(Level level, Player player, BlockPos pos2,
++                                                 BlockState state2, ItemStack stack, boolean maximiseTurn) {
++        return tryConnect(level, player, pos2, state2, stack, false, maximiseTurn, true);
++    }
++
++    private static PlacementInfo tryConnect(Level level, Player player, BlockPos pos2, BlockState state2,
++                                           ItemStack stack, boolean girder, boolean maximiseTurn, boolean previewOnly) {
++        boolean visual = level.isClientSide() || previewOnly;
+         Vec3 lookVec = player.getLookAngle();
+         int lookAngle = (int) (22.5 + AngleHelper.deg(Mth.atan2(lookVec.z, lookVec.x)) % 360) / 8;
+         int maxLength = AllConfigs.server().trains.maxTrackPlacementLength.get();
+@@ -100,11 +111,13 @@
+         }
+ 
+         PlacementInfo info = new PlacementInfo(TrackMaterial.fromItem(stack.getItem()));
+-        hoveringMaxed = maximiseTurn;
+-        hoveringAngle = lookAngle;
+-        hoveringPos = pos2;
+-        lastItem = stack;
+-        cached = info;
++        if (!previewOnly) {
++            hoveringMaxed = maximiseTurn;
++            hoveringAngle = lookAngle;
++            hoveringPos = pos2;
++            lastItem = stack;
++            cached = info;
++        }
+ 
+         ITrackBlock track = (ITrackBlock) state2.getBlock();
+         Pair<Vec3, AxisDirection> nearestTrackAxis = track.getNearestTrackAxis(level, pos2, state2, lookVec);
+@@ -122,7 +135,7 @@
+         Vec3 normal1 = connectingFrom.normal();
+         BlockState state1 = level.getBlockState(pos1);
+ 
+-        if (level.isClientSide()) {
++        if (visual) {
+             info.end1 = end1;
+             info.end2 = end2;
+             info.normal1 = normal1;
+@@ -148,7 +161,7 @@
+             axis1 = axis1.scale(-1);
+             normedAxis1 = normedAxis1.scale(-1);
+             end1 = track.getCurveStart(level, pos1, state1, axis1);
+-            if (level.isClientSide()) {
++            if (visual) {
+                 info.end1 = end1;
+                 info.axis1 = axis1;
+             }
+@@ -162,7 +175,7 @@
+             axis2 = axis2.scale(-1);
+             normedAxis2 = normedAxis2.scale(-1);
+             end2 = track.getCurveStart(level, pos2, state2, axis2);
+-            if (level.isClientSide()) {
++            if (visual) {
+                 info.end2 = end2;
+                 info.axis2 = axis2;
+             }
+@@ -177,7 +190,7 @@
+         double absAscend = Math.abs(ascend);
+         boolean slope = !normal1.equals(normal2);
+ 
+-        if (level.isClientSide()) {
++        if (visual) {
+             Vec3 offset1 = axis1.scale(info.end1Extent);
+             Vec3 offset2 = axis2.scale(info.end2Extent);
+             BlockPos targetPos1 = pos1.offset(BlockPos.containing(offset1));
+@@ -392,7 +405,7 @@
+ 
+         if (!player.isCreative()) {
+             for (boolean simulate : Iterate.trueAndFalse) {
+-                if (level.isClientSide() && !simulate) {
++                if (visual && !simulate) {
+                     break;
+                 }
+ 
+@@ -466,7 +479,7 @@
+             }
+         }
+ 
+-        if (level.isClientSide()) {
++        if (visual) {
+             return info;
+         }
+         if (shouldPave) {

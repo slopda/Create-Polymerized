@@ -1,0 +1,26 @@
+--- a/com/zurrtum/create/content/equipment/toolbox/ToolboxInventory.java
++++ b/com/zurrtum/create/content/equipment/toolbox/ToolboxInventory.java
+@@ -165,7 +165,7 @@
+                     return directCopy(findStack, maxAmount);
+                 }
+                 for (int j = i - 1; j >= index; j--) {
+-                    ItemStack stack = getItem(i);
++                    ItemStack stack = getItem(j);
+                     if (stack.isEmpty()) {
+                         continue;
+                     }
+@@ -210,12 +210,12 @@
+                 }
+                 count = stack.getCount();
+                 if (count < remaining) {
+-                    setItem(i, ItemStack.EMPTY);
++                    setItem(j, ItemStack.EMPTY);
+                     remaining -= count;
+                     continue;
+                 }
+                 if (count == remaining) {
+-                    setItem(i, ItemStack.EMPTY);
++                    setItem(j, ItemStack.EMPTY);
+                 } else {
+                     stack.setCount(count - remaining);
+                 }

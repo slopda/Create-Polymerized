@@ -1,0 +1,18 @@
+--- a/com/zurrtum/create/content/logistics/tunnel/BeltTunnelBlockEntity.java
++++ b/com/zurrtum/create/content/logistics/tunnel/BeltTunnelBlockEntity.java
+@@ -163,6 +163,7 @@
+ 
+     @Override
+     public void tick() {
++        flaps.forEach((d, value) -> value.tickChaser());
+         super.tick();
+         if (!level.isClientSide()) {
+             if (!flapsToSend.isEmpty()) {
+@@ -170,7 +171,6 @@
+             }
+             return;
+         }
+-        flaps.forEach((d, value) -> value.tickChaser());
+     }
+ 
+     private void sendFlaps() {

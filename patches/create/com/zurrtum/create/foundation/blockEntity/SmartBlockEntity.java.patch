@@ -1,0 +1,11 @@
+--- a/com/zurrtum/create/foundation/blockEntity/SmartBlockEntity.java
++++ b/com/zurrtum/create/foundation/blockEntity/SmartBlockEntity.java
+@@ -9,6 +9,8 @@
+ import com.zurrtum.create.foundation.blockEntity.behaviour.BehaviourType;
+ import com.zurrtum.create.foundation.blockEntity.behaviour.CachedInventoryBehaviour;
+ import com.zurrtum.create.foundation.utility.IInteractionChecker;
++import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
++import com.zurrtum.create.infrastructure.polymer.block.PolymerBlockParts;
+ import com.zurrtum.create.ponder.api.VirtualBlockEntity;
+ import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
+ import net.minecraft.core.BlockPos;

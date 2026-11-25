@@ -1,0 +1,10 @@
+--- a/com/zurrtum/create/content/trains/track/TrackBlockEntity.java
++++ b/com/zurrtum/create/content/trains/track/TrackBlockEntity.java
+@@ -14,6 +14,7 @@
+ import com.zurrtum.create.foundation.blockEntity.IMergeableBE;
+ import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
+ import com.zurrtum.create.infrastructure.packet.s2c.RemoveBlockEntityPacket;
++import com.zurrtum.create.infrastructure.polymer.train.PolymerTrackVisuals;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction.Axis;
+ import net.minecraft.network.protocol.Packet;

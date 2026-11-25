@@ -1,0 +1,93 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "all": "create:block/polymer/chain_scroll/14",
+    "particle": "minecraft:block/iron_chain"
+  },
+  "elements": [
+    {
+      "from": [
+        6.5,
+        0,
+        8
+      ],
+      "to": [
+        9.5,
+        11,
+        8
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45
+      },
+      "shade": false,
+      "faces": {
+        "north": {
+          "uv": [
+            6,
+            0,
+            3,
+            11
+          ],
+          "texture": "#all"
+        },
+        "south": {
+          "uv": [
+            3,
+            0,
+            6,
+            11
+          ],
+          "texture": "#all"
+        }
+      }
+    },
+    {
+      "from": [
+        8,
+        0,
+        6.5
+      ],
+      "to": [
+        8,
+        11,
+        9.5
+      ],
+      "rotation": {
+        "origin": [
+          8,
+          8,
+          8
+        ],
+        "axis": "y",
+        "angle": 45
+      },
+      "shade": false,
+      "faces": {
+        "west": {
+          "uv": [
+            3,
+            0,
+            0,
+            11
+          ],
+          "texture": "#all"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            3,
+            11
+          ],
+          "texture": "#all"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "create:font/stock_keeper_sgui.png",
+      "ascent": 13,
+      "height": 222,
+      "chars": ["\uE100"]
+    },
+    {
+      "type": "space",
+      "advances": {
+        "\uE101": -39,
+        "\uE102": -153
+      }
+    }
+  ]
+}

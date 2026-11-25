@@ -1,0 +1,28 @@
+--- a/com/zurrtum/create/content/kinetics/base/KineticBlockEntity.java
++++ b/com/zurrtum/create/content/kinetics/base/KineticBlockEntity.java
+@@ -12,6 +12,7 @@
+ import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
+ import com.zurrtum.create.content.kinetics.transmission.sequencer.SequencedGearshiftBlockEntity.SequenceContext;
+ import com.zurrtum.create.foundation.blockEntity.SmartBlockEntity;
++import com.zurrtum.create.infrastructure.polymer.block.PolymerKineticVisuals;
+ import com.zurrtum.create.infrastructure.config.AllConfigs;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+@@ -152,6 +153,12 @@
+             }
+             networkDirty = false;
+         }
++    }
++
++    @Override
++    public void setRemoved() {
++        PolymerKineticVisuals.remove(this);
++        super.setRemoved();
+     }
+ 
+     private void validateKinetics() {
+@@ -529,3 +536,4 @@
+     }
+ 
+ }
++

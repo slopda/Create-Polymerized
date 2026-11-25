@@ -1,0 +1,50 @@
+--- a/com/zurrtum/create/content/kinetics/transmission/sequencer/SequencedGearshiftBlock.java
++++ b/com/zurrtum/create/content/kinetics/transmission/sequencer/SequencedGearshiftBlock.java
+@@ -10,10 +10,12 @@
+ import com.zurrtum.create.content.kinetics.base.RotatedPillarKineticBlock;
+ import com.zurrtum.create.foundation.block.IBE;
+ import com.zurrtum.create.foundation.block.WeakPowerControlBlock;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerSequencerDialogs;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+ import net.minecraft.core.Direction.Axis;
+ import net.minecraft.server.level.ServerLevel;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.util.RandomSource;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+@@ -117,6 +119,29 @@
+     }
+ 
+     @Override
++    protected InteractionResult useWithoutItem(
++        BlockState state,
++        Level level,
++        BlockPos pos,
++        Player player,
++        BlockHitResult hitResult
++    ) {
++        ItemStack held = player.getMainHandItem();
++        if (held.is(AllItems.WRENCH)
++            || held.getItem() instanceof BlockItem blockItem
++                && blockItem.getBlock() instanceof KineticBlock
++                && hasShaftTowards(level, pos, state, hitResult.getDirection())) {
++            return super.useWithoutItem(state, level, pos, player, hitResult);
++        }
++        if (level.isClientSide()) {
++            withBlockEntityDo(level, pos, be -> AllClientHandle.INSTANCE.openSequencedGearshiftScreen(be));
++        } else if (player instanceof ServerPlayer serverPlayer) {
++            withBlockEntityDo(level, pos, be -> PolymerSequencerDialogs.open(serverPlayer, be));
++        }
++        return InteractionResult.SUCCESS;
++    }
++
++    @Override
+     public BlockState getStateForPlacement(BlockPlaceContext context) {
+         Axis preferredAxis = RotatedPillarKineticBlock.getPreferredAxis(context);
+         if (preferredAxis != null && (context.getPlayer() == null || !context.getPlayer().isShiftKeyDown())) {
+@@ -201,3 +226,4 @@
+     }
+ 
+ }
++

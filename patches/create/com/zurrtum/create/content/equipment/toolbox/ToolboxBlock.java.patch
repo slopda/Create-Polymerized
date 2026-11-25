@@ -1,0 +1,47 @@
+--- a/com/zurrtum/create/content/equipment/toolbox/ToolboxBlock.java
++++ b/com/zurrtum/create/content/equipment/toolbox/ToolboxBlock.java
+@@ -16,6 +16,7 @@
+ import net.minecraft.world.Container;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
++import net.minecraft.world.SimpleMenuProvider;
+ import net.minecraft.world.entity.LivingEntity;
+ import net.minecraft.world.entity.player.Player;
+ import net.minecraft.world.item.DyeColor;
+@@ -194,8 +195,35 @@
+         if (level.isClientSide()) {
+             return InteractionResult.SUCCESS;
+         }
+-
+         withBlockEntityDo(level, pos, toolbox -> toolbox.openHandledScreen((ServerPlayer) player));
++        return InteractionResult.SUCCESS;
++    }
++
++    @Override
++    protected InteractionResult useWithoutItem(
++        BlockState state,
++        Level level,
++        BlockPos pos,
++        Player player,
++        BlockHitResult hitResult
++    ) {
++        if (player.isCrouching()) {
++            return InteractionResult.PASS;
++        }
++        return openVanillaMenu(level, pos, player);
++    }
++
++    private InteractionResult openVanillaMenu(Level level, BlockPos pos, Player player) {
++        if (level.isClientSide()) {
++            return InteractionResult.SUCCESS;
++        }
++        if (!(player instanceof ServerPlayer serverPlayer) || serverPlayer.isSpectator()
++            || !serverPlayer.mayInteract(serverPlayer.level(), pos)) {
++            return InteractionResult.SUCCESS;
++        }
++
++        withBlockEntityDo(level, pos, toolbox ->
++            com.zurrtum.create.infrastructure.polymer.gui.PolymerToolboxGui.open(serverPlayer, toolbox));
+         return InteractionResult.SUCCESS;
+     }
+ 

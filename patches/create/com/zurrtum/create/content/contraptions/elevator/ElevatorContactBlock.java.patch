@@ -1,0 +1,43 @@
+--- a/com/zurrtum/create/content/contraptions/elevator/ElevatorContactBlock.java
++++ b/com/zurrtum/create/content/contraptions/elevator/ElevatorContactBlock.java
+@@ -1,9 +1,9 @@
+ package com.zurrtum.create.content.contraptions.elevator;
+ 
++import com.zurrtum.create.AllClientHandle;
+ import com.mojang.serialization.MapCodec;
+ import com.zurrtum.create.AllBlockEntityTypes;
+ import com.zurrtum.create.AllBlocks;
+-import com.zurrtum.create.AllClientHandle;
+ import com.zurrtum.create.AllItems;
+ import com.zurrtum.create.api.schematic.requirement.SpecialBlockItemRequirement;
+ import com.zurrtum.create.content.contraptions.elevator.ElevatorColumn.ColumnCoords;
+@@ -15,10 +15,12 @@
+ import com.zurrtum.create.foundation.block.WeakPowerControlBlock;
+ import com.zurrtum.create.foundation.block.WrenchableDirectionalBlock;
+ import com.zurrtum.create.foundation.utility.BlockHelper;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerElevatorDialogs;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
+ import net.minecraft.core.Direction.Axis;
+ import net.minecraft.server.level.ServerLevel;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.util.RandomSource;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+@@ -283,6 +285,16 @@
+         return InteractionResult.SUCCESS;
+     }
+ 
++    @Override
++    protected InteractionResult useWithoutItem(
++        BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult
++    ) {
++        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
++            withBlockEntityDo(level, pos, be -> PolymerElevatorDialogs.open(serverPlayer, be));
++        }
++        return InteractionResult.SUCCESS;
++    }
++
+     public static int getLight(BlockState state) {
+         return state.getValue(POWERING) ? 10 : 0;
+     }

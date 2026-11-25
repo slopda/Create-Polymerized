@@ -1,0 +1,18 @@
+--- a/com/zurrtum/create/content/equipment/clipboard/ClipboardBlockItem.java
++++ b/com/zurrtum/create/content/equipment/clipboard/ClipboardBlockItem.java
+@@ -5,8 +5,10 @@
+ import com.zurrtum.create.foundation.recipe.ItemCopyingRecipe.SupportsItemCopying;
+ import com.zurrtum.create.infrastructure.component.ClipboardContent;
+ import com.zurrtum.create.infrastructure.component.ClipboardType;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerToolDialogs;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.component.DataComponentType;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+ import net.minecraft.world.entity.player.Player;
+@@ -77,3 +79,4 @@
+     }
+ 
+ }
++

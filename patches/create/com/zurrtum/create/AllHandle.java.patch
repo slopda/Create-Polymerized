@@ -1,0 +1,141 @@
+--- a/com/zurrtum/create/AllHandle.java
++++ b/com/zurrtum/create/AllHandle.java
+@@ -112,6 +112,7 @@
+ import net.minecraft.world.inventory.AbstractContainerMenu;
+ import net.minecraft.world.item.ItemStack;
+ import net.minecraft.world.item.Items;
++import net.minecraft.world.level.ClipContext;
+ import net.minecraft.world.level.Level;
+ import net.minecraft.world.level.block.Block;
+ import net.minecraft.world.level.block.SoundType;
+@@ -119,6 +120,8 @@
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.level.storage.TagValueOutput;
+ import net.minecraft.world.phys.AABB;
++import net.minecraft.world.phys.BlockHitResult;
++import net.minecraft.world.phys.HitResult;
+ import net.minecraft.world.phys.Vec3;
+ import org.apache.commons.lang3.mutable.MutableBoolean;
+ import org.apache.commons.lang3.mutable.MutableObject;
+@@ -1291,6 +1294,14 @@
+     ) {
+         PacketUtils.ensureRunningOnSameThread(packet, listener, listener.server.packetProcessor());
+         ServerPlayer player = listener.player;
++        List<Integer> buttons = packet.activatedButtons().stream()
++            .filter(button -> button >= 0 && button < 6)
++            .distinct()
++            .limit(6)
++            .toList();
++        if (buttons.isEmpty()) {
++            return;
++        }
+         Consumer<ItemStack> handleItem = stack -> {
+             ServerLevel world = player.level();
+             UUID uniqueID = player.getUUID();
+@@ -1304,11 +1315,16 @@
+                 world,
+                 pos,
+                 uniqueID,
+-                packet.activatedButtons().stream().map(i -> LinkedControllerItem.toFrequency(stack, i))
+-                    .collect(Collectors.toList()),
++                buttons.stream().map(i -> LinkedControllerItem.toFrequency(stack, i)).collect(Collectors.toList()),
+                 packet.press()
+             );
+         };
++        if (packet.lecternPos() != null
++            && (!player.level().isLoaded(packet.lecternPos())
++                || !player.isWithinBlockInteractionRange(packet.lecternPos(), 0)
++                || !LecternControllerBlockEntity.playerInRange(player, player.level(), packet.lecternPos()))) {
++            return;
++        }
+         onLinkedController(
+             player, packet.lecternPos(), blockEntity -> {
+                 if (blockEntity instanceof LecternControllerBlockEntity lectern) {
+@@ -1325,35 +1341,44 @@
+         LinkedControllerBindPacket packet
+     ) {
+         PacketUtils.ensureRunningOnSameThread(packet, listener, listener.server.packetProcessor());
+-        ServerPlayer player = listener.player;
+-        if (player.isSpectator()) {
+-            return;
++        bindLinkedController(listener.player, packet.button(), packet.linkLocation());
++    }
++
++    public static boolean bindLinkedController(ServerPlayer player, int button, BlockPos pos) {
++        if (player.isSpectator() || button < 0 || button >= 6) {
++            return false;
+         }
+-        onLinkedController(
+-            player, null, null, stack -> {
+-                ItemStackHandler frequencyItems = LinkedControllerItem.getFrequencyItems(stack);
+-                ServerLinkBehaviour linkBehaviour = BlockEntityBehaviour.get(
+-                    player.level(),
+-                    packet.linkLocation(),
+-                    ServerLinkBehaviour.TYPE
+-                );
+-                if (linkBehaviour == null) {
+-                    return;
+-                }
+ 
+-                int button = packet.button();
+-                linkBehaviour.getNetworkKey()
+-                    .forEachWithContext((f, first) -> frequencyItems.setItem(
+-                        button * 2 + (first ? 0 : 1),
+-                        f.getStack().copy()
+-                    ));
++        ServerLevel level = player.level();
++        if (!level.isLoaded(pos) || !player.mayInteract(level, pos)
++            || !player.isWithinBlockInteractionRange(pos, 1)) {
++            return false;
++        }
+ 
+-                stack.set(
+-                    AllDataComponents.LINKED_CONTROLLER_ITEMS,
+-                    ItemHelper.containerContentsFromHandler(frequencyItems)
+-                );
+-            }
++        ItemStack controller = player.getMainHandItem();
++        if (!controller.is(AllItems.LINKED_CONTROLLER)) {
++            controller = player.getOffhandItem();
++        }
++        if (!controller.is(AllItems.LINKED_CONTROLLER)) {
++            return false;
++        }
++
++        ServerLinkBehaviour linkBehaviour = BlockEntityBehaviour.get(level, pos, ServerLinkBehaviour.TYPE);
++        if (linkBehaviour == null) {
++            return false;
++        }
++
++        ItemStackHandler frequencyItems = LinkedControllerItem.getFrequencyItems(controller);
++        ItemStack boundController = controller;
++        linkBehaviour.getNetworkKey().forEachWithContext((frequency, first) -> frequencyItems.setItem(
++            button * 2 + (first ? 0 : 1),
++            frequency.getStack().copy()
++        ));
++        boundController.set(
++            AllDataComponents.LINKED_CONTROLLER_ITEMS,
++            ItemHelper.containerContentsFromHandler(frequencyItems)
+         );
++        return true;
+     }
+ 
+     public static void onLinkedControllerStopLectern(
+@@ -1426,10 +1451,13 @@
+ 
+     public static void onToolboxEquip(ServerGamePacketListenerImpl listener, ToolboxEquipPacket packet) {
+         PacketUtils.ensureRunningOnSameThread(packet, listener, listener.server.packetProcessor());
+-        ServerPlayer player = listener.player;
+-        BlockPos toolboxPos = packet.toolboxPos();
+-        int slot = packet.slot();
+-        int hotbarSlot = packet.hotbarSlot();
++        setToolboxForHotbar(listener.player, packet.toolboxPos(), packet.slot(), packet.hotbarSlot());
++    }
++
++    public static void setToolboxForHotbar(ServerPlayer player, BlockPos toolboxPos, int slot, int hotbarSlot) {
++        if (hotbarSlot < 0 || hotbarSlot >= 9) {
++            return;
++        }
+         if (toolboxPos == null) {
+             ToolboxHandler.unequip(player, hotbarSlot, false);
+             ToolboxHandler.syncData(player, AllSynchedDatas.TOOLBOX.get(player));

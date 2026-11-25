@@ -1,0 +1,57 @@
+--- a/com/zurrtum/create/content/trains/station/StationBlock.java
++++ b/com/zurrtum/create/content/trains/station/StationBlock.java
+@@ -1,18 +1,21 @@
+ package com.zurrtum.create.content.trains.station;
+ 
++import com.zurrtum.create.AllClientHandle;
+ import com.zurrtum.create.AllBlockEntityTypes;
+-import com.zurrtum.create.AllClientHandle;
+ import com.zurrtum.create.AllItems;
+ import com.zurrtum.create.AllShapes;
+ import com.zurrtum.create.content.equipment.wrench.IWrenchable;
++import com.zurrtum.create.content.kinetics.belt.transport.TransportedItemStack;
+ import com.zurrtum.create.content.logistics.depot.SharedDepotBlockMethods;
+ import com.zurrtum.create.foundation.advancement.AdvancementBehaviour;
+ import com.zurrtum.create.foundation.block.EntityControlBlock;
+ import com.zurrtum.create.foundation.block.IBE;
+ import com.zurrtum.create.foundation.block.ProperWaterloggedBlock;
+ import com.zurrtum.create.infrastructure.items.ItemInventoryProvider;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerStationForm;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;
++import net.minecraft.network.chat.Component;
+ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
+ import net.minecraft.util.RandomSource;
+@@ -33,6 +36,7 @@
+ import net.minecraft.world.level.block.state.StateDefinition;
+ import net.minecraft.world.level.block.state.properties.BooleanProperty;
+ import net.minecraft.world.level.material.FluidState;
++import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.world.level.pathfinder.PathComputationType;
+ import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
+ import net.minecraft.world.phys.BlockHitResult;
+@@ -191,6 +195,23 @@
+     }
+ 
+     @Override
++    protected InteractionResult useWithoutItem(
++        BlockState state,
++        Level level,
++        BlockPos pos,
++        Player player,
++        BlockHitResult hitResult
++    ) {
++        if (level.isClientSide()) {
++            return InteractionResult.SUCCESS;
++        }
++        if (player instanceof ServerPlayer serverPlayer) {
++            PolymerStationForm.openStationSettings(serverPlayer, pos);
++        }
++        return InteractionResult.SUCCESS;
++    }
++
++    @Override
+     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+         return AllShapes.STATION;
+     }

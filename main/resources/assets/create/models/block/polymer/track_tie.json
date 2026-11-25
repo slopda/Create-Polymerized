@@ -1,0 +1,160 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "1": "create:block/standard_track",
+    "2": "create:block/standard_track_mip",
+    "particle": "create:block/palettes/stone_types/polished/andesite_cut_polished"
+  },
+  "elements": [
+    {
+      "from": [
+        8,
+        -3.056,
+        2
+      ],
+      "to": [
+        29.95,
+        1.25,
+        6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#1",
+          "uv": [
+            11,
+            2,
+            0,
+            4
+          ]
+        },
+        "south": {
+          "texture": "#1",
+          "uv": [
+            0,
+            2,
+            11,
+            4
+          ]
+        },
+        "down": {
+          "texture": "#1",
+          "uv": [
+            0,
+            4,
+            11,
+            6
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        -13.95,
+        -3.056,
+        2
+      ],
+      "to": [
+        8,
+        1.25,
+        6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#1",
+          "uv": [
+            0,
+            2,
+            11,
+            4
+          ]
+        },
+        "south": {
+          "texture": "#1",
+          "uv": [
+            11,
+            2,
+            0,
+            4
+          ]
+        },
+        "down": {
+          "texture": "#1",
+          "uv": [
+            0,
+            4,
+            11,
+            6
+          ],
+          "rotation": 180
+        }
+      }
+    },
+    {
+      "from": [
+        -13.95,
+        -3.056,
+        0
+      ],
+      "to": [
+        8,
+        1.25,
+        8
+      ],
+      "faces": {
+        "west": {
+          "texture": "#2",
+          "uv": [
+            11,
+            0.5,
+            13.05,
+            4.5
+          ],
+          "rotation": 90
+        },
+        "up": {
+          "texture": "#2",
+          "uv": [
+            0,
+            0.5,
+            10.975,
+            4.5
+          ],
+          "rotation": 180
+        }
+      }
+    },
+    {
+      "from": [
+        8,
+        -3.056,
+        0
+      ],
+      "to": [
+        29.95,
+        1.25,
+        8
+      ],
+      "faces": {
+        "east": {
+          "texture": "#2",
+          "uv": [
+            11,
+            0.5,
+            13.05,
+            4.5
+          ],
+          "rotation": 90
+        },
+        "up": {
+          "texture": "#2",
+          "uv": [
+            0,
+            0.5,
+            10.975,
+            4.5
+          ]
+        }
+      }
+    }
+  ]
+}

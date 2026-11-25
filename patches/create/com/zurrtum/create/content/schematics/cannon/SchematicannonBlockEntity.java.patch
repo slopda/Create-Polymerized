@@ -1,0 +1,20 @@
+--- a/com/zurrtum/create/content/schematics/cannon/SchematicannonBlockEntity.java
++++ b/com/zurrtum/create/content/schematics/cannon/SchematicannonBlockEntity.java
+@@ -594,6 +594,17 @@
+         blocksToPlace = 0;
+     }
+ 
++    public void setBlueprint(ItemStack blueprint) {
++        if (!blueprint.is(AllItems.SCHEMATIC)) {
++            throw new IllegalArgumentException("Schematicannon blueprint slot only accepts schematics");
++        }
++        state = State.STOPPED;
++        statusMsg = "idle";
++        resetPrinter();
++        inventory.setItem(0, blueprint.copyWithCount(1));
++        inventory.setChanged();
++    }
++
+     protected boolean shouldPlace(
+         BlockPos pos,
+         BlockState state,

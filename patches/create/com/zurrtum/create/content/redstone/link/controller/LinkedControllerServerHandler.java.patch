@@ -1,0 +1,88 @@
+--- a/com/zurrtum/create/content/redstone/link/controller/LinkedControllerServerHandler.java
++++ b/com/zurrtum/create/content/redstone/link/controller/LinkedControllerServerHandler.java
+@@ -17,9 +17,13 @@
+ public class LinkedControllerServerHandler {
+ 
+     public static WorldAttached<Map<UUID, Collection<ManualFrequencyEntry>>> receivedInputs = new WorldAttached<>($ -> new HashMap<>());
++    private static final WorldAttached<Map<UUID, Map<Integer, Couple<Frequency>>>> persistentInputs = new WorldAttached<>(
++        $ -> new HashMap<>()
++    );
+     static final int TIMEOUT = 30;
+ 
+     public static void tick(LevelAccessor world) {
++        refreshPersistentInputs(world);
+         Map<UUID, Collection<ManualFrequencyEntry>> map = receivedInputs.get(world);
+         for (Iterator<Map.Entry<UUID, Collection<ManualFrequencyEntry>>> iterator = map.entrySet()
+             .iterator(); iterator.hasNext(); ) {
+@@ -42,6 +46,71 @@
+         }
+     }
+ 
++    public static boolean togglePersistentButton(
++        LevelAccessor world,
++        BlockPos pos,
++        UUID playerId,
++        int button,
++        Couple<Frequency> frequency
++    ) {
++        Map<UUID, Map<Integer, Couple<Frequency>>> byPlayer = persistentInputs.get(world);
++        Map<Integer, Couple<Frequency>> active = byPlayer.computeIfAbsent(playerId, $ -> new HashMap<>());
++        Couple<Frequency> existing = active.remove(button);
++        if (existing != null) {
++            if (!active.containsValue(existing)) {
++                receivePressed(world, pos, playerId, List.of(existing), false);
++            }
++            if (active.isEmpty()) {
++                byPlayer.remove(playerId);
++            }
++            return false;
++        }
++
++        boolean alreadyActive = active.containsValue(frequency);
++        active.put(button, frequency);
++        if (!alreadyActive) {
++            receivePressed(world, pos, playerId, List.of(frequency), true);
++        }
++        return true;
++    }
++
++    public static void releasePersistentInputs(LevelAccessor world, BlockPos pos, UUID playerId) {
++        Map<Integer, Couple<Frequency>> active = persistentInputs.get(world).remove(playerId);
++        if (active != null && !active.isEmpty()) {
++            receivePressed(world, pos, playerId, new ArrayList<>(new HashSet<>(active.values())), false);
++        }
++    }
++
++    private static void refreshPersistentInputs(LevelAccessor world) {
++        Map<UUID, Map<Integer, Couple<Frequency>>> byPlayer = persistentInputs.get(world);
++        for (Iterator<Map.Entry<UUID, Map<Integer, Couple<Frequency>>>> iterator = byPlayer.entrySet().iterator(); iterator.hasNext(); ) {
++            Map.Entry<UUID, Map<Integer, Couple<Frequency>>> entry = iterator.next();
++            if (entry.getValue().isEmpty()) {
++                iterator.remove();
++                continue;
++            }
++
++            if (!(world.getPlayerByUUID(entry.getKey()) instanceof ServerPlayer player)) {
++                receivePressed(
++                    world,
++                    BlockPos.ZERO,
++                    entry.getKey(),
++                    new ArrayList<>(new HashSet<>(entry.getValue().values())),
++                    false
++                );
++                iterator.remove();
++                continue;
++            }
++            receivePressed(
++                world,
++                player.blockPosition(),
++                entry.getKey(),
++                new ArrayList<>(new HashSet<>(entry.getValue().values())),
++                true
++            );
++        }
++    }
++
+     public static void receivePressed(
+         LevelAccessor world,
+         BlockPos pos,

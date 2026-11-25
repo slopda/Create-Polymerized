@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "createpoly_dev",
+  "version": "${version}",
+  "name": "Polymer Patch: Create Fly development tools",
+  "description": "Lab and fixture commands for Polymer Patch test servers. Never install on a player server.",
+  "authors": [
+    "veeda"
+  ],
+  "environment": "server",
+  "license": "MIT",
+  "entrypoints": {
+    "main": [
+      "com.zurrtum.create.infrastructure.polymer.PolymerDevSwitches",
+      "com.zurrtum.create.infrastructure.polymer.PolymerBearingFloorTest",
+      "com.zurrtum.create.infrastructure.polymer.PolymerContraptionLabHooks",
+      "com.zurrtum.create.infrastructure.polymer.PolymerStaticProxyModes",
+      "com.zurrtum.create.infrastructure.polymer.PolymerHolderRangeCommand",
+      "com.zurrtum.create.infrastructure.polymer.PolymerFixtureCommands",
+      "com.zurrtum.create.infrastructure.polymer.PolymerParityCatalogue",
+      "com.zurrtum.create.infrastructure.polymer.PolymerShiftCellTrial",
+      "com.zurrtum.create.infrastructure.polymer.PolymerObserverTrials",
+      "com.zurrtum.create.infrastructure.polymer.PolymerPonderPreview",
+      "com.zurrtum.create.infrastructure.polymer.PolymerCarrySwitches",
+      "com.zurrtum.create.infrastructure.polymer.PolymerPackWrites",
+      "com.zurrtum.create.infrastructure.polymer.NativeRoutingCounters",
+      "com.zurrtum.create.infrastructure.polymer.PolymerGuiReview",
+      "com.zurrtum.create.infrastructure.polymer.PolymerPonderReview",
+      "com.zurrtum.create.infrastructure.polymer.PolymerGuiSelfTest",
+      "com.zurrtum.create.infrastructure.polymer.PolymerPonderSmoothTrial",
+      "dev.veeda.createpoly.harness.PolymerParticleHarness"
+    ]
+  },
+  "mixins": ["createpoly-dev.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "fabric-api": ">=0.161.0+26.2",
+    "createpoly": "${version}"
+  }
+}

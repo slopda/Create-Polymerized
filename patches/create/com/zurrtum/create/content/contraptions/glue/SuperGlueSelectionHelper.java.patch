@@ -1,0 +1,19 @@
+--- a/com/zurrtum/create/content/contraptions/glue/SuperGlueSelectionHelper.java
++++ b/com/zurrtum/create/content/contraptions/glue/SuperGlueSelectionHelper.java
+@@ -91,6 +91,7 @@
+ 
+         NonNullList<ItemStack> items = player.getInventory().getNonEquipmentItems();
+         for (int i = -1; i < Inventory.INVENTORY_SIZE; i++) {
++            if (i == player.getInventory().getSelectedSlot()) continue;
+             int slot = i == -1 ? player.getInventory().getSelectedSlot() : i;
+             ItemStack stack = items.get(slot);
+             if (stack.isEmpty()) {
+@@ -102,7 +103,7 @@
+ 
+             int charges = Math.min(requiredAmount, stack.getMaxDamage() - stack.getDamageValue());
+ 
+-            stack.hurtAndBreak(charges, player, EquipmentSlot.MAINHAND);
++            if (!simulate) stack.hurtAndBreak(charges, player, EquipmentSlot.MAINHAND);
+ 
+             requiredAmount -= charges;
+             if (requiredAmount <= 0) {

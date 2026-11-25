@@ -1,0 +1,11 @@
+--- a/com/zurrtum/create/content/logistics/stockTicker/StockTickerBlock.java
++++ b/com/zurrtum/create/content/logistics/stockTicker/StockTickerBlock.java
+@@ -8,6 +8,8 @@
+ import com.zurrtum.create.content.logistics.stockTicker.StockTickerBlockEntity.StockTickerInventory;
+ import com.zurrtum.create.foundation.block.IBE;
+ import com.zurrtum.create.foundation.gui.menu.MenuProvider;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerStockCategoryGui;
++import com.zurrtum.create.infrastructure.polymer.nativeclient.PolymerNativeClients;
+ import com.zurrtum.create.infrastructure.items.ItemInventoryProvider;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.core.Direction;

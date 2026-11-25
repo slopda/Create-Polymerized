@@ -1,0 +1,7 @@
+--- a/com/zurrtum/create/content/kinetics/fan/AirCurrent.java
++++ b/com/zurrtum/create/content/kinetics/fan/AirCurrent.java
+@@ -365,3 +365,4 @@
+         private int endOffset;
+     }
+ }
++

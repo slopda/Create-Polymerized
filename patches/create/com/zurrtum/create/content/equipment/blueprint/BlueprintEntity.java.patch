@@ -1,0 +1,10 @@
+--- a/com/zurrtum/create/content/equipment/blueprint/BlueprintEntity.java
++++ b/com/zurrtum/create/content/equipment/blueprint/BlueprintEntity.java
+@@ -17,6 +17,7 @@
+ import com.zurrtum.create.foundation.utility.IInteractionChecker;
+ import com.zurrtum.create.foundation.utility.TickBasedCache;
+ import com.zurrtum.create.infrastructure.items.ItemStackHandler;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerBlueprintGui;
+ import com.zurrtum.create.infrastructure.packet.s2c.BlueprintPreviewPacket;
+ import com.zurrtum.create.infrastructure.packet.s2c.NbtSpawnPacket;
+ import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenCustomHashMap;

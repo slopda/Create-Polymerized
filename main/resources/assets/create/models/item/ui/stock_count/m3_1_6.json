@@ -1,0 +1,1 @@
+{"textures":{"count":"create:gui/stock_keeper"},"ambientocclusion":false,"display":{"gui":{"rotation":[0,0,0],"translation":[0,0,0],"scale":[1,1,1]}},"elements":[{"from":[3.3684210526315788,0,20],"to":[7.578947368421052,6.7368421052631575,20],"shade":false,"faces":{"south":{"texture":"#count","uv":[5.25,11.0,5.5625,11.5]}}}]}

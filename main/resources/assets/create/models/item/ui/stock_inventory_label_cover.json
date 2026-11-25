@@ -1,0 +1,1 @@
+{"parent":"minecraft:item/generated","textures":{"layer0":"create:item/ui/stock_inventory_label_cover"},"display":{"gui":{"rotation":[0,0,0],"translation":[24,-80,0],"scale":[4,4,1]}}}

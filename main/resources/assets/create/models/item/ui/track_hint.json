@@ -1,0 +1,1 @@
+{"ambientocclusion":false,"textures":{"color":"create:special/thin_checkerboard"},"elements":[{"from":[0,0,0],"to":[16,0,16],"shade":false,"faces":{"up":{"texture":"#color","tintindex":0},"down":{"texture":"#color","tintindex":0}}}]}

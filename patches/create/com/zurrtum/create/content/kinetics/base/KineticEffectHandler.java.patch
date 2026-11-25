@@ -1,0 +1,7 @@
+--- a/com/zurrtum/create/content/kinetics/base/KineticEffectHandler.java
++++ b/com/zurrtum/create/content/kinetics/base/KineticEffectHandler.java
+@@ -124,3 +124,4 @@
+     }
+ 
+ }
++

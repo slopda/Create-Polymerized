@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:notice",
+  "title": {
+    "translate": "create.polymer.ponder.dialog.title"
+  },
+  "body": [
+    {
+      "type": "minecraft:plain_message",
+      "contents": {
+        "translate": "create.polymer.ponder.dialog.body"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "key": "topic",
+      "type": "minecraft:text",
+      "label": {
+        "translate": "create.polymer.ponder.dialog.topic"
+      },
+      "max_length": 96
+    }
+  ],
+  "action": {
+    "label": {
+      "translate": "create.polymer.ponder.dialog.open"
+    },
+    "action": {
+      "type": "minecraft:dynamic/custom",
+      "id": "create:polymer_ponder"
+    }
+  }
+}

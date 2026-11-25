@@ -1,0 +1,10 @@
+--- a/com/zurrtum/create/content/schematics/table/SchematicTableBlock.java
++++ b/com/zurrtum/create/content/schematics/table/SchematicTableBlock.java
+@@ -4,6 +4,7 @@
+ import com.zurrtum.create.AllBlockEntityTypes;
+ import com.zurrtum.create.AllShapes;
+ import com.zurrtum.create.foundation.block.IBE;
++import com.zurrtum.create.infrastructure.polymer.schematic.PolymerSchematicMenus;
+ import net.minecraft.core.BlockPos;
+ import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.world.InteractionResult;

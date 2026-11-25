@@ -1,0 +1,62 @@
+package com.zurrtum.create.infrastructure.polymer.control;
+
+import com.zurrtum.create.catnip.math.AngleHelper;
+import com.zurrtum.create.catnip.math.VecHelper;
+import com.zurrtum.create.content.redstone.DirectedDirectionalBlock;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+
+public class FilteredDetectorFilterSlot extends ValueBoxTransform.Sided {
+
+    private final boolean hasSlotAtBottom;
+
+    public FilteredDetectorFilterSlot(boolean hasSlotAtBottom) {
+        this.hasSlotAtBottom = hasSlotAtBottom;
+    }
+
+    @Override
+    protected boolean isSideActive(BlockState state, Direction direction) {
+        Direction targetDirection = DirectedDirectionalBlock.getTargetDirection(state);
+        if (direction == targetDirection) {
+            return false;
+        }
+        if (targetDirection.getOpposite() == direction) {
+            return true;
+        }
+
+        if (targetDirection.getAxis() != Axis.Y) {
+            return direction == Direction.UP || direction == Direction.DOWN && hasSlotAtBottom;
+        }
+        if (targetDirection == Direction.UP) {
+            direction = direction.getOpposite();
+        }
+        if (!hasSlotAtBottom) {
+            return direction == state.getValue(DirectedDirectionalBlock.FACING);
+        }
+
+        return direction.getAxis()
+                == state.getValue(DirectedDirectionalBlock.FACING)
+                        .getClockWise()
+                        .getAxis();
+    }
+
+    @Override
+    public void rotate(BlockState state, ControlPose ms) {
+        super.rotate(state, ms);
+        Direction facing = state.getValue(DirectedDirectionalBlock.FACING);
+        if (facing.getAxis() == Axis.Y) {
+            return;
+        }
+        if (getSide() != Direction.UP) {
+            return;
+        }
+        ms.rotateZDegrees(-AngleHelper.horizontalAngle(facing) + 180);
+    }
+
+    @Override
+    protected Vec3 getSouthLocation() {
+        return VecHelper.voxelSpace(8.0f, 8.0f, 15.5f);
+    }
+}

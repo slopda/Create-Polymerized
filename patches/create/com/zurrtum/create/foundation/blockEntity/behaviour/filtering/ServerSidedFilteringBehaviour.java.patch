@@ -1,0 +1,15 @@
+--- a/com/zurrtum/create/foundation/blockEntity/behaviour/filtering/ServerSidedFilteringBehaviour.java
++++ b/com/zurrtum/create/foundation/blockEntity/behaviour/filtering/ServerSidedFilteringBehaviour.java
+@@ -91,10 +91,9 @@
+     @Override
+     public boolean setFilter(Direction side, ItemStack stack) {
+         if (!sidedFilters.containsKey(side)) {
+-            return true;
++            return false;
+         }
+-        sidedFilters.get(side).setFilter(stack);
+-        return true;
++        return sidedFilters.get(side).setFilter(stack);
+     }
+ 
+     @Override

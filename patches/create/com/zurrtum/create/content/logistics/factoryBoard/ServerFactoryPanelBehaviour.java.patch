@@ -1,0 +1,41 @@
+--- a/com/zurrtum/create/content/logistics/factoryBoard/ServerFactoryPanelBehaviour.java
++++ b/com/zurrtum/create/content/logistics/factoryBoard/ServerFactoryPanelBehaviour.java
+@@ -31,6 +31,7 @@
+ import com.zurrtum.create.infrastructure.component.PackageOrderWithCrafts;
+ import com.zurrtum.create.infrastructure.config.AllConfigs;
+ import com.zurrtum.create.infrastructure.packet.s2c.FactoryPanelEffectPacket;
++import com.zurrtum.create.infrastructure.polymer.gui.PolymerFactoryPanelForm;
+ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
+ import net.minecraft.ChatFormatting;
+ import net.minecraft.core.BlockPos;
+@@ -698,17 +699,10 @@
+             }
+         }
+ 
+-        if (getFilter().isEmpty()) {
+-            // Open screen for setting an item through JEI
+-            if (heldItem.isEmpty()) {
+-                if (!isClientSide && player instanceof ServerPlayer sp) {
+-                    openHandledScreen(sp);
+-                }
+-                return;
+-            }
+-
+-            // Use regular filter interaction for setting the item
+-            super.onShortInteract(player, hand, side, hitResult);
++        if (heldItem.isEmpty()) {
++            if (!isClientSide && player instanceof ServerPlayer serverPlayer) {
++                PolymerFactoryPanelForm.openFactoryPanelSettings(serverPlayer, this);
++            }
+             return;
+         }
+ 
+@@ -723,6 +717,8 @@
+         // Open configuration screen
+         if (isClientSide) {
+             AllClientHandle.INSTANCE.openFactoryPanelScreen(this, player);
++        } else {
++            super.onShortInteract(player, hand, side, hitResult);
+         }
+     }
+ 

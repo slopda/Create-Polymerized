@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.veeda.createpoly.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ShiftCarryTeleportMixin",
+    "ShiftCarrySpeedCheckMixin",
+    "ShiftCarryPlayerLifecycleMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
