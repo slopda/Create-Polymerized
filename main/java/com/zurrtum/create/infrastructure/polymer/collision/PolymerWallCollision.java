@@ -70,13 +70,28 @@ public final class PolymerWallCollision {
         return CreateIds.id("polymer_wall/" + model.getPath());
     }
 
+    private static void crackModel(ResourcePackBuilder builder, String kind, String from, String to) {
+        StringBuilder faces = new StringBuilder();
+        for (String face : new String[] {"north", "east", "south", "west", "up", "down"})
+            faces.append(faces.isEmpty() ? "" : ",").append("\"").append(face).append("\":{\"texture\":\"#clear\"}");
+        builder.addStringData(
+                "assets/create/models/block/polymer/native_wall_" + kind + ".json",
+                "{\"textures\":{\"clear\":\"polymer:block/empty\",\"particle\":\"minecraft:block/polished_tuff\"},"
+                        + "\"elements\":[{\"from\":" + from + ",\"to\":" + to + ",\"faces\":{" + faces + "}}]}");
+    }
+
     public static void addAssets(ResourcePackBuilder builder) {
-        builder.addStringData(
-                "assets/minecraft/blockstates/polished_tuff_wall.json",
-                "{\"variants\":{\"\":{\"model\":\"create:block/polymer/native_wall_empty\"}}}");
-        builder.addStringData(
-                "assets/create/models/block/polymer/native_wall_empty.json",
-                "{\"textures\":{\"particle\":\"minecraft:block/polished_tuff\"},\"elements\":[]}");
+        JsonObject crackState = DATA.getAsJsonObject("blockstate").deepCopy();
+        for (var part : crackState.getAsJsonArray("multipart")) {
+            JsonObject apply = part.getAsJsonObject().getAsJsonObject("apply");
+            String model = apply.get("model").getAsString();
+            String kind = model.endsWith("_post") ? "post" : model.endsWith("_side_tall") ? "side_tall" : "side";
+            apply.addProperty("model", "create:block/polymer/native_wall_" + kind);
+        }
+        builder.addStringData("assets/minecraft/blockstates/polished_tuff_wall.json", crackState.toString());
+        crackModel(builder, "post", "[4,0,4]", "[12,16,12]");
+        crackModel(builder, "side", "[5,0,0]", "[11,14,8]");
+        crackModel(builder, "side_tall", "[5,0,0]", "[11,16,8]");
         for (var entry : DATA.getAsJsonObject("meshes").entrySet()) {
             Identifier model = Identifier.parse(entry.getKey()), item = itemModel(model);
             builder.addStringData(

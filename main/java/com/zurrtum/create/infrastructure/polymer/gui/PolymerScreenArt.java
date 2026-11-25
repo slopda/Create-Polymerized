@@ -75,7 +75,6 @@ final class PolymerScreenArt {
             List.of(THRESHOLD_ITEMS, THRESHOLD_MISC, ELEVATOR_CONTACT, SEQUENCER, DISPLAY_LINK);
     static final int MENU_TITLE_RAISED_2 = -2;
     static final int TOOLBOX_TITLE = -18;
-
     private static final Set<Integer> ROWS =
             new TreeSet<>(List.of(TOOLBOX_TITLE, MENU_TITLE_RAISED_2, 4, 6, 25, 28, 30, 47, 52, 69, 91, 109, 113));
 

@@ -119,21 +119,12 @@ public final class PolymerPonderScenes {
         return ALL.stream().filter(scene -> scene.id().equals(id)).findFirst();
     }
 
-    public record Summary(String id, String item, String title, int index) {}
+    public record Summary(String id, String item, String title) {}
 
     public static List<Summary> summaries() {
         return ALL.stream()
-                .map(scene -> new Summary(
-                        scene.id(),
-                        scene.builder.item,
-                        scene.builder.title,
-                        storyboards(scene.builder.item).indexOf(scene)))
+                .map(scene -> new Summary(scene.id(), scene.builder.item, scene.builder.title))
                 .toList();
-    }
-
-    public static boolean openAt(ServerPlayer player, String id, int tick) {
-        return byId(id).map(scene -> PolymerPonderDialog.openAt(player, scene, tick))
-                .orElse(false);
     }
 
     public static boolean open(ServerPlayer player, String id) {

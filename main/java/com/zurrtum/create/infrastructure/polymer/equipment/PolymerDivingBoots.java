@@ -62,7 +62,7 @@ public final class PolymerDivingBoots {
         LAST_JUMP.put(player.getUUID(), now);
         var motion = player.getDeltaMovement();
         player.setDeltaMovement(motion.x, Math.max(motion.y, 0) + lift, motion.z);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
     }
 
     private static void set(ServerPlayer player, Holder<Attribute> attribute, boolean active, double amount) {

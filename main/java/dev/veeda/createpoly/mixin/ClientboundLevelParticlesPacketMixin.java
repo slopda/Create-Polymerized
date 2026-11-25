@@ -31,7 +31,10 @@ public abstract class ClientboundLevelParticlesPacketMixin {
     @Mutable
     private ParticleOptions particle;
 
-    @Inject(method = "<init>(Lnet/minecraft/core/particles/ParticleOptions;ZZDDDFFFFI)V", at = @At("TAIL"))
+    @Inject(
+            method =
+                    "<init>(Lnet/minecraft/core/particles/ParticleOptions;ZZDDDFFFFFFILnet/minecraft/network/protocol/game/ClientboundLevelParticlesPacket$RandomizationType;)V",
+            at = @At("TAIL"))
     private <T extends ParticleOptions> void useVanillaParticleForCreateEffects(
             T particle,
             boolean overrideLimiter,
@@ -42,8 +45,11 @@ public abstract class ClientboundLevelParticlesPacketMixin {
             float xDist,
             float yDist,
             float zDist,
-            float maxSpeed,
+            float xMaxSpeed,
+            float yMaxSpeed,
+            float zMaxSpeed,
             int count,
+            ClientboundLevelParticlesPacket.RandomizationType randomizationType,
             CallbackInfo ci) {
         if (FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER) {
             return;

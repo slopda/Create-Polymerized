@@ -108,7 +108,9 @@ final class PolymerFlapDisplay {
         Direction facing = state.getValue(FlapDisplayBlock.HORIZONTAL_FACING);
         Axis axis = axisOf(state);
         float angle = progress(be.getSpeed(), time) + rotationOffset(state, axis, be.getBlockPos());
-        out.add(part(COG, spin(axis, angle).mul(rotateToFaceVertical(facing))).identified("flap:cog"));
+        out.add(part(COG, spin(axis, angle).mul(rotateToFaceVertical(facing)))
+                .spinning(facing, be.getSpeed(), angle)
+                .identified("flap:cog"));
         if (!be.isController) return;
 
         long gameTime = (long) time;

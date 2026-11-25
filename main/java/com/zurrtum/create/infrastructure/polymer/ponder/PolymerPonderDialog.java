@@ -233,17 +233,6 @@ public final class PolymerPonderDialog {
         return true;
     }
 
-    static boolean openAt(ServerPlayer player, PolymerPonderScene.Definition definition, int tick) {
-        if (!open(player, definition)) return false;
-        Session session = SESSIONS.get(player.getUUID());
-        session.tick = Math.clamp(tick, 0, session.scene.length);
-        session.playing = false;
-        session.clock = 0;
-        session.revision++;
-        show(player, session);
-        return true;
-    }
-
     private static void show(ServerPlayer player, Session session) {
         session.shown = session.state();
         PolymerDialogForms.open(player, dialog(session));

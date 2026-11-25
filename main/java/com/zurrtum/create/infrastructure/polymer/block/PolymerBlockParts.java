@@ -7,6 +7,7 @@ import com.zurrtum.create.content.kinetics.base.IRotate;
 import com.zurrtum.create.content.kinetics.base.KineticBlockEntity;
 import com.zurrtum.create.content.kinetics.simpleRelays.ICogWheel;
 import com.zurrtum.create.infrastructure.polymer.AdapterHolder;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockCarriers;
 import com.zurrtum.create.infrastructure.polymer.PolymerDisplays;
 import com.zurrtum.create.infrastructure.polymer.collision.PolymerCrackModels;
 import com.zurrtum.create.infrastructure.polymer.contraption.PolymerSeatCarriers;
@@ -23,6 +24,7 @@ import eu.pb4.polymer.virtualentity.api.elements.DisplayElement;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import eu.pb4.polymer.virtualentity.api.elements.TextDisplayElement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,7 +64,8 @@ public final class PolymerBlockParts {
             ItemStack item,
             net.minecraft.network.chat.@org.jspecify.annotations.Nullable Component text,
             ItemDisplayContext context,
-            @org.jspecify.annotations.Nullable Object identity) {
+            @org.jspecify.annotations.Nullable Object identity,
+            @org.jspecify.annotations.Nullable Motion motion) {
         public Part {
             item = item.copyWithCount(1);
         }
@@ -72,20 +75,24 @@ public final class PolymerBlockParts {
         }
 
         public Part(Identifier model, Matrix4f transform, ItemStack item, Component text, ItemDisplayContext context) {
-            this(model, transform, item, text, context, null);
+            this(model, transform, item, text, context, null, null);
         }
 
         public Part identified(Object key) {
-            return new Part(model, transform, item, text, context, Objects.requireNonNull(key));
+            return new Part(model, transform, item, text, context, Objects.requireNonNull(key), motion);
         }
 
         public Part glowing() {
-            return new Part(model, transform, item, text, context, new Glow(identity));
+            return new Part(model, transform, item, text, context, new Glow(identity), motion);
+        }
+
+        public Part spinning(Direction facing, float speed, float angle) {
+            return new Part(model, transform, item, text, context, identity, new Motion(facing, speed, angle));
         }
 
         public Part near(float blocks) {
             Object key = identity != null ? identity : model != null ? model : text != null ? "text" : "item";
-            return new Part(model, transform, item, text, context, new Near(key, blocks));
+            return new Part(model, transform, item, text, context, new Near(key, blocks), motion);
         }
 
         boolean isGlowing() {
@@ -108,6 +115,8 @@ public final class PolymerBlockParts {
                     : ItemStack.isSameItemSameComponents(item, other.item);
         }
     }
+
+    public record Motion(Direction facing, float speed, float angle) {}
 
     record Glow(@org.jspecify.annotations.Nullable Object key) {}
 
@@ -167,6 +176,7 @@ public final class PolymerBlockParts {
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             STALE.clear();
+            PolymerBedrockParts.clear();
             List.copyOf(DISPLAYS.values()).forEach(PartsDisplay::destroy);
             DISPLAYS.clear();
             DISPLAY_ITEMS.clear();
@@ -206,10 +216,20 @@ public final class PolymerBlockParts {
         return id;
     }
 
+    public static volatile java.util.function.@org.jspecify.annotations.Nullable BiConsumer<
+                    BlockEntity, Collection<Part>>
+            censusHook;
+
     public static void tick(BlockEntity blockEntity) {
         if (!(blockEntity.getLevel() instanceof ServerLevel level) || blockEntity.isRemoved()) {
             remove(blockEntity);
             return;
+        }
+        PolymerBedrockParts.tick(blockEntity, level);
+        var census = censusHook;
+        if (census != null) {
+            Map<PartKey, Part> sample = collectParts(blockEntity, level);
+            if (sample != null) census.accept(blockEntity, sample.values());
         }
         PartsDisplay display = DISPLAYS.get(blockEntity);
         if (display != null && display.holder.getWatchingPlayers().isEmpty()) {
@@ -247,6 +267,16 @@ public final class PolymerBlockParts {
         List<Part> parts = new ArrayList<>();
         provider.collect(blockEntity, state, time, parts);
         parts.removeIf(part -> part.text() == null);
+        return parts;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Part> allParts(BlockEntity blockEntity, float time) {
+        BlockState state = blockEntity.getBlockState();
+        Provider<BlockEntity> provider = (Provider<BlockEntity>) PROVIDERS.get(state.getBlock());
+        if (provider == null) return List.of();
+        List<Part> parts = new ArrayList<>();
+        provider.collect(blockEntity, state, time, parts);
         return parts;
     }
 
@@ -300,6 +330,7 @@ public final class PolymerBlockParts {
     }
 
     public static void remove(BlockEntity blockEntity) {
+        if (blockEntity.isRemoved()) PolymerBedrockParts.remove(blockEntity);
         PartsDisplay display = DISPLAYS.remove(blockEntity);
         if (display != null) {
             display.destroy();
@@ -310,9 +341,10 @@ public final class PolymerBlockParts {
         private final ElementHolder holder = new AdapterHolder() {
             @Override
             public boolean startWatching(ServerGamePacketListenerImpl player) {
+                if (PolymerBedrockCarriers.skipPaperDisplays(player)) return false;
                 // Polymer calls this while iterating the chunk's attachment list (chunk send on join). Destroying
-                // here would remove this attachment mid-iteration (ConcurrentModificationException), so refuse the
-                // watcher and destroy at the end of the tick.
+                // here removes this attachment mid-iteration (ConcurrentModificationException, main crash
+                // 2026-10-24): refuse the watcher and destroy at the end of the tick instead.
                 if (!getWatchingPlayers().contains(player)
                         && getWatchingPlayers().isEmpty()
                         && !refresh(false)) {
@@ -654,7 +686,7 @@ public final class PolymerBlockParts {
 
     static final long PROVIDER_TIME_PERIOD = 1200L << 13;
 
-    private static float providerTime(ServerLevel level) {
+    static float providerTime(ServerLevel level) {
         return (float) Math.floorMod(level.getGameTime(), PROVIDER_TIME_PERIOD);
     }
 

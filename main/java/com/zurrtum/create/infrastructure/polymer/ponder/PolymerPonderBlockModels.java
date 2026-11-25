@@ -24,7 +24,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -100,10 +99,13 @@ final class PolymerPonderBlockModels {
         for (int i = 0; i < entries.size(); i++) {
             CompoundTag entry = entries.getCompoundOrEmpty(i);
             CompoundTag state = palette.getCompoundOrEmpty(entry.getIntOr("state", 0));
-            String name = state.getString("Name").orElse("minecraft:air");
+            String name =
+                    state.getString("id").or(() -> state.getString("Name")).orElse("minecraft:air");
             if (name.endsWith(":air") || !Defaults.BLOCKS.has(name)) name = "minecraft:air";
             Map<String, String> properties = new LinkedHashMap<>(defaultState(name));
-            CompoundTag props = state.getCompoundOrEmpty("Properties");
+            CompoundTag props = state.contains("properties")
+                    ? state.getCompoundOrEmpty("properties")
+                    : state.getCompoundOrEmpty("Properties");
             if (!name.equals("minecraft:air"))
                 for (String key : props.keySet())
                     properties.put(key, props.getString(key).orElse(""));
@@ -152,118 +154,7 @@ final class PolymerPonderBlockModels {
             }
         }
         if (result.isEmpty()) throw new IOException("No model for " + block.name() + block.properties());
-        String fluid = fluidModel(block);
-        if (fluid != null) return List.of(new ModelRef(fluid, 0, 0).tinted(tint(block)));
-        JsonObject chest = chest(block);
-        if (chest != null) {
-            int ry = switch (block.properties().getOrDefault("facing", "north")) {
-                case "south" -> 0;
-                case "west" -> 90;
-                case "east" -> 270;
-                default -> 180;
-            };
-            return List.of(ModelRef.special(result.getFirst().model(), ry, chest));
-        }
-        int tint = tint(block);
-        if (tint != -1) result.replaceAll(ref -> ref.tinted(tint));
         return result;
-    }
-
-    static final String FLUID = "create:block/p/fluid/";
-
-    static String fluidModel(Block block) {
-        String name = switch (block.name()) {
-            case "minecraft:water", "minecraft:bubble_column" -> "water";
-            case "minecraft:lava" -> "lava";
-            default -> null;
-        };
-        if (name == null) return null;
-        int level = Integer.parseInt(block.properties().getOrDefault("level", "0"));
-        int height = level >= 8 ? 16 : Math.max(2, Math.round(16 * (level == 0 ? 8 : 8 - level) / 9f));
-        return FLUID + name + "_" + height;
-    }
-
-    static JsonObject fluidBox(String model) {
-        String name = model.substring(FLUID.length(), model.lastIndexOf('_'));
-        int height = Integer.parseInt(model.substring(model.lastIndexOf('_') + 1));
-        boolean water = name.equals("water");
-        JsonObject textures = new JsonObject();
-        textures.addProperty("particle", "minecraft:block/" + name + "_still");
-        textures.addProperty("still", "minecraft:block/" + name + "_still");
-        textures.addProperty("flow", "minecraft:block/" + name + "_flow");
-        JsonObject faces = new JsonObject();
-        for (String side : List.of("up", "north", "south", "east", "west")) {
-            JsonObject face = new JsonObject();
-            face.addProperty("texture", side.equals("up") ? "#still" : "#flow");
-            JsonArray uv = new JsonArray();
-            for (float value : side.equals("up") ? new float[] {0, 0, 16, 16} : new float[] {0, 0, 8, height / 2f})
-                uv.add(value);
-            face.add("uv", uv);
-            if (water) face.addProperty("tintindex", 0);
-            faces.add(side, face);
-        }
-        JsonObject element = new JsonObject();
-        JsonArray from = new JsonArray(), to = new JsonArray();
-        for (float value : new float[] {0, 0, 0}) from.add(value);
-        for (float value : new float[] {16, height, 16}) to.add(value);
-        element.add("from", from);
-        element.add("to", to);
-        element.add("faces", faces);
-        element.addProperty("shade", false);
-        JsonArray elements = new JsonArray();
-        elements.add(element);
-        JsonObject json = new JsonObject();
-        json.add("textures", textures);
-        json.add("elements", elements);
-        return json;
-    }
-
-    static JsonObject chest(Block block) {
-        String texture = switch (block.name()) {
-            case "minecraft:chest" -> "minecraft:normal";
-            case "minecraft:trapped_chest" -> "minecraft:trapped";
-            case "minecraft:ender_chest" -> "minecraft:ender";
-            default -> null;
-        };
-        if (texture == null) return null;
-        JsonObject special = new JsonObject();
-        special.addProperty("type", "minecraft:chest");
-        special.addProperty("texture", texture);
-        special.addProperty("chest_type", block.properties().getOrDefault("type", "single"));
-        return special;
-    }
-
-    static int tint(Block block) {
-        String name = block.name();
-        return switch (name) {
-            case "minecraft:grass_block",
-                    "minecraft:short_grass",
-                    "minecraft:tall_grass",
-                    "minecraft:fern",
-                    "minecraft:large_fern",
-                    "minecraft:potted_fern",
-                    "minecraft:sugar_cane",
-                    "minecraft:bush" -> 0x91BD59;
-            case "minecraft:oak_leaves",
-                    "minecraft:jungle_leaves",
-                    "minecraft:acacia_leaves",
-                    "minecraft:dark_oak_leaves",
-                    "minecraft:mangrove_leaves",
-                    "minecraft:vine" -> 0x77AB2F;
-            case "minecraft:birch_leaves" -> 0x80A755;
-            case "minecraft:spruce_leaves" -> 0x619961;
-            case "minecraft:lily_pad" -> 0x208030;
-            case "minecraft:water", "minecraft:bubble_column", "minecraft:water_cauldron" -> 0x3F76E4;
-            case "minecraft:attached_melon_stem", "minecraft:attached_pumpkin_stem" -> 0xE0C71C;
-            case "minecraft:melon_stem", "minecraft:pumpkin_stem" -> {
-                int age = Integer.parseInt(block.properties().getOrDefault("age", "0"));
-                yield (age * 32) << 16 | (255 - age * 8) << 8 | age * 4;
-            }
-            case "minecraft:redstone_wire" ->
-                RedStoneWireBlock.getColorForPower(
-                        Integer.parseInt(block.properties().getOrDefault("power", "0")));
-            default -> -1;
-        };
     }
 
     private static boolean matches(String key, Map<String, String> properties) {
@@ -380,8 +271,10 @@ final class PolymerPonderBlockModels {
         Map<String, Float> result = new LinkedHashMap<>();
         for (int i = 0; i < entries.size(); i++) {
             CompoundTag entry = entries.getCompoundOrEmpty(i);
-            if (!palette.getCompoundOrEmpty(entry.getIntOr("state", 0))
-                    .getString("Name")
+            CompoundTag paletteState = palette.getCompoundOrEmpty(entry.getIntOr("state", 0));
+            if (!paletteState
+                    .getString("id")
+                    .or(() -> paletteState.getString("Name"))
                     .orElse("")
                     .equals(block)) continue;
             var value = entry.getCompoundOrEmpty("nbt").getFloat(key);

@@ -14,6 +14,7 @@ public interface NativeSyncedObjectsMixin {
     @Inject(method = "getSyncedObject", at = @At("HEAD"), cancellable = true)
     private static <T> void nativeObject(
             Registry<T> registry, T value, CallbackInfoReturnable<PolymerSyncedObject<T>> cir) {
+        if (registry == null) return;
         var key = registry.getKey(value);
         if (key != null && key.getNamespace().equals("create") && PolymerNativeClients.isNative(PacketContext.get()))
             cir.setReturnValue(null);
@@ -26,6 +27,7 @@ public interface NativeSyncedObjectsMixin {
             cancellable = true)
     private static <T> void nativeRaw(
             Registry<T> registry, T value, PacketContext context, CallbackInfoReturnable<Boolean> cir) {
+        if (registry == null) return;
         var key = registry.getKey(value);
         if (key != null && key.getNamespace().equals("create") && PolymerNativeClients.isNative(context))
             cir.setReturnValue(true);

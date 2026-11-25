@@ -7,9 +7,12 @@ import eu.pb4.polymer.virtualentity.api.elements.VirtualElement;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 public class AdapterHolder extends ElementHolder {
+    public static BiConsumer<AdapterHolder, ServerGamePacketListenerImpl> watchStarted;
+
     private Set<VirtualElement> scaled;
 
     protected float displayScale() {
@@ -43,6 +46,9 @@ public class AdapterHolder extends ElementHolder {
     public boolean startWatching(ServerGamePacketListenerImpl player) {
         if (!PolymerHolderRange.allows(this, player.player)) return false;
         scaleDisplays();
-        return super.startWatching(player);
+        boolean started = super.startWatching(player);
+        var observer = watchStarted;
+        if (started && observer != null) observer.accept(this, player);
+        return started;
     }
 }

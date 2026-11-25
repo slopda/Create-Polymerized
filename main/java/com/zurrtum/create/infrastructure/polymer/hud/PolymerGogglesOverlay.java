@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.zurrtum.create.Create;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockUi;
 import com.zurrtum.create.infrastructure.polymer.gui.PolymerGuiGlyphs;
 import com.zurrtum.create.infrastructure.polymer.gui.PolymerScreenEditors;
 import com.zurrtum.create.infrastructure.polymer.nativeclient.NativePresentationPolicy;
@@ -85,11 +86,13 @@ public final class PolymerGogglesOverlay {
         ServerTickEvents.END_SERVER_TICK.register(PolymerGogglesOverlay::tick);
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             SHOWN.remove(handler.player.getUUID());
+            BEDROCK_SHOWN.remove(handler.player.getUUID());
             PolymerPlacementIndicator.clear(handler.player.getUUID());
             PolymerHudRadial.forget(handler.player.getUUID());
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             SHOWN.clear();
+            BEDROCK_SHOWN.clear();
             PolymerPlacementIndicator.clearAll();
         });
     }
@@ -101,6 +104,10 @@ public final class PolymerGogglesOverlay {
             if (PolymerNativeClients.isNative(player)) {
                 SHOWN.remove(player.getUUID());
                 PolymerPlacementIndicator.clear(player.getUUID());
+                continue;
+            }
+            if (PolymerBedrockUi.available(player)) {
+                tickBedrock(player, now);
                 continue;
             }
             Component radial = PolymerHudRadial.tick(player);
@@ -154,6 +161,36 @@ public final class PolymerGogglesOverlay {
             }
         }
     }
+
+    static final String BEDROCK_MARKER = "@cg@";
+    static final String BEDROCK_MARKER_UPDATE = "@cu@";
+
+    private static final Map<UUID, BedrockShown> BEDROCK_SHOWN = new HashMap<>();
+
+    private record BedrockShown(List<Component> lines, int sent) {}
+
+    private static void tickBedrock(ServerPlayer player, int now) {
+        List<Component> lines = player.isSpectator() || player.isRemoved() ? List.of() : tooltip(player);
+        BedrockShown shown = BEDROCK_SHOWN.get(player.getUUID());
+        if (lines.isEmpty()) {
+            if (shown != null) {
+                BEDROCK_SHOWN.remove(player.getUUID());
+                player.connection.send(new ClientboundClearTitlesPacket(true));
+            }
+            return;
+        }
+        if (shown != null && shown.lines().equals(lines)) return;
+        BEDROCK_SHOWN.put(player.getUUID(), new BedrockShown(lines, now));
+        MutableComponent text = Component.literal(shown == null ? BEDROCK_MARKER : BEDROCK_MARKER_UPDATE);
+        for (int i = 0; i < Math.min(lines.size(), MAX_LINES); i++) {
+            if (i > 0) text.append("\n");
+            text.append(lines.get(i));
+        }
+        player.connection.send(new ClientboundSetTitlesAnimationPacket(0, BEDROCK_STAY_TICKS, 0));
+        player.connection.send(new ClientboundSetTitleTextPacket(text));
+    }
+
+    private static final int BEDROCK_STAY_TICKS = 72000;
 
     static Component composeWithIndicator(
             List<Component> lines, int slide, int level, PolymerPlacementIndicator.Frame indicator, Offset offset) {

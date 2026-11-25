@@ -57,6 +57,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -490,7 +491,7 @@ public final class PolymerChainConveyors {
             }
             SELECTED.put(player.getUUID(), new Selection(player.level(), be.getBlockPos()));
             player.sendOverlayMessage(Component.translatable("create.chain_conveyor.select_second"));
-            player.swing(hand);
+            player.swing(hand, SwingAnimation.DEFAULT, false);
             return;
         }
         if (!first.level.hasChunkAt(first.pos)
@@ -509,7 +510,7 @@ public final class PolymerChainConveyors {
                 player.connection,
                 new ChainConveyorConnectionPacket(first.pos, be.getBlockPos(), chain.copyWithCount(1), true));
         player.getInventory().setChanged();
-        player.swing(hand);
+        player.swing(hand, SwingAnimation.DEFAULT, false);
         player.sendOverlayMessage(Component.empty());
     }
 

@@ -7,7 +7,6 @@ import com.zurrtum.create.infrastructure.polymer.nativeclient.PolymerNativeRegis
 import java.util.Map;
 import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 import net.minecraft.core.Registry;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.ClientboundUpdateTagsPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagNetworkSerialization;
@@ -28,13 +27,12 @@ public abstract class NativeTagPacketMixin {
         nativeOriginalTags = tags;
     }
 
-    @WrapMethod(method = "write")
-    private void writeNativeTags(FriendlyByteBuf buffer, Operation<Void> original) {
+    @WrapMethod(method = "tags")
+    private Map<ResourceKey<? extends Registry<?>>, TagNetworkSerialization.NetworkPayload> nativeTags(
+            Operation<Map<ResourceKey<? extends Registry<?>>, TagNetworkSerialization.NetworkPayload>> original) {
         if (nativeOriginalTags != null && PolymerNativeClients.isNative(PacketContext.get())) {
-            buffer.writeMap(
-                    PolymerNativeRegistryIds.tags(nativeOriginalTags),
-                    FriendlyByteBuf::writeResourceKey,
-                    (buf, payload) -> payload.write(buf));
-        } else original.call(buffer);
+            return PolymerNativeRegistryIds.tags(nativeOriginalTags);
+        }
+        return original.call();
     }
 }

@@ -1,6 +1,32 @@
 --- a/com/zurrtum/create/foundation/blockEntity/behaviour/filtering/ServerFilteringBehaviour.java
 +++ b/com/zurrtum/create/foundation/blockEntity/behaviour/filtering/ServerFilteringBehaviour.java
-@@ -312,13 +312,7 @@
+@@ -19,6 +19,7 @@
+ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
+ import net.minecraft.util.Mth;
++import net.minecraft.util.Prediction;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.entity.item.ItemEntity;
+ import net.minecraft.world.entity.player.Inventory;
+@@ -277,7 +278,7 @@
+                 1
+             ).isEmpty()) {
+                 if (!refund.isEmpty()) {
+-                    inventory.placeItemBackInInventory(refund);
++                    inventory.placeItemBackInInventory(refund, Prediction.SERVER_ONLY);
+                 }
+                 setFilter(side, copied);
+                 return true;
+@@ -292,7 +293,7 @@
+         }
+ 
+         if (!refund.isEmpty()) {
+-            inventory.placeItemBackInInventory(refund);
++            inventory.placeItemBackInInventory(refund, Prediction.SERVER_ONLY);
+         }
+ 
+         return setFilter(side, copied);
+@@ -312,13 +313,7 @@
              return;
          }
  
@@ -15,14 +41,15 @@
  
          if (toApply.getItem() instanceof FilterItem) {
              toApply.setCount(1);
-@@ -330,6 +324,13 @@
+@@ -330,6 +325,14 @@
              return;
          }
  
++        // A rejected replacement must never refund an item still installed in the slot.
 +        if (filter.getItem() instanceof FilterItem) {
 +            Inventory inventory = player.getInventory();
 +            if (!player.isCreative() || inventory.count(filter, 1) == 0) {
-+                inventory.placeItemBackInInventory(filter);
++                inventory.placeItemBackInInventory(filter, Prediction.SERVER_ONLY);
 +            }
 +        }
 +

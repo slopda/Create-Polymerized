@@ -76,7 +76,9 @@ public final class PolymerCrafterParts {
         Matrix4f cog = PolymerBlockParts.spin(axis, angle);
         if (axis == Axis.X) cog.mul(PolymerBlockParts.rotateCentered(new Quaternionf().rotationY(Mth.HALF_PI)));
         cog.mul(PolymerBlockParts.rotateCentered(new Quaternionf().rotationX(Mth.HALF_PI)));
-        out.add(part(COG, cog).identified("crafter:cog"));
+        out.add(part(COG, cog)
+                .spinning(axis.getPositive(), be.getSpeed(), angle)
+                .identified("crafter:cog"));
 
         Matrix4f shell = PolymerBlockParts.rotateCentered(
                 new Quaternionf().rotationY(Mth.DEG_TO_RAD * (AngleHelper.horizontalAngle(facing) + 90)));

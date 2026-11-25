@@ -9,6 +9,7 @@ import com.zurrtum.create.content.contraptions.ContraptionCollider;
 import com.zurrtum.create.content.trains.entity.CarriageContraptionEntity;
 import com.zurrtum.create.infrastructure.config.AllConfigs;
 import com.zurrtum.create.infrastructure.packet.c2s.TrainCollisionPacket;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockCarriers;
 import com.zurrtum.create.infrastructure.polymer.collision.PolymerCollisionShulkers;
 import com.zurrtum.create.infrastructure.polymer.nativeclient.NativePresentationPolicy;
 import com.zurrtum.create.infrastructure.polymer.nativeclient.PolymerNativeClients;
@@ -25,12 +26,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 import java.util.function.UnaryOperator;
 import java.util.stream.IntStream;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -106,7 +110,7 @@ public final class PolymerShiftCarry {
         Vec3 knock = own.add(diff.multiply(1, 0, 1).normalize().add(0, .25, 0).scale(damage * 4))
                 .add(contact);
         player.setDeltaMovement(VecHelper.clamp(knock, 3));
-        player.hurtMarked = true;
+        player.syncVelocity = true;
     }
 
     static final int RECOVERY_GRACE = 40;
@@ -118,7 +122,6 @@ public final class PolymerShiftCarry {
 
     static final double LANDING_DEPTH = 1.0;
     static final int STALE_HOLD = 200;
-
     static final int FREEZE_MIN = 2;
     static final double FREEZE_DEPTH = 8;
     static final int RIDE_COPY_HOLD = 40;
@@ -126,11 +129,28 @@ public final class PolymerShiftCarry {
 
     static final long STEP_MS = 16;
     public static Tracer tracer;
+    public static ObjIntConsumer<UUID> seatedSends;
+
+    public static final int SEATED_DIRECT = 0, SEATED_LANE = 1, SEATED_TURN = 2;
+
+    private static void seatedSend(UUID player, int kind) {
+        var observer = seatedSends;
+        if (observer != null) observer.accept(player, kind);
+    }
+
+    public static BiConsumer<ServerPlayer, String> seatTrace;
+
+    private static void seatTrace(ServerPlayer player, String line) {
+        var observer = seatTrace;
+        if (observer != null) observer.accept(player, line);
+    }
 
     public interface Tracer {
         void freeze(String who, int ticks, boolean wasCarrying, double lastGap, double y, boolean recovered);
 
         void tick(TraceTick tick);
+
+        default void rescueMiss(String who, long now, String detail) {}
     }
 
     public record TraceTick(
@@ -336,6 +356,10 @@ public final class PolymerShiftCarry {
             int shulker,
             UUID vehicleUuid,
             UUID shulkerUuid) {
+        Cell {
+            shulkerUuid = PolymerBedrockCollisionProtocol.mark(shulkerUuid, s);
+        }
+
         double top() {
             return y + s;
         }
@@ -355,10 +379,12 @@ public final class PolymerShiftCarry {
         final UUID playerId;
         boolean spawned, aboard, carrying, climbing;
         boolean contactPush;
-
         final Set<BlockPos> ladders = new HashSet<>();
 
         int misses, copyTick, stale, sunk;
+        boolean traceSeated;
+
+        Vec3 traceLocal;
         long rideTick = -1000;
         long carriedTick = -1000;
 
@@ -987,7 +1013,18 @@ public final class PolymerShiftCarry {
             if (!Double.isNaN(top)) {
                 rescue = rescuePacket(top + .01);
                 rider.sunk = 0;
-            }
+            } else if (tracer != null)
+                tracer.rescueMiss(
+                        player.getName().getString(),
+                        player.level().getGameTime(),
+                        (trapped ? "trapped" : "sunk") + " "
+                                + supportMiss(
+                                        carrier,
+                                        player,
+                                        supportFeet,
+                                        rider.carrying
+                                                ? observerFrame(before, carrier.current, 1.0 / SUBSTEPS)
+                                                : carrier.current));
         }
         long sinceCarried = player.level().getGameTime() - rider.carriedTick;
         boolean recentlyCarried = wasCarrying || sinceCarried <= frozeFor + RECOVERY_GRACE;
@@ -1178,10 +1215,56 @@ public final class PolymerShiftCarry {
         bundle.removeIf(Objects::isNull);
         long now = player.level().getGameTime();
         PolymerShiftDiagnostics.record(player.getUUID(), now, bundle);
+        String stateRoute = "none";
         if (!bundle.isEmpty()) {
-            if (seatClock && PolymerShiftPacer.idle(player.getUUID()))
+            if (seatClock && PolymerShiftPacer.idle(player.getUUID())) {
                 NativePresentationPolicy.sendPresentation(player, new ClientboundBundlePacket(bundle));
-            else rider.queue.sendNow(bundle);
+                seatedSend(player.getUUID(), SEATED_DIRECT);
+                stateRoute = "direct";
+            } else {
+                rider.queue.sendNow(bundle);
+                if (seatClock) seatedSend(player.getUUID(), SEATED_LANE);
+                stateRoute = "lane";
+            }
+        }
+        if (seatTrace != null && (seatClock || rider.traceSeated)) {
+            boolean seatedHere = player.getVehicle() == carrier.owner;
+            Vec3 local = carrier.current.toLocal(player.position());
+            Vec3 drift = rider.traceSeated && rider.traceLocal != null ? local.subtract(rider.traceLocal) : Vec3.ZERO;
+            double step =
+                    carrier.previous == null ? 0 : carrier.previous.origin().distanceTo(carrier.current.origin());
+            long data = bundle.stream()
+                    .filter(p -> p instanceof ClientboundSetEntityDataPacket)
+                    .count();
+            String mount = seatedHere
+                    ? "seated"
+                    : rider.traceSeated
+                            ? "DISMOUNT(vehicle="
+                                    + (player.getVehicle() == null
+                                            ? "none"
+                                            : player.getVehicle().getId()) + ")"
+                            : "other-carriage";
+            seatTrace(
+                    player,
+                    String.format(
+                            Locale.ROOT,
+                            "%d carriage=%d %s local=%.4f,%.4f,%.4f drift=%.4f,%.4f,%.4f deckStep=%.4f state=%s(%d pkts,%d data) laneIdle=%s",
+                            now,
+                            carrier.owner.getId(),
+                            mount,
+                            local.x,
+                            local.y,
+                            local.z,
+                            drift.x,
+                            drift.y,
+                            drift.z,
+                            step,
+                            stateRoute,
+                            bundle.size(),
+                            data,
+                            PolymerShiftPacer.idle(player.getUUID())));
+            rider.traceSeated = seatedHere;
+            rider.traceLocal = seatedHere ? local : null;
         }
         double seatYaw = player.getVehicle() == carrier.owner ? yawDelta(carrier) : 0;
         if (Math.abs(seatYaw) < 1e-4) seatYaw = 0;
@@ -1200,6 +1283,7 @@ public final class PolymerShiftCarry {
                     push,
                     seatYaw);
         else if (push != null || seatYaw != 0) {
+            if (seatClock) seatedSend(player.getUUID(), SEATED_TURN);
             List<List<Packet<? super ClientGamePacketListener>>> steps = new ArrayList<>();
             for (int k = 0; k < SUBSTEPS; k++) {
                 List<Packet<? super ClientGamePacketListener>> step = new ArrayList<>();
@@ -1660,6 +1744,58 @@ public final class PolymerShiftCarry {
         return top;
     }
 
+    private static String supportMiss(
+            Carrier carrier, ServerPlayer player, Vec3 local, PolymerContraptionPhysics.Transform pose) {
+        Rider rider = carrier.riders.get(player.getUUID());
+        Vec3 feet = pose.toWorld(local);
+        AABB footprint = player.getBoundingBox().move(feet.subtract(player.position()));
+        StringBuilder out = new StringBuilder(String.format(
+                Locale.ROOT,
+                "local=(%.2f,%.2f,%.2f) feet=(%.2f,%.2f,%.2f) player=(%.2f,%.2f,%.2f) tilt=%.1f cells:",
+                local.x,
+                local.y,
+                local.z,
+                feet.x,
+                feet.y,
+                feet.z,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                Math.toDegrees(Math.asin(Math.min(1, Math.abs(pose.toWorld(local.add(1, 0, 0)).y - feet.y))))));
+        int listed = 0;
+        for (Cell cell : carrier.surface) {
+            if (Math.abs(local.x - cell.x) > 2 || Math.abs(local.z - cell.z) > 2) continue;
+            Vec3 at = carrier.world(cell, pose);
+            double ox = Math.min(at.x + cell.s / 2, footprint.maxX) - Math.max(at.x - cell.s / 2, footprint.minX),
+                    oz = Math.min(at.z + cell.s / 2, footprint.maxZ) - Math.max(at.z - cell.s / 2, footprint.minZ);
+            String why = Math.abs(local.y - cell.top()) > 1.5
+                    ? "dy"
+                    : ox <= 1e-7 || oz <= 1e-7
+                            ? "foot"
+                            : !clearAbove(carrier, player, cell, local, pose) ? "head" : "ok";
+            out.append(String.format(
+                    Locale.ROOT,
+                    " [%s s=%.2f l=(%.2f,%.2f,%.2f) top=%.3f wtop=%.3f ox=%.2f oz=%.2f %s %s]",
+                    cell.local().toShortString(),
+                    cell.s,
+                    cell.x,
+                    cell.y,
+                    cell.z,
+                    cell.top(),
+                    at.y + cell.s,
+                    ox,
+                    oz,
+                    why,
+                    rider != null && rider.visible.contains(cell) ? "sent" : "unsent"));
+            if (++listed >= 24) {
+                out.append(" ...");
+                break;
+            }
+        }
+        if (listed == 0) out.append(" none within 2");
+        return out.toString();
+    }
+
     private static double rescueTop(
             Carrier carrier,
             ServerPlayer player,
@@ -1757,7 +1893,6 @@ public final class PolymerShiftCarry {
     static final double WALL_MARGIN = .002;
     private static final double MAX_WALL_CLEARANCE = .25;
     private static final double ENCLOSED_KEEP = .75, ENCLOSED_HOLD = 1.25;
-
     private static final double RANK_HYSTERESIS = .25;
 
     private record Ranked(Cell cell, double rank, double feet) {}
@@ -2152,6 +2287,7 @@ public final class PolymerShiftCarry {
             Relative.DELTA_X,
             Relative.DELTA_Y,
             Relative.DELTA_Z);
+
     private static final Set<Relative> RESCUE_FLAGS =
             EnumSet.of(Relative.X, Relative.Z, Relative.Y_ROT, Relative.X_ROT, Relative.DELTA_X, Relative.DELTA_Z);
 
@@ -2169,9 +2305,31 @@ public final class PolymerShiftCarry {
         return -1 - (shiftIds++ & 0x3fffffff);
     }
 
+    private static boolean warnedMissingBedrockTransport;
+
+    private static List<Packet<? super ClientGamePacketListener>> bedrockPackets(
+            List<Packet<? super ClientGamePacketListener>> packets) {
+        boolean ready = PolymerBedrockCarryProtocol.ready();
+        List<Packet<? super ClientGamePacketListener>> result = new ArrayList<>(packets.size());
+        for (Packet<? super ClientGamePacketListener> packet : packets) {
+            if (!(packet instanceof ClientboundPlayerPositionPacket position)) {
+                result.add(packet);
+            } else if (ready) {
+                result.add(new ClientboundPlayerPositionPacket(
+                        PolymerBedrockCarryProtocol.mark(position.id()), position.change(), position.relatives()));
+            } else if (!warnedMissingBedrockTransport) {
+                warnedMissingBedrockTransport = true;
+                Create.LOGGER.warn(
+                        "Bedrock contraption carry requires the matching Geyser Fabric patch; player shifts are suppressed to preserve input");
+            }
+        }
+        return result;
+    }
+
     private static void rawSend(
             UUID playerId, Connection connection, List<Packet<? super ClientGamePacketListener>> packets) {
         try {
+            if (PolymerBedrockCarriers.isBedrock(playerId)) packets = bedrockPackets(packets);
             if (connection.isConnected() && !packets.isEmpty()) {
                 // The vanilla client disconnects on a bundle over 4096 packets. The paced lane merges every deck's
                 // slot (initial cell and copy spawns included) into one list, so split it into consecutive, ordered
@@ -2305,12 +2463,18 @@ public final class PolymerShiftCarry {
         ServerPlayer seated = seatClock && carrier.owner.level().getServer() != null
                 ? carrier.owner.level().getServer().getPlayerList().getPlayer(rider.playerId)
                 : null;
+        String stepRoute;
         if (seated != null && bundles.size() == 1 && PolymerShiftPacer.idle(rider.playerId)) {
             if (seated.getVehicle() == carrier.owner) bundles.get(0).addAll(0, takeSeatMoves(rider.playerId));
             if (!bundles.get(0).isEmpty())
                 NativePresentationPolicy.sendPresentation(seated, new ClientboundBundlePacket(bundles.get(0)));
-        } else
+            seatedSend(rider.playerId, SEATED_DIRECT);
+            stepRoute = "direct";
+        } else {
             rider.queue.submit(bundles, STEP_MS, (task, delay) -> STEPS.schedule(task, delay, TimeUnit.MILLISECONDS));
+            if (seatClock) seatedSend(rider.playerId, seatYaw != 0 ? SEATED_TURN : SEATED_LANE);
+            stepRoute = "lane";
+        }
         if (seated != null && count == 1 && seatYaw != 0) {
             float part = (float) (seatYaw / SUBSTEPS);
             var seatedConnection = seated.connection;
@@ -2323,6 +2487,16 @@ public final class PolymerShiftCarry {
                         k * STEP_MS,
                         TimeUnit.MILLISECONDS);
         }
+        if (seated != null)
+            seatTrace(
+                    seated,
+                    String.format(
+                            Locale.ROOT,
+                            "  steps carriage=%d route=%s count=%d seatYaw=%.4f",
+                            carrier.owner.getId(),
+                            stepRoute,
+                            bundles.size(),
+                            seatYaw));
     }
 
     private static PolymerContraptionPhysics.Transform observerFrame(
@@ -2549,5 +2723,42 @@ public final class PolymerShiftCarry {
         rider.copyResidual.clear();
         rider.copyVisibility.clear();
         return packets;
+    }
+
+    public static String copyReport(ServerPlayer player) {
+        StringBuilder out = new StringBuilder();
+        for (Carrier carrier : CARRIERS.values()) {
+            if (carrier.owner.level() != player.level() || carrier.owner.distanceTo(player) > 48) continue;
+            Rider rider = carrier.riders.get(player.getUUID());
+            out.append("carriage ")
+                    .append(carrier.owner.getId())
+                    .append(rider == null ? " (no rider state)" : " copies=" + rider.copies.size())
+                    .append('\n');
+            for (DisplayElement display : PolymerContraptionPassengers.carriedDisplays(carrier.owner)) {
+                Integer copy = rider == null ? null : rider.copies.get(display);
+                PolymerShiftVisibility visibility = rider == null ? null : rider.copyVisibility.get(display);
+                CopyPose sent = rider == null ? null : rider.copyPose.get(display);
+                String item = display instanceof ItemDisplayElement item0
+                        ? String.valueOf(item0.getItem().get(DataComponents.ITEM_MODEL))
+                        : display.getClass().getSimpleName();
+                out.append(String.format(
+                        Locale.ROOT,
+                        "  part %s original=%d watched=%s hidden=%s viewRange=%.2f t=%s L=%s R=%s | copy=%s active=%s sentT=%s sentL=%s%n",
+                        item,
+                        display.getEntityId(),
+                        display.getHolder() != null
+                                && display.getHolder().getWatchingPlayers().contains(player.connection),
+                        hidden(player, display.getEntityId()),
+                        display.getViewRange(),
+                        display.getTranslation(),
+                        display.getLeftRotation(),
+                        display.getRightRotation(),
+                        copy,
+                        visibility == null ? "-" : visibility.active(),
+                        sent == null ? "-" : sent.translation,
+                        sent == null ? "-" : sent.rotation));
+            }
+        }
+        return out.length() == 0 ? "no carriage within 48 blocks" : out.toString();
     }
 }

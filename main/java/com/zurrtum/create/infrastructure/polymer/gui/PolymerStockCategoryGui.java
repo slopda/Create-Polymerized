@@ -21,6 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -209,7 +210,7 @@ public final class PolymerStockCategoryGui extends SimpleGui {
             categories.remove(index);
             if (!entry.isEmpty()) {
                 if (carried.isEmpty()) player.containerMenu.setCarried(entry.copy());
-                else player.getInventory().placeItemBackInInventory(entry.copy());
+                else player.getInventory().placeItemBackInInventory(entry.copy(), Prediction.SERVER_ONLY);
             }
             apply(categories);
         } else if (column == MOVE_COLUMN) {
@@ -223,7 +224,8 @@ public final class PolymerStockCategoryGui extends SimpleGui {
                 ItemStack next = carried.copyWithCount(1);
                 carried.shrink(1);
                 player.containerMenu.setCarried(carried);
-                if (!entry.isEmpty()) player.getInventory().placeItemBackInInventory(entry.copy());
+                if (!entry.isEmpty())
+                    player.getInventory().placeItemBackInInventory(entry.copy(), Prediction.SERVER_ONLY);
                 categories.set(index, next);
                 apply(categories);
                 return;

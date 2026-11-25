@@ -18,7 +18,7 @@ public abstract class ObserverFramePacketsMixin {
 
     @Inject(method = "handleAcceptTeleportPacket", at = @At("RETURN"))
     private void observeFrameAck(ServerboundAcceptTeleportationPacket packet, CallbackInfo ci) {
-        PolymerObserverPlayers.acknowledgeFrame(player, packet.getId());
+        PolymerObserverPlayers.acknowledgeFrame(player, packet.id());
     }
 
     @Inject(method = "handleMovePlayer", at = @At("RETURN"))

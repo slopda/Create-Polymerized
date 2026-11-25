@@ -2,11 +2,12 @@ package dev.veeda.createpoly.mixin;
 
 import com.zurrtum.create.infrastructure.polymer.effects.PolymerBlockParticles;
 import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,16 +17,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class CreateBlockParticleScopeMixin {
     @Shadow
     @Final
-    private ParticleOptions particle;
+    @Mutable
+    public static StreamCodec<RegistryFriendlyByteBuf, ClientboundLevelParticlesPacket> STREAM_CODEC;
 
-    @Inject(method = "write", at = @At("HEAD"))
-    private void polymerCreateParticleStart(RegistryFriendlyByteBuf buffer, CallbackInfo ci) {
-        PolymerBlockParticles.enterCreateParticles(
-                particle instanceof BlockParticleOption block && PolymerBlockParticles.isProxy(block.getState()));
-    }
-
-    @Inject(method = "write", at = @At("RETURN"))
-    private void polymerCreateParticleEnd(RegistryFriendlyByteBuf buffer, CallbackInfo ci) {
-        PolymerBlockParticles.exitCreateParticles();
+    @Inject(method = "<clinit>", at = @At("TAIL"))
+    private static void polymerScopeCreateParticles(CallbackInfo ci) {
+        StreamCodec<RegistryFriendlyByteBuf, ClientboundLevelParticlesPacket> original = STREAM_CODEC;
+        STREAM_CODEC = StreamCodec.of(
+                (buffer, packet) -> {
+                    PolymerBlockParticles.enterCreateParticles(packet.particle() instanceof BlockParticleOption block
+                            && PolymerBlockParticles.isProxy(block.getState()));
+                    try {
+                        original.encode(buffer, packet);
+                    } finally {
+                        PolymerBlockParticles.exitCreateParticles();
+                    }
+                },
+                original::decode);
     }
 }

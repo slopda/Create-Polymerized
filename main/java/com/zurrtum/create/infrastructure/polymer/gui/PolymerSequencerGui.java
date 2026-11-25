@@ -13,6 +13,7 @@ import com.zurrtum.create.content.kinetics.transmission.sequencer.Instruction;
 import com.zurrtum.create.content.kinetics.transmission.sequencer.InstructionSpeedModifiers;
 import com.zurrtum.create.content.kinetics.transmission.sequencer.SequencedGearshiftBlockEntity;
 import com.zurrtum.create.content.kinetics.transmission.sequencer.SequencerInstructions;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockUi;
 import com.zurrtum.create.infrastructure.polymer.PolymerInventorySync;
 import com.zurrtum.create.infrastructure.polymer.hud.PolymerGogglesOverlay;
 import dev.veeda.createpoly.assets.CreateIds;
@@ -90,7 +91,65 @@ final class PolymerSequencerGui extends SimpleGui {
         List<Step> steps = new ArrayList<>();
         for (Instruction instruction : gearshift.getInstructions())
             steps.add(new Step(instruction.instruction, instruction.value, instruction.speedModifier));
+        if (PolymerBedrockUi.available(player) && openBedrock(player, gearshift, level, List.copyOf(steps))) return;
         new PolymerSequencerGui(player, gearshift, level, List.copyOf(steps)).open();
+    }
+
+    private static boolean openBedrock(
+            ServerPlayer player, SequencedGearshiftBlockEntity gearshift, ServerLevel level, List<Step> before) {
+        SequencerInstructions[] modes = SequencerInstructions.values();
+        InstructionSpeedModifiers[] speeds = InstructionSpeedModifiers.values();
+        List<String> modeNames = new ArrayList<>();
+        for (SequencerInstructions mode : modes)
+            modeNames.add(PolymerSchematicGuis.all().getOrDefault(instructionKey(mode), mode.name()));
+        List<String> speedNames = new ArrayList<>();
+        for (InstructionSpeedModifiers speed : speeds) speedNames.add(speedLabel(speed));
+        List<PolymerBedrockUi.Element> elements = new ArrayList<>();
+        elements.add(new PolymerBedrockUi.Label(
+                PolymerSchematicGuis.all().getOrDefault("create.gui.sequenced_gearshift.instruction", "Instruction")
+                        + ": angle 0-360, distance 0-128 m, delay in ticks (20 = 1 s)"));
+        for (int row = 0; row < ROWS; row++) {
+            Step step = row < before.size()
+                    ? before.get(row)
+                    : new Step(SequencerInstructions.END, 1, InstructionSpeedModifiers.FORWARD);
+            elements.add(new PolymerBedrockUi.Dropdown(
+                    "Step " + (row + 1), modeNames, step.mode().ordinal()));
+            elements.add(new PolymerBedrockUi.Input(
+                    "Value", "number", hasValue(step.mode()) ? String.valueOf(step.value()) : ""));
+            elements.add(new PolymerBedrockUi.Dropdown(
+                    "Speed", speedNames, step.speed().ordinal()));
+        }
+        return PolymerBedrockUi.custom(
+                player,
+                PolymerSchematicGuis.all().getOrDefault("block.create.sequenced_gearshift", "Sequenced Gearshift"),
+                elements,
+                answers -> {
+                    List<Step> draft = new ArrayList<>();
+                    for (int row = 0; row < ROWS; row++) {
+                        SequencerInstructions mode = modes[(Integer) answers.get(row * 3)];
+                        InstructionSpeedModifiers speed = speeds[(Integer) answers.get(row * 3 + 2)];
+                        if (mode == SequencerInstructions.END) {
+                            draft.add(new Step(SequencerInstructions.END, 1, InstructionSpeedModifiers.FORWARD));
+                            break;
+                        }
+                        int value = defaultValue(mode);
+                        if (hasValue(mode)) {
+                            try {
+                                value = Integer.parseInt(((String) answers.get(row * 3 + 1)).trim());
+                            } catch (NumberFormatException ignored) {
+                            }
+                            value = Math.max(
+                                    mode == SequencerInstructions.DELAY ? 1 : 0, Math.min(maxValue(mode), value));
+                        }
+                        draft.add(new Step(mode, value, speed));
+                    }
+                    if (draft.isEmpty() || draft.getLast().mode() != SequencerInstructions.END && draft.size() < ROWS)
+                        draft.add(new Step(SequencerInstructions.END, 1, InstructionSpeedModifiers.FORWARD));
+                    PolymerSequencerGui gui = new PolymerSequencerGui(player, gearshift, level, before);
+                    gui.draft.clear();
+                    gui.draft.addAll(draft);
+                    gui.apply();
+                });
     }
 
     @Override

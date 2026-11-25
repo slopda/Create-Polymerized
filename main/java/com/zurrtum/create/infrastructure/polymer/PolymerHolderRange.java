@@ -56,16 +56,22 @@ public final class PolymerHolderRange {
     }
 
     static boolean allows(AdapterHolder holder, ServerPlayer player) {
+        if (!gated(holder, player)) return true;
+        return holder.getAttachment().getPos().distanceToSqr(player.position()) <= START_SQR;
+    }
+
+    private static boolean gated(AdapterHolder holder, ServerPlayer player) {
         HolderAttachment attachment = holder.getAttachment();
-        if (!ENABLED || !(attachment instanceof ChunkAttachment) || attachment.getWorld() != player.level())
-            return true;
-        return attachment.getPos().distanceToSqr(player.position()) <= START_SQR;
+        return ENABLED
+                && attachment instanceof ChunkAttachment
+                && attachment.getWorld() == player.level()
+                && !PolymerBedrockCarriers.isBedrock(player.getUUID());
     }
 
     private static void tick(MinecraftServer server) {
         int now = server.getTickCount();
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            if (player.hasDisconnected()) continue;
+            if (player.hasDisconnected() || PolymerBedrockCarriers.isBedrock(player.getUUID())) continue;
             ServerLevel level = player.level();
             Vec3 at = player.position();
             Scan scan = SCANS.computeIfAbsent(player, ignored -> new Scan());

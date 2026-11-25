@@ -3,7 +3,11 @@
   "package": "dev.veeda.createpoly.devmixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "PackWriteRecorderMixin"
+    "PackWriteRecorderMixin",
+    "BreakEventTraceMixin",
+    "LevelEventTraceMixin",
+    "PlayerWillDestroyTraceMixin",
+    "BreakFlowTraceMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -4,8 +4,8 @@ import com.zurrtum.create.content.logistics.filter.FilterMenu;
 import com.zurrtum.create.content.logistics.filter.ListFilterItem;
 import com.zurrtum.create.content.redstone.link.controller.LinkedControllerMenu;
 import com.zurrtum.create.foundation.gui.menu.HeldItemGhostItemMenu;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockUi;
 import com.zurrtum.create.infrastructure.polymer.PolymerFrogArt;
-import dev.veeda.createpoly.assets.CreateIds;
 import eu.pb4.polymer.resourcepack.api.ResourcePackBuilder;
 import eu.pb4.sgui.api.ClickType;
 import eu.pb4.sgui.api.containerwrappers.SlotBasedWrapperMenu;
@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -41,6 +43,7 @@ public final class PolymerGhostItemGui extends SimpleGui {
     private final boolean filter;
     private final int containerSize;
     private final PolymerGuiLifecycle lifecycle = new PolymerGuiLifecycle();
+    private boolean bedrock;
 
     private PolymerGhostItemGui(ServerPlayer player, boolean filter) {
         super(MenuType.GENERIC_9x5, player, false);
@@ -52,9 +55,19 @@ public final class PolymerGhostItemGui extends SimpleGui {
         source = filter
                 ? new FilterMenu(0, player.getInventory(), target)
                 : new LinkedControllerMenu(0, player.getInventory(), target);
+        bedrock = PolymerBedrockUi.available(player);
         PolymerGuiControls.configure(
                 this,
-                filter ? PolymerGuiTextures.title(skin, target.getHoverName()) : PolymerFrogArt.title("controller"),
+                bedrock
+                        ? filter
+                                ? PolymerBedrockUi.containerTitle(
+                                        PolymerBedrockUi.ContainerRoute.FILTER, target.getHoverName())
+                                : PolymerBedrockUi.containerTitle(
+                                        PolymerBedrockUi.ContainerRoute.LINKED_CONTROLLER,
+                                        Component.translatable("item.create.linked_controller"))
+                        : filter
+                                ? PolymerGuiTextures.title(skin, target.getHoverName())
+                                : PolymerFrogArt.title("controller"),
                 false);
         refresh();
     }
@@ -111,11 +124,11 @@ public final class PolymerGhostItemGui extends SimpleGui {
                             PolymerGuiControls.decoration(
                                     PolymerArtKit.stack("controller_empty", null), frequencyTip(index, item)));
             } else if (filter) {
-                if (slot == FILTER_PREVIEW_HOST)
+                if (slot == FILTER_PREVIEW_HOST && !bedrock)
                     setSlot(
                             slot,
                             PolymerGuiControls.builder(Items.PAPER)
-                                    .model(CreateIds.id("ui/gui_filter_patch_20"))
+                                    .model(Identifier.fromNamespaceAndPath("create", "ui/gui_filter_patch_20"))
                                     .hideTooltip()
                                     .build());
                 else clearSlot(slot);
@@ -156,10 +169,28 @@ public final class PolymerGhostItemGui extends SimpleGui {
     }
 
     private void filterButton(int slot, String name, Component label, boolean active) {
+        if (bedrock) {
+            Item item = switch (name) {
+                case "trash" -> Items.BARRIER;
+                case "confirm" -> Items.EMERALD_BLOCK;
+                default -> active ? Items.EMERALD : Items.FLINT;
+            };
+            setSlot(
+                    slot,
+                    PolymerGuiControls.builder(item)
+                            .setName(label.copy()
+                                    .append(
+                                            active
+                                                    ? Component.literal(" (on)").withStyle(ChatFormatting.GREEN)
+                                                    : Component.empty()))
+                            .build());
+            return;
+        }
         setSlot(
                 slot,
                 PolymerGuiControls.builder(Items.PAPER)
-                        .model(CreateIds.id("ui/gui_filter_button_" + name + (active ? "_on" : "")))
+                        .model(Identifier.fromNamespaceAndPath(
+                                "create", "ui/gui_filter_button_" + name + (active ? "_on" : "")))
                         .setName(label)
                         .build());
     }

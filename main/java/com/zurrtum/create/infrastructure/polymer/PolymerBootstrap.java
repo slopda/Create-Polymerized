@@ -9,7 +9,6 @@ import com.zurrtum.create.infrastructure.polymer.collision.PolymerProxyMining;
 import com.zurrtum.create.infrastructure.polymer.contraption.PolymerContraptionVisuals;
 import com.zurrtum.create.infrastructure.polymer.contraption.PolymerMinecartInteractions;
 import com.zurrtum.create.infrastructure.polymer.contraption.PolymerObserverPlayers;
-import com.zurrtum.create.infrastructure.polymer.effects.PolymerBlockParticles;
 import com.zurrtum.create.infrastructure.polymer.equipment.PolymerCardboardDisguise;
 import com.zurrtum.create.infrastructure.polymer.equipment.PolymerHangingPose;
 import com.zurrtum.create.infrastructure.polymer.equipment.PolymerPlayerEffects;
@@ -29,9 +28,9 @@ import com.zurrtum.create.infrastructure.polymer.train.PolymerTrainParticles;
 import dev.veeda.createpoly.NativeMetadataSnapshots;
 
 /**
- * The adapter's single ordered startup path. Order decides model-state allocation, pack listener order and use-block
- * callback order, so only move a line after comparing the generated pack. verifyBootstrapOrder checks it against
- * bootstrap_order.json.
+ * The adapter's one ordered startup path. Order decides model-state allocation, pack
+ * listener order and use-block callback order, so move a line only with a pack compare.
+ * tools/verify_bootstrap_order.py checks it against the recorded baseline.
  */
 public final class PolymerBootstrap {
     private static boolean registered;
@@ -49,7 +48,6 @@ public final class PolymerBootstrap {
         PolymerItemProjections.registerBlockEntities();
         PolymerCopycatParts.registerCarriers();
         PolymerBlockProjections.registerBlocks();
-        PolymerBlockParticles.register();
         PolymerProxyMining.register();
         PolymerEntityProjections.registerEntities();
         PolymerContraptionVisuals.register();

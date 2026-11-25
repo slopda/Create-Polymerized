@@ -1,6 +1,7 @@
 package dev.veeda.createpoly.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.zurrtum.create.infrastructure.polymer.nativeclient.PolymerNativeClients;
 import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 import net.minecraft.core.particles.ParticleOptions;
@@ -16,7 +17,10 @@ public abstract class NativeParticlePacketMixin {
     @Unique
     private ParticleOptions nativeOriginalParticle;
 
-    @Inject(method = "<init>(Lnet/minecraft/core/particles/ParticleOptions;ZZDDDFFFFI)V", at = @At("RETURN"))
+    @Inject(
+            method =
+                    "<init>(Lnet/minecraft/core/particles/ParticleOptions;ZZDDDFFFFFFILnet/minecraft/network/protocol/game/ClientboundLevelParticlesPacket$RandomizationType;)V",
+            at = @At("RETURN"))
     private void preserveNativeParticle(
             ParticleOptions particle,
             boolean override,
@@ -27,20 +31,18 @@ public abstract class NativeParticlePacketMixin {
             float xd,
             float yd,
             float zd,
-            float speed,
+            float xs,
+            float ys,
+            float zs,
             int count,
+            ClientboundLevelParticlesPacket.RandomizationType randomization,
             CallbackInfo ci) {
         nativeOriginalParticle = particle;
     }
 
-    @ModifyExpressionValue(
-            method = "write",
-            at =
-                    @At(
-                            value = "FIELD",
-                            target =
-                                    "Lnet/minecraft/network/protocol/game/ClientboundLevelParticlesPacket;particle:Lnet/minecraft/core/particles/ParticleOptions;"))
-    private ParticleOptions nativeParticle(ParticleOptions projected) {
+    @WrapMethod(method = "particle")
+    private ParticleOptions nativeParticle(Operation<ParticleOptions> original) {
+        ParticleOptions projected = original.call();
         return nativeOriginalParticle != null && PolymerNativeClients.isNative(PacketContext.get())
                 ? nativeOriginalParticle
                 : projected;

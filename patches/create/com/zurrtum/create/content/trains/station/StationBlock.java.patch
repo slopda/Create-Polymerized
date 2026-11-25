@@ -1,11 +1,11 @@
 --- a/com/zurrtum/create/content/trains/station/StationBlock.java
 +++ b/com/zurrtum/create/content/trains/station/StationBlock.java
-@@ -1,18 +1,21 @@
+@@ -1,20 +1,24 @@
  package com.zurrtum.create.content.trains.station;
  
-+import com.zurrtum.create.AllClientHandle;
- import com.zurrtum.create.AllBlockEntityTypes;
--import com.zurrtum.create.AllClientHandle;
+-import com.zurrtum.create.AllBlockEntityTypes;
+ import com.zurrtum.create.AllClientHandle;
++import com.zurrtum.create.AllBlockEntityTypes;
  import com.zurrtum.create.AllItems;
  import com.zurrtum.create.AllShapes;
  import com.zurrtum.create.content.equipment.wrench.IWrenchable;
@@ -22,8 +22,11 @@
 +import net.minecraft.network.chat.Component;
  import net.minecraft.sounds.SoundEvents;
  import net.minecraft.sounds.SoundSource;
++import net.minecraft.util.Prediction;
  import net.minecraft.util.RandomSource;
-@@ -33,6 +36,7 @@
+ import net.minecraft.world.Container;
+ import net.minecraft.world.InteractionHand;
+@@ -33,6 +37,7 @@
  import net.minecraft.world.level.block.state.StateDefinition;
  import net.minecraft.world.level.block.state.properties.BooleanProperty;
  import net.minecraft.world.level.material.FluidState;
@@ -31,7 +34,16 @@
  import net.minecraft.world.level.pathfinder.PathComputationType;
  import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
  import net.minecraft.world.phys.BlockHitResult;
-@@ -191,6 +195,23 @@
+@@ -169,7 +174,7 @@
+                 if (level.isClientSide()) {
+                     return InteractionResult.SUCCESS;
+                 }
+-                player.getInventory().placeItemBackInInventory(autoSchedule.copy());
++                player.getInventory().placeItemBackInInventory(autoSchedule.copy(), Prediction.SERVER_ONLY);
+                 station.depotBehaviour.removeHeldItem();
+                 station.notifyUpdate();
+                 player.level().playSound(
+@@ -191,6 +196,23 @@
      }
  
      @Override

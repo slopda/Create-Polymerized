@@ -13,9 +13,15 @@
     "main": [
       "com.zurrtum.create.infrastructure.polymer.PolymerDevSwitches",
       "com.zurrtum.create.infrastructure.polymer.PolymerBearingFloorTest",
+      "com.zurrtum.create.infrastructure.polymer.PolymerPartsCensus",
       "com.zurrtum.create.infrastructure.polymer.PolymerContraptionLabHooks",
       "com.zurrtum.create.infrastructure.polymer.PolymerStaticProxyModes",
       "com.zurrtum.create.infrastructure.polymer.PolymerHolderRangeCommand",
+      "com.zurrtum.create.infrastructure.polymer.PolymerSeatTraceCommand",
+      "com.zurrtum.create.infrastructure.polymer.PolymerUnculledCensus",
+      "com.zurrtum.create.infrastructure.polymer.PolymerOutlineCensus",
+      "com.zurrtum.create.infrastructure.polymer.PolymerParticleCensus",
+      "com.zurrtum.create.infrastructure.polymer.PolymerBreakTrace",
       "com.zurrtum.create.infrastructure.polymer.PolymerFixtureCommands",
       "com.zurrtum.create.infrastructure.polymer.PolymerParityCatalogue",
       "com.zurrtum.create.infrastructure.polymer.PolymerShiftCellTrial",
@@ -27,14 +33,13 @@
       "com.zurrtum.create.infrastructure.polymer.PolymerGuiReview",
       "com.zurrtum.create.infrastructure.polymer.PolymerPonderReview",
       "com.zurrtum.create.infrastructure.polymer.PolymerGuiSelfTest",
-      "com.zurrtum.create.infrastructure.polymer.PolymerPonderSmoothTrial",
       "dev.veeda.createpoly.harness.PolymerParticleHarness"
     ]
   },
   "mixins": ["createpoly-dev.mixins.json"],
   "depends": {
     "fabricloader": ">=0.19.5",
-    "fabric-api": ">=0.161.0+26.2",
+    "fabric-api": ">=0.165.2+26.3",
     "createpoly": "${version}"
   }
 }

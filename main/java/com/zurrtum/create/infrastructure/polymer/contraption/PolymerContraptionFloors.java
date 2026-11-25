@@ -44,6 +44,8 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.effects.ApplyEntityImpulse;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
+import org.joml.Vector3d;
 
 public final class PolymerContraptionFloors {
     private static final int PER_ASSEMBLY_LIMIT = 128;
@@ -253,15 +255,14 @@ public final class PolymerContraptionFloors {
         Vec3 known = player.getKnownMovement();
         player.setDeltaMovement(new Vec3(
                 known.x * drag - previous.x * drag, player.getDeltaMovement().y, known.z * drag - previous.z * drag));
-        Vec3 look = player.getLookAngle();
-        Vec3 local = new Vec3(
-                carry.dot(look.addLocalCoordinates(new Vec3(1, 0, 0))),
-                carry.dot(look.addLocalCoordinates(new Vec3(0, 1, 0))),
-                carry.dot(look.addLocalCoordinates(new Vec3(0, 0, 1))));
+        Vector3d l = player.getLookQuaternion()
+                .conjugate(new Quaternionf())
+                .transform(carry.x, carry.y, carry.z, new Vector3d());
+        Vec3 local = new Vec3(l.x, l.y, l.z);
         new ApplyEntityImpulse(local, new Vec3(1, 1, 1), LevelBasedValue.constant(1))
                 .apply((ServerLevel) player.level(), 1, null, player, player.position());
         NativePresentationPolicy.sendPresentation(player, new ClientboundSetEntityMotionPacket(player));
-        player.hurtMarked = false;
+        player.syncVelocity = false;
     }
 
     private static void vertical(ServerPlayer player, Rider rider, Contact contact, double dy) {
@@ -398,12 +399,7 @@ public final class PolymerContraptionFloors {
             super(EntityTypes.ITEM_DISPLAY, world);
             setPosRotInterpolationDuration(1);
             setNoGravity(true);
-            setInvulnerable(true);
-        }
-
-        @Override
-        public boolean shouldBeSaved() {
-            return false;
+            setPermanentlyInvulnerable(true);
         }
     }
 
@@ -417,7 +413,7 @@ public final class PolymerContraptionFloors {
             this.local = local;
             setNoAi(true);
             setNoGravity(true);
-            setInvulnerable(true);
+            setPermanentlyInvulnerable(true);
             setPersistenceRequired();
             setInvisible(true);
             addEffect(new MobEffectInstance(

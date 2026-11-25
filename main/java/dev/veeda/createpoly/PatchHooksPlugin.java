@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 public final class PatchHooksPlugin implements IMixinConfigPlugin {
-    private static final String BASELINE_SHA = "84c0d70c5d9c63d5d14a9539a5be9857045d8dd9b96315b1739c100fa1619144";
+    private static final String BASELINE_SHA = "016b7a33a634b1964460d30c81f57aab9b4beae78673f1729f653cee3673e09e";
     private final Map<String, JsonObject> patches = new LinkedHashMap<>();
 
     @Override
@@ -29,7 +29,7 @@ public final class PatchHooksPlugin implements IMixinConfigPlugin {
                     .formatHex(MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(paths.getFirst())));
             if (!BASELINE_SHA.equals(hash))
                 throw new IllegalStateException(
-                        "Unsupported Create Fly artifact: install create-fly-26.2-6.0.9-2.jar, SHA-256 "
+                        "Unsupported Create Fly artifact: install create-fly-26.3-6.0.9-2.jar, SHA-256 "
                                 + BASELINE_SHA);
             try (var input = getClass().getClassLoader().getResourceAsStream("polymerpatch/member-patches.json")) {
                 if (input == null) throw new IllegalStateException("Missing adapter member manifest");

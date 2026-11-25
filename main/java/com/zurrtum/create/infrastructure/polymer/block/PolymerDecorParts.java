@@ -255,7 +255,8 @@ final class PolymerDecorParts {
 
         Axis axis = facing.getClockWise().getAxis();
         float angle = progress(be.getSpeed(), time) + rotationOffset(state, axis, be.getBlockPos());
-        out.add(part(SHAFT, spin(axis, angle).mul(rotateToFaceVertical(axis.getPositive()))));
+        out.add(part(SHAFT, spin(axis, angle).mul(rotateToFaceVertical(axis.getPositive())))
+                .spinning(axis.getPositive(), be.getSpeed(), angle));
     }
 
     private static void sticker(StickerBlockEntity be, BlockState state, float time, List<PolymerBlockParts.Part> out) {

@@ -70,9 +70,6 @@ final class PolymerPonderDialogAssets {
                     if (spinner != null && spinner.block().equals(PolymerPonderScene.ELEVATOR_PULLEY))
                         stills.addAll(PolymerPonderScene.ELEVATOR_PULLEY_PARTS);
                 }
-            for (String model : stills)
-                if (model.startsWith(PolymerPonderBlockModels.FLUID))
-                    generated.put(model, PolymerPonderBlockModels.fluidBox(model));
             var bankBaker = new PolymerPonderBaker(builder::getDataOrSource, generated);
             Map<String, Matrix4f> partBanks = new HashMap<>();
             for (PolymerPonderScene scene : scenes) {
@@ -111,8 +108,6 @@ final class PolymerPonderDialogAssets {
                         new PackAssetId(Create.MOD_ID, "ui/" + PolymerPonderDialog.tagGridId(tag)),
                         tagGrid(builder, tag, stills));
             for (String model : stills) {
-                if (model.startsWith(PolymerPonderBlockModels.FLUID))
-                    writer.model(PackAssetId.parse(model), PolymerPonderBlockModels.fluidBox(model));
                 JsonObject child = new JsonObject();
                 child.addProperty("parent", model);
                 child.add("display", JsonParser.parseString(IDENTITY_GUI));

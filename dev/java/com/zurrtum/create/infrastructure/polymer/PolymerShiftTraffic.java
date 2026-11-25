@@ -65,7 +65,7 @@ final class PolymerShiftTraffic {
         } else if (packet instanceof ClientboundTeleportEntityPacket) state.current[TELEPORTS]++;
         else if (packet instanceof ClientboundAddEntityPacket) state.current[SPAWNS]++;
         else if (packet instanceof ClientboundRemoveEntitiesPacket remove)
-            state.current[REMOVED_IDS] += remove.getEntityIds().size();
+            state.current[REMOVED_IDS] += remove.entityIds().size();
         else if (packet instanceof ClientboundSetEntityDataPacket) state.current[ENTITY_DATA]++;
         else if (packet instanceof ClientboundPlayerPositionPacket) state.current[PLAYER_SHIFTS]++;
         else state.current[OTHER]++;

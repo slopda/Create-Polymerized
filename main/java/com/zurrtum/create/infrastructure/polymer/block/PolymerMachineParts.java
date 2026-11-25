@@ -126,7 +126,9 @@ final class PolymerMachineParts {
             generation[1]++;
         BEARING_SPEEDS.put(be, Float.floatToIntBits(speed));
 
-        out.add(part(SHAFT_HALF, spin(direction, angle(be, state, axis, time)).mul(rotateToFace(opposite)))
+        float shaftAngle = angle(be, state, axis, time);
+        out.add(part(SHAFT_HALF, spin(direction, shaftAngle).mul(rotateToFace(opposite)))
+                .spinning(opposite, be.getSpeed(), shaftAngle)
                 .identified("bearing:shaft:" + generation[1]));
 
         Matrix4f top = spin(direction, topAngle);
@@ -156,14 +158,17 @@ final class PolymerMachineParts {
                         .mul(bladeTransform);
             }
             out.add(part(blade, bladeTransform));
-            out.add(part(
-                    SHAFT, spin(axis, angle(be, state, axis, time)).mul(rotateToFaceVertical(axis.getPositive()))));
+            float shaftAngle = angle(be, state, axis, time);
+            out.add(part(SHAFT, spin(axis, shaftAngle).mul(rotateToFaceVertical(axis.getPositive())))
+                    .spinning(axis.getPositive(), be.getSpeed(), shaftAngle));
         } else {
             Axis axis = facing.getAxis();
             Identifier blade = speed > 0
                     ? SAW_BLADE_HORIZONTAL_ACTIVE
                     : speed < 0 ? SAW_BLADE_HORIZONTAL_REVERSED : SAW_BLADE_HORIZONTAL_INACTIVE;
-            out.add(part(SHAFT_HALF, spin(axis, angle(be, state, axis, time)).mul(rotateToFace(facing.getOpposite()))));
+            float shaftAngle = angle(be, state, axis, time);
+            out.add(part(SHAFT_HALF, spin(axis, shaftAngle).mul(rotateToFace(facing.getOpposite())))
+                    .spinning(facing.getOpposite(), be.getSpeed(), shaftAngle));
             out.add(part(blade, rotateToFace(facing)));
         }
     }
@@ -172,7 +177,9 @@ final class PolymerMachineParts {
             DeployerBlockEntity be, BlockState state, float time, List<PolymerBlockParts.Part> out) {
         Direction facing = state.getValue(FACING);
         Axis axis = axisOf(state);
-        out.add(part(SHAFT, spin(axis, angle(be, state, axis, time)).mul(rotateToFaceVertical(axis.getPositive()))));
+        float shaftAngle = angle(be, state, axis, time);
+        out.add(part(SHAFT, spin(axis, shaftAngle).mul(rotateToFaceVertical(axis.getPositive())))
+                .spinning(axis.getPositive(), be.getSpeed(), shaftAngle));
 
         float distance = deployerHandDistance(be);
         Matrix4f offset = new Matrix4f()
@@ -264,7 +271,8 @@ final class PolymerMachineParts {
 
     private static void arm(ArmBlockEntity be, BlockState state, float time, List<PolymerBlockParts.Part> out) {
         Axis axis = axisOf(state);
-        out.add(part(ARM_COG, spin(axis, angle(be, state, axis, time))));
+        out.add(part(ARM_COG, spin(axis, angle(be, state, axis, time)))
+                .spinning(axis.getPositive(), be.getSpeed(), angle(be, state, axis, time)));
 
         float baseDeg;
         float lowerDeg;
@@ -424,7 +432,8 @@ final class PolymerMachineParts {
     private static void pump(PumpBlockEntity be, BlockState state, float time, List<PolymerBlockParts.Part> out) {
         Direction facing = state.getValue(BlockStateProperties.FACING);
         Axis axis = facing.getAxis();
-        out.add(part(
-                MECHANICAL_PUMP_COG, spin(axis, angle(be, state, axis, time)).mul(rotateToFace(facing))));
+        float cogAngle = angle(be, state, axis, time);
+        out.add(part(MECHANICAL_PUMP_COG, spin(axis, cogAngle).mul(rotateToFace(facing)))
+                .spinning(facing, be.getSpeed(), cogAngle));
     }
 }

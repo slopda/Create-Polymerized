@@ -1,10 +1,12 @@
 package com.zurrtum.create.infrastructure.polymer.gui;
 
 import com.zurrtum.create.AllBlocks;
+import com.zurrtum.create.Create;
 import com.zurrtum.create.compat.computercraft.AbstractComputerBehaviour;
 import com.zurrtum.create.content.kinetics.transmission.sequencer.Instruction;
 import com.zurrtum.create.content.kinetics.transmission.sequencer.SequencedGearshiftBlockEntity;
 import com.zurrtum.create.content.kinetics.transmission.sequencer.SequencerInstructions;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockUi;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -16,6 +18,11 @@ public final class PolymerSequencerDialogs {
     private PolymerSequencerDialogs() {}
 
     public static boolean open(ServerPlayer player, SequencedGearshiftBlockEntity gearshift) {
+        if (PolymerBedrockUi.available(player))
+            Create.LOGGER.info(
+                    "Sequenced gearshift use from Bedrock player {} at {}",
+                    player.getScoreboardName(),
+                    gearshift.getBlockPos());
         if (!(gearshift.getLevel() instanceof ServerLevel level)
                 || !canEdit(player, level, gearshift.getBlockPos(), gearshift)) {
             error(player, "The sequenced gearshift is unavailable or out of reach.");

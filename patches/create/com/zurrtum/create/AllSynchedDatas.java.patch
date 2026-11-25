@@ -5,22 +5,22 @@
      }
  
 +    // Entity data builders also run on worldgen threads (the spawn step creates mobs), so every registry access shares
-+    // one lock; unsynchronized registration loses class accessors and crashes later sets.
++    // one lock; unsynchronized registration lost class accessors and crashed later sets (CONTRAPTION_DISMOUNT_LOCATION).
      public static SynchedData get(Class<?> type) {
 -        return ALL.computeIfAbsent(type, SynchedData::new);
 +        synchronized (AllSynchedDatas.class) {
 +            return ALL.computeIfAbsent(type, SynchedData::new);
 +        }
-     }
- 
++    }
++
 +    public static boolean isCreateOnly(Entity entity, int id) {
 +        SynchedData data;
 +        synchronized (AllSynchedDatas.class) {
 +            data = ALL.get(entity.getClass());
 +        }
 +        return data != null && data.nativeSize > 0 && id >= data.nativeSize && id < data.size;
-+    }
-+
+     }
+ 
      public static void onData(SyncedDataHolder entity, DataValue<?> entry) {
 -        ON_DATA.computeIfAbsent(entity.getClass(), AllSynchedDatas::getParentOrEmpty)
 -            .ifPresent(data -> data.onData(entity, entry));
@@ -53,18 +53,6 @@
  
          public int preparse(ClassTreeIdRegistry map, BiFunction<ClassTreeIdRegistry, Class<?>, Integer> factory) {
 -            if (size != 0) {
--                return size;
--            }
--            Deque<SynchedData> parents = new ArrayDeque<>();
--            SynchedData parent = null;
--            Class<?> key = type;
--            while (key != Entity.class) {
--                key = key.getSuperclass();
--                SynchedData data = ALL.get(key);
--                if (data != null) {
--                    if (data.size != 0) {
--                        parent = data;
--                        break;
 +            synchronized (AllSynchedDatas.class) {
 +                if (size != 0) {
 +                    return size;
@@ -81,17 +69,30 @@
 +                            break;
 +                        }
 +                        parents.addFirst(data);
-                     }
--                    parents.addFirst(data);
-                 }
++                    }
++                }
 +                while (!parents.isEmpty()) {
 +                    SynchedData data = parents.pollFirst();
 +                    data.preparse(factory.apply(map, data.type), parent);
 +                    parent = data;
 +                }
 +                preparse(factory.apply(map, type), parent);
-+                return size;
+                 return size;
              }
+-            Deque<SynchedData> parents = new ArrayDeque<>();
+-            SynchedData parent = null;
+-            Class<?> key = type;
+-            while (key != Entity.class) {
+-                key = key.getSuperclass();
+-                SynchedData data = ALL.get(key);
+-                if (data != null) {
+-                    if (data.size != 0) {
+-                        parent = data;
+-                        break;
+-                    }
+-                    parents.addFirst(data);
+-                }
+-            }
 -            while (!parents.isEmpty()) {
 -                SynchedData data = parents.pollFirst();
 -                data.preparse(factory.apply(map, data.type), parent);
@@ -102,29 +103,31 @@
          }
  
          public void register(SynchedEntityData.DataItem<?>[] entries) {
-@@ -241,9 +260,9 @@
+@@ -241,9 +260,10 @@
          private final EntityDataSerializer<T> handler;
          private final Supplier<T> def;
          private final @Nullable BiConsumer<? extends SyncedDataHolder, T> listener;
 -        private BiFunction<Class<?>, Integer, Consumer<SynchedEntityData.DataItem<?>[]>> add = this::firstAdd;
 -        private Function<Entity, T> get;
 -        private TriConsumer<Entity, T, Boolean> set;
++        // Written under the AllSynchedDatas lock, read by any thread that gets or sets entity data.
 +        private volatile BiFunction<Class<?>, Integer, Consumer<SynchedEntityData.DataItem<?>[]>> add = this::firstAdd;
 +        private volatile Function<Entity, T> get;
 +        private volatile TriConsumer<Entity, T, Boolean> set;
  
          @SuppressWarnings("unchecked")
          private Entry(
-@@ -265,7 +284,7 @@
+@@ -265,7 +285,8 @@
              get = target -> target.getEntityData().get(data);
              set = (target, value, force) -> target.getEntityData().set(data, value, force);
              add = (otherType, otherId) -> {
 -                IdentityHashMap<Class<?>, EntityDataAccessor<T>> map = new IdentityHashMap<>();
++                // Concurrent: lookups run while another thread registers a new entity class.
 +                Map<Class<?>, EntityDataAccessor<T>> map = new java.util.concurrent.ConcurrentHashMap<>();
                  map.put(type, data);
                  get = target -> target.getEntityData().get(map.get(target.getClass()));
                  set = (target, value, force) -> target.getEntityData().set(map.get(target.getClass()), value, force);
-@@ -280,7 +299,9 @@
+@@ -280,7 +301,9 @@
          }
  
          public Consumer<SynchedEntityData.DataItem<?>[]> add(Class<?> type, int id) {

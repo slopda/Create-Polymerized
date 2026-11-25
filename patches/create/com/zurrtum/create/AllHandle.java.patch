@@ -1,14 +1,23 @@
 --- a/com/zurrtum/create/AllHandle.java
 +++ b/com/zurrtum/create/AllHandle.java
-@@ -112,6 +112,7 @@
+@@ -103,6 +103,7 @@
+ import net.minecraft.server.network.ServerGamePacketListenerImpl;
+ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
++import net.minecraft.util.Prediction;
+ import net.minecraft.util.ProblemReporter;
+ import net.minecraft.world.Container;
+ import net.minecraft.world.InteractionHand;
+@@ -112,6 +113,8 @@
  import net.minecraft.world.inventory.AbstractContainerMenu;
  import net.minecraft.world.item.ItemStack;
  import net.minecraft.world.item.Items;
 +import net.minecraft.world.level.ClipContext;
++import net.minecraft.world.item.component.SwingAnimation;
  import net.minecraft.world.level.Level;
  import net.minecraft.world.level.block.Block;
  import net.minecraft.world.level.block.SoundType;
-@@ -119,6 +120,8 @@
+@@ -119,6 +122,8 @@
  import net.minecraft.world.level.block.state.BlockState;
  import net.minecraft.world.level.storage.TagValueOutput;
  import net.minecraft.world.phys.AABB;
@@ -17,7 +26,47 @@
  import net.minecraft.world.phys.Vec3;
  import org.apache.commons.lang3.mutable.MutableBoolean;
  import org.apache.commons.lang3.mutable.MutableObject;
-@@ -1291,6 +1294,14 @@
+@@ -651,8 +656,10 @@
+                         if (!player.isCreative()) {
+                             int chainCost = ChainConveyorBlockEntity.getChainCost(targetPos.subtract(packet.pos()));
+                             while (chainCost > 0) {
+-                                player.getInventory()
+-                                    .placeItemBackInInventory(new ItemStack(Items.IRON_CHAIN, Math.min(chainCost, 64)));
++                                player.getInventory().placeItemBackInInventory(
++                                    new ItemStack(Items.IRON_CHAIN, Math.min(chainCost, 64)),
++                                    Prediction.SERVER_ONLY
++                                );
+                                 chainCost -= 64;
+                             }
+                         }
+@@ -744,7 +751,7 @@
+                         if (player.getMainHandItem().isEmpty()) {
+                             player.setItemInHand(InteractionHand.MAIN_HAND, best.item.copy());
+                         } else {
+-                            player.getInventory().placeItemBackInInventory(best.item.copy());
++                            player.getInventory().placeItemBackInInventory(best.item.copy(), Prediction.SERVER_ONLY);
+                         }
+ 
+                         list.remove(best);
+@@ -946,7 +953,7 @@
+                 if (blockEntity instanceof StockTickerBlockEntity be) {
+                     ItemStack filter = packet.filter();
+                     if (!filter.isEmpty() && filter.getItem() instanceof FilterItem) {
+-                        listener.player.getInventory().placeItemBackInInventory(filter);
++                        listener.player.getInventory().placeItemBackInInventory(filter, Prediction.SERVER_ONLY);
+                     }
+                     return true;
+                 }
+@@ -1123,7 +1130,7 @@
+             return;
+         }
+         if (contraptionEntity.handlePlayerInteraction(sender, packet.localPos(), packet.face(), packet.hand())) {
+-            sender.swing(packet.hand(), true);
++            sender.swing(packet.hand(), SwingAnimation.DEFAULT, true);
+         }
+     }
+ 
+@@ -1291,6 +1298,14 @@
      ) {
          PacketUtils.ensureRunningOnSameThread(packet, listener, listener.server.packetProcessor());
          ServerPlayer player = listener.player;
@@ -32,7 +81,7 @@
          Consumer<ItemStack> handleItem = stack -> {
              ServerLevel world = player.level();
              UUID uniqueID = player.getUUID();
-@@ -1304,11 +1315,16 @@
+@@ -1304,11 +1319,16 @@
                  world,
                  pos,
                  uniqueID,
@@ -51,7 +100,7 @@
          onLinkedController(
              player, packet.lecternPos(), blockEntity -> {
                  if (blockEntity instanceof LecternControllerBlockEntity lectern) {
-@@ -1325,35 +1341,44 @@
+@@ -1325,35 +1345,45 @@
          LinkedControllerBindPacket packet
      ) {
          PacketUtils.ensureRunningOnSameThread(packet, listener, listener.server.packetProcessor());
@@ -61,6 +110,7 @@
 +        bindLinkedController(listener.player, packet.button(), packet.linkLocation());
 +    }
 +
++    /** Applies a controller binding only to the visible, reachable Redstone Link. */
 +    public static boolean bindLinkedController(ServerPlayer player, int button, BlockPos pos) {
 +        if (player.isSpectator() || button < 0 || button >= 6) {
 +            return false;
@@ -121,7 +171,7 @@
      }
  
      public static void onLinkedControllerStopLectern(
-@@ -1426,10 +1451,13 @@
+@@ -1426,10 +1456,13 @@
  
      public static void onToolboxEquip(ServerGamePacketListenerImpl listener, ToolboxEquipPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, listener, listener.server.packetProcessor());

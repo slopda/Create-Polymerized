@@ -1,10 +1,7 @@
 package com.zurrtum.create.infrastructure.polymer.nativeclient;
 
 import com.zurrtum.create.Create;
-import dev.veeda.createpoly.assets.CreateIds;
 import dev.veeda.createpoly.mixin.NativeTagPayloadAccessor;
-import eu.pb4.polymer.core.api.utils.PolymerSyncedObject;
-import eu.pb4.polymer.core.api.utils.PolymerUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import java.io.BufferedReader;
@@ -75,22 +72,15 @@ public final class PolymerNativeRegistryIds {
             Registry<?> registry = BuiltInRegistries.REGISTRY.getValue(key.identifier());
             Mapping mapping = mappings.get(registry);
             if (mapping == null) {
-                if (PolymerUtils.isServerOnlyRegistry(key)) return;
-                translated.put(key, registry == null ? payload : polymerFiltered(registry, payload));
+                translated.put(key, payload);
                 return;
             }
             Map<Identifier, IntList> tags = new LinkedHashMap<>();
             ((NativeTagPayloadAccessor) (Object) payload).nativeTags().forEach((name, members) -> {
                 IntList ids = new IntArrayList(members.size());
                 for (int id : members) {
-                    if (id < 0 || id >= mapping.serverToClient().length || mapping.serverToClient()[id] < 0) {
-                        // NativeTagPacketMixin bypasses Polymer's write-time tag filter, so apply its rule here:
-                        // entries Polymer keeps off the wire (server-only Polymer ports such as Blockus) are left
-                        // out. Anything Polymer would send raw must exist on the client and needs an original ID.
-                        if (serverOnly(registry, id)) continue;
-                        throw new IllegalArgumentException(
-                                "No original Create tag member ID in " + key + ": " + memberName(registry, id));
-                    }
+                    if (id < 0 || id >= mapping.serverToClient().length || mapping.serverToClient()[id] < 0)
+                        throw new IllegalArgumentException("No original Create tag member ID in " + key);
                     ids.add(mapping.serverToClient()[id]);
                 }
                 tags.put(name, ids);
@@ -98,34 +88,6 @@ public final class PolymerNativeRegistryIds {
             translated.put(key, new TagNetworkSerialization.NetworkPayload(tags));
         });
         return translated;
-    }
-
-    private static TagNetworkSerialization.NetworkPayload polymerFiltered(
-            Registry<?> registry, TagNetworkSerialization.NetworkPayload payload) {
-        Map<Identifier, IntList> tags = new LinkedHashMap<>();
-        ((NativeTagPayloadAccessor) (Object) payload).nativeTags().forEach((name, members) -> {
-            IntList ids = new IntArrayList(members.size());
-            for (int id : members) if (!serverOnly(registry, id)) ids.add(id);
-            tags.put(name, ids);
-        });
-        return new TagNetworkSerialization.NetworkPayload(tags);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static boolean serverOnly(Registry<?> rawRegistry, int id) {
-        Registry<Object> registry = (Registry<Object>) rawRegistry;
-        Object value = registry.byId(id);
-        if (value == null) return false;
-        Identifier key = registry.getKey(value);
-        if (key == null || key.getNamespace().equals(Create.MOD_ID)) return false;
-        return !PolymerSyncedObject.canSyncRawToClient(registry, value, PacketContext.get());
-    }
-
-    @SuppressWarnings("unchecked")
-    private static String memberName(Registry<?> rawRegistry, int id) {
-        Object value = ((Registry<Object>) rawRegistry).byId(id);
-        Identifier key = value == null ? null : ((Registry<Object>) rawRegistry).getKey(value);
-        return key == null ? "server id " + id : key.toString();
     }
 
     @SuppressWarnings("unchecked")
@@ -171,13 +133,6 @@ public final class PolymerNativeRegistryIds {
                 toClient.put(value, entry.getValue());
                 toServer[entry.getValue()] = value;
                 if (registry.getId(value) != entry.getValue()) moved++;
-            }
-            if (registry == (Object) BuiltInRegistries.ITEM) {
-                for (String name : List.of("andesite_encased_cogwheel", "brass_encased_cogwheel")) {
-                    Identifier alias = CreateIds.id(name);
-                    if (registry.containsKey(alias))
-                        toClient.put(registry.getValue(alias), Objects.requireNonNull(ids.get("create:cogwheel")));
-                }
             }
             int[] serverToClient = new int[registry.size()];
             Arrays.fill(serverToClient, -1);

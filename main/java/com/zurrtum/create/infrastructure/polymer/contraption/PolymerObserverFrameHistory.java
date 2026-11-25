@@ -146,6 +146,14 @@ final class PolymerObserverFrameHistory {
         return report;
     }
 
+    static synchronized Frame frame(UUID player, int negativeTeleportId) {
+        PlayerHistory history = PLAYERS.get(player);
+        if (history == null) return null;
+        Frame frame = history.pending.get(negativeTeleportId);
+        if (frame == null && history.acknowledgedId == negativeTeleportId) frame = history.acknowledged;
+        return frame == null || !usable(frame.pose()) ? null : frame;
+    }
+
     static synchronized void clear(UUID player) {
         if (player != null) PLAYERS.remove(player);
     }

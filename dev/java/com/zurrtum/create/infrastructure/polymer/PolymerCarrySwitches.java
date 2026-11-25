@@ -100,6 +100,11 @@ public final class PolymerCarrySwitches implements ModInitializer {
         }
 
         @Override
+        public void rescueMiss(String who, long now, String detail) {
+            Create.LOGGER.info("[carry-trace] RESCUE-MISS {} t={} {}", who, now, detail);
+        }
+
+        @Override
         public void tick(PolymerShiftCarry.TraceTick t) {
             History history = histories.computeIfAbsent(t.player(), id -> new History());
             Vec3 local = t.local(), push = t.push();

@@ -153,7 +153,7 @@ public final class PolymerTableClothVisuals {
             if (!faces.isEmpty()) elements.add(element);
         }
         // Same pair masks as TableClothModel.addPartsWithInfo, including dyed corners. Fixed order: Map.of
-        // iteration differs per JVM run and would change the pack hash on every restart.
+        // iteration differs per JVM run, which changed the pack hash on every restart.
         for (var corner : List.of(
                 Map.entry("south_west", 3),
                 Map.entry("north_west", 6),

@@ -15,7 +15,10 @@ import dev.veeda.createpoly.PatchAssets;
 import dev.veeda.createpoly.PolymerPatchCreate;
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils;
 
-/** Listener order decides which generator wins a shared path; recheck the composed pack before changing it. */
+/**
+ * Pack contents and the first pack-generation listeners. Listener order decides which
+ * generator wins a shared path, so keep this order unless the composed pack is rechecked.
+ */
 final class PolymerPackRegistration {
     private PolymerPackRegistration() {}
 

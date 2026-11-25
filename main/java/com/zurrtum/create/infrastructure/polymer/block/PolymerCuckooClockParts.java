@@ -127,7 +127,7 @@ final class PolymerCuckooClockParts {
         int dayTime = world.dimensionType()
                 .defaultClock()
                 .or(() -> registryAccess.get(WorldClocks.OVERWORLD))
-                .map(c -> (int) (world.clockManager().getTotalTicks(c)
+                .map(c -> (int) (world.clockManager().getInstance(c).totalTicks()
                         % registryAccess
                                 .get(Timelines.OVERWORLD_DAY)
                                 .flatMap(timeline -> timeline.value().periodTicks())

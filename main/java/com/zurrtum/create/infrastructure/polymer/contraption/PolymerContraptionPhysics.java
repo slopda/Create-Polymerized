@@ -101,7 +101,7 @@ public final class PolymerContraptionPhysics {
                 && !player.isSpectator()
                 && !player.isPassenger()
                 && !player.getAbilities().flying
-                && !player.hurtMarked
+                && !player.syncVelocity
                 && !player.level().tickRateManager().isEntityFrozen(player)
                 && player.connection.awaitingPositionFromClient == null;
     }

@@ -28,6 +28,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -57,7 +58,7 @@ public final class PolymerStationForm {
 
         ItemStack autoSchedule = station.getAutoSchedule();
         if (!autoSchedule.isEmpty()) {
-            player.getInventory().placeItemBackInInventory(autoSchedule.copy());
+            player.getInventory().placeItemBackInInventory(autoSchedule.copy(), Prediction.SERVER_ONLY);
             station.depotBehaviour.removeHeldItem();
             station.notifyUpdate();
             player.level()

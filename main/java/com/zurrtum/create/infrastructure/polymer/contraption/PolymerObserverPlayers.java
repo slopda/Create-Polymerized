@@ -20,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.PositionMoveRotation;
+import net.minecraft.world.entity.PositionPath;
 import net.minecraft.world.phys.Vec3;
 
 public final class PolymerObserverPlayers implements ModInitializer {
@@ -192,8 +193,12 @@ public final class PolymerObserverPlayers implements ModInitializer {
                 if (trial != null) trial.aligned(lead, target.distanceTo(history.support.feet()));
                 var values = new PositionMoveRotation(
                         target, pair.subject.getDeltaMovement(), pair.subject.getYRot(), pair.subject.getXRot());
-                pair.viewer.connection.connection.send(
-                        new ClientboundEntityPositionSyncPacket(pair.subject.getId(), values, pair.subject.onGround()));
+                pair.viewer.connection.connection.send(new ClientboundEntityPositionSyncPacket(
+                        pair.subject.getId(),
+                        PositionPath.of(values.position()),
+                        values.yRot(),
+                        values.xRot(),
+                        pair.subject.onGround()));
             }
     }
 
@@ -227,8 +232,12 @@ public final class PolymerObserverPlayers implements ModInitializer {
                 pair.subject.getDeltaMovement(),
                 tracker.getLastSentYRot(),
                 tracker.getLastSentXRot());
-        pair.viewer.connection.connection.send(
-                new ClientboundEntityPositionSyncPacket(pair.subject.getId(), values, pair.subject.onGround()));
+        pair.viewer.connection.connection.send(new ClientboundEntityPositionSyncPacket(
+                pair.subject.getId(),
+                PositionPath.of(values.position()),
+                values.yRot(),
+                values.xRot(),
+                pair.subject.onGround()));
         return tracker.getPositionBase().distanceTo(pair.subject.position());
     }
 

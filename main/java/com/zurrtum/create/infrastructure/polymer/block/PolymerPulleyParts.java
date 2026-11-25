@@ -198,7 +198,8 @@ final class PolymerPulleyParts {
 
     private static Part shaft(KineticBlockEntity be, BlockState state, float time, Axis axis) {
         float angle = progress(be.getSpeed(), time) + rotationOffset(state, axis, be.getBlockPos());
-        return part(SHAFT, spin(axis, angle).mul(rotateToFaceVertical(axis.getPositive())));
+        return part(SHAFT, spin(axis, angle).mul(rotateToFaceVertical(axis.getPositive())))
+                .spinning(axis.getPositive(), be.getSpeed(), angle);
     }
 
     private static float pulleyOffset(PulleyBlockEntity be) {

@@ -1,6 +1,9 @@
 --- a/com/zurrtum/create/content/schematics/table/SchematicTableBlock.java
 +++ b/com/zurrtum/create/content/schematics/table/SchematicTableBlock.java
-@@ -4,6 +4,7 @@
+@@ -1,9 +1,9 @@
+ package com.zurrtum.create.content.schematics.table;
+ 
+-import com.mojang.serialization.MapCodec;
  import com.zurrtum.create.AllBlockEntityTypes;
  import com.zurrtum.create.AllShapes;
  import com.zurrtum.create.foundation.block.IBE;
@@ -8,3 +11,25 @@
  import net.minecraft.core.BlockPos;
  import net.minecraft.server.level.ServerPlayer;
  import net.minecraft.world.InteractionResult;
+@@ -22,9 +22,6 @@
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ 
+ public class SchematicTableBlock extends HorizontalDirectionalBlock implements IBE<SchematicTableBlockEntity> {
+-
+-    public static final MapCodec<SchematicTableBlock> CODEC = simpleCodec(SchematicTableBlock::new);
+-
+     public SchematicTableBlock(Properties properties) {
+         super(properties);
+     }
+@@ -79,11 +76,5 @@
+     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+         return false;
+     }
+-
+-    @Override
+-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+-        return CODEC;
+-    }
+-
+ }
+ 

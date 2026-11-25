@@ -2,6 +2,7 @@ package com.zurrtum.create.infrastructure.polymer.block;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockCarriers;
 import com.zurrtum.create.infrastructure.polymer.PolymerBlockProjections;
 import com.zurrtum.create.infrastructure.polymer.PolymerCreateBlock;
 import com.zurrtum.create.infrastructure.polymer.PolymerDisplays;
@@ -23,6 +24,7 @@ import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -179,9 +181,20 @@ public final class PolymerMultipartBlocks {
         private final List<ItemDisplayElement> displays = new ArrayList<>();
         private List<PolymerBlockModel> shown = List.of();
 
+        private final ServerLevel holderLevel;
+        private final BlockPos holderPos;
+
         private PartsHolder(ServerLevel level, BlockPos pos, Map<BlockState, List<PolymerBlockModel>> parts) {
             super(level, pos);
             this.parts = parts;
+            this.holderLevel = level;
+            this.holderPos = pos.immutable();
+        }
+
+        @Override
+        public boolean startWatching(ServerGamePacketListenerImpl player) {
+            if (PolymerBedrockCarriers.bedrockNative(player.player, holderLevel.getBlockState(holderPos))) return false;
+            return super.startWatching(player);
         }
 
         @Override

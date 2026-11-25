@@ -15,6 +15,6 @@ public abstract class CrushingPlayerVanillaMixin {
         var self = (CrushingWheelControllerBlockEntity) (Object) this;
         if (self.processingEntity instanceof ServerPlayer player
                 && !PolymerNativeClients.isNative(player)
-                && player.isAlive()) player.hurtMarked = true;
+                && player.isAlive()) player.syncVelocity = true;
     }
 }

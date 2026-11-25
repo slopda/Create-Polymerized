@@ -5,39 +5,51 @@
          view.putBoolean("Alive", alive);
          view.putInt("Progress", progress);
 -        if (!alive && !(level().getBlockEntity(blockPosition()) instanceof EjectorBlockEntity)) {
-+        // The server moves an in-flight item along its arc (tick), so unlike in Create it can sit over an unloaded chunk when
-+        // saved, and getBlockEntity there would load the chunk and block the server thread during shutdown. Only look at a
-+        // loaded chunk; otherwise store the launcher, as when no ejector is there.
++        // Polymer: the server moves an in-flight item along its arc (tick), so unlike the source it can sit over an
++        // unloaded chunk when saved; getBlockEntity there loads the chunk and blocked the server thread during shutdown
++        // (lab hang, Nov 8). Only look at a loaded chunk; otherwise store the launcher, as when no ejector is there.
 +        BlockPos at = blockPosition();
 +        if (!alive && !(level().isLoaded(at) && level().getBlockEntity(at) instanceof EjectorBlockEntity)) {
              view.store("Launcher", EntityLauncher.CODEC, launcher);
              view.store("Direction", Direction.CODEC, direction);
          }
-@@ -172,6 +176,12 @@
+@@ -172,6 +176,22 @@
              return;
          }
          progress++;
 +        if (!isClient) {
++            // Actually move the entity along the trajectory each tick. The native Create client
++            // ignores the synced position (it renders from getLaunchedItemLocation/entity.position()
++            // directly, see EjectorItemEntityRenderer), but a vanilla viewer only ever sees the
++            // tracked entity position, so without this the item sits still for the whole flight
++            // and then snaps to the landing spot on the final tick. setPos, not moveOrInterpolateTo:
++            // the original class keeps its no-op moveOrInterpolateTo override (member patches only
++            // replace the listed methods), and the server tracker broadcasts setPos movement.
 +            setPos(getLaunchedItemLocation(progress));
++            // The ejector_item type syncs position only every 20 ticks (updateInterval), and a vanilla client simulates
++            // the item as an ordinary ItemEntity in between, so the arc never showed (user report Nov 8). needsSync sends
++            // the position every tick; the matching velocity keeps the client's own prediction on the arc between them.
 +            setDeltaMovement(getLaunchedItemLocation(progress + 1).subtract(position()));
 +            needsSync = true;
-+            hurtMarked = true;
++            syncVelocity = true;
 +        }
      }
  
      private boolean isVirtual() {
-@@ -198,6 +208,10 @@
+@@ -198,6 +218,12 @@
          setPos(ejectVec.x, ejectVec.y, ejectVec.z);
          setOldPos();
          setDeltaMovement(ejectMotionVec);
++        // Hand-over to ordinary item physics: send the landing position and motion now, or a vanilla client keeps its
++        // own extrapolated fall until the 20-tick position sync snaps it to the target (user report Nov 8).
 +        if (!isClient) {
 +            needsSync = true;
-+            hurtMarked = true;
++            syncVelocity = true;
 +        }
          if (stack.getItem() instanceof EntityItem item) {
              if (!isClient) {
                  Level level = level();
-@@ -270,10 +284,6 @@
+@@ -270,10 +296,6 @@
          return launcher.getGlobalVelocity(time, direction).scale(0.5f);
      }
  
@@ -48,7 +60,7 @@
      public class RenderData {
          public float rotateY;
          public AABB renderBox = getBoundingBox();
-@@ -303,3 +313,4 @@
+@@ -303,3 +325,4 @@
          }
      }
  }

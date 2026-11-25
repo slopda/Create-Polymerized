@@ -30,6 +30,7 @@ import com.zurrtum.create.content.redstone.link.RedstoneLinkBlock;
 import com.zurrtum.create.content.redstone.nixieTube.NixieTubeBlock;
 import com.zurrtum.create.content.trains.track.TrackBlock;
 import com.zurrtum.create.infrastructure.polymer.AdapterHolder;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockCarriers;
 import com.zurrtum.create.infrastructure.polymer.PolymerDisplays;
 import com.zurrtum.create.infrastructure.polymer.PolymerLitModelHolder;
 import com.zurrtum.create.infrastructure.polymer.PolymerReach;
@@ -73,6 +74,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
@@ -353,6 +355,7 @@ public final class PolymerStaticCollision {
                     // makes the client shove the player out violently. Hold it back until the player has stepped
                     // clear, as the source block collision would.
                     if (!watched && player.getBoundingBox().intersects(worldBox.deflate(1e-3))) return false;
+                    if (PolymerBedrockCarriers.bedrockNative(player, level.getBlockState(pos))) return false;
                     return player.level() == level
                             && !PolymerProxyMining.hidden(player, level, pos)
                             && PolymerStaticProxyRange.near(player, level, pos, worldBox, watched);
@@ -400,7 +403,7 @@ public final class PolymerStaticCollision {
                     BlockHitResult hit = hit(player, level, pos);
                     if (hit == null || hand == null) return;
                     var result = player.gameMode.useItemOn(player, level, player.getItemInHand(hand), hand, hit);
-                    if (result.consumesAction()) player.swing(hand);
+                    if (result.consumesAction()) player.swing(hand, SwingAnimation.DEFAULT, false);
                 }
 
                 @Override

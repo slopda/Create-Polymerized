@@ -75,6 +75,16 @@ public final class PolymerShiftPacer {
         }
     }
 
+    static boolean idle(UUID player) {
+        LOCK.lock();
+        try {
+            Lane<?> lane = LANES.get(player);
+            return lane == null || lane.open == null && lane.frames.isEmpty();
+        } finally {
+            LOCK.unlock();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     static <T> boolean sendInOrder(UUID player, List<T> packets) {
         LOCK.lock();
@@ -181,16 +191,6 @@ public final class PolymerShiftPacer {
                     Create.LOGGER.error("[PolymerPatch] Shift pacer send failed; continuing", t);
                 }
             }
-        }
-    }
-
-    static boolean idle(UUID player) {
-        LOCK.lock();
-        try {
-            Lane<?> lane = LANES.get(player);
-            return lane == null || lane.open == null && lane.frames.isEmpty();
-        } finally {
-            LOCK.unlock();
         }
     }
 

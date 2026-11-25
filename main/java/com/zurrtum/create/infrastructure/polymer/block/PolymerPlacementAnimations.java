@@ -22,7 +22,7 @@ public final class PolymerPlacementAnimations {
                 || !(item instanceof BlockItem || item instanceof BucketItem)
                 || !BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(Create.MOD_ID)
                 || !(result instanceof InteractionResult.Success success)
-                || success.swingSource() != InteractionResult.SwingSource.CLIENT) return result;
-        return new InteractionResult.Success(InteractionResult.SwingSource.SERVER, success.itemContext());
+                || success.swingSource() != InteractionResult.SwingSource.PREDICTED) return result;
+        return new InteractionResult.Success(InteractionResult.SwingSource.SERVER_ONLY, success.itemContext());
     }
 }

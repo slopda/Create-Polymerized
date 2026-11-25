@@ -64,16 +64,16 @@ public final class PolymerTintedModels {
         if (!isTinted(state)) return item;
         Biome biome = level.getBiome(pos).value();
         int color = TINTED.get(state.getBlock()) == Tint.GRASS ? grassColor(biome, pos) : foliageColor(biome);
-        // Item tints are ARGB and biome colours RGB, so force full alpha (zero alpha draws black). Copycat part
-        // stacks keep their part selector string.
+        // Item tints are ARGB; biome colors are RGB, so force full alpha (a zero alpha rendered the tinted faces
+        // black). Copycat part stacks keep their part selector string.
         PolymerPartItems.setColors(item, List.of(0xFF000000 | color));
         return item;
     }
 
-    // A dedicated server never loads the colormap textures, so Biome.getGrassColor/getFoliageColor return 0.
-    // Rebuild the lookup from its three corner colours: the maps are indexed by (temperature, downfall *
-    // temperature), a triangle with corners hot+wet, hot+dry and cold, and barycentric weights match it within a
-    // few RGB steps.
+    // A dedicated server never loads the grass/foliage colormap textures (client resources), so
+    // Biome.getGrassColor/getFoliageColor return 0 there. Rebuild the colormap lookup from its three corner colors:
+    // the vanilla maps are indexed by (temperature, downfall * temperature), which is a triangle with corners
+    // hot+wet, hot+dry and cold; barycentric weights reproduce it within a few RGB steps.
     private static final int[] GRASS_CORNERS = {0x47CD33, 0xBFB755, 0x80B497};
     private static final int[] FOLIAGE_CORNERS = {0x1ABF00, 0xAEA42A, 0x60A17B};
 

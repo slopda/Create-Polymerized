@@ -1,5 +1,6 @@
 package com.zurrtum.create.infrastructure.polymer;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -31,6 +32,7 @@ import com.zurrtum.create.infrastructure.polymer.collision.PolymerShapeCollision
 import com.zurrtum.create.infrastructure.polymer.collision.PolymerStaticCollision;
 import com.zurrtum.create.infrastructure.polymer.collision.PolymerWallCollision;
 import com.zurrtum.create.infrastructure.polymer.contraption.PolymerSeatCarriers;
+import com.zurrtum.create.infrastructure.polymer.effects.PolymerBlockParticles;
 import com.zurrtum.create.infrastructure.polymer.train.PolymerTrackVisuals;
 import dev.veeda.createpoly.PatchAssets;
 import dev.veeda.createpoly.assets.CreateIds;
@@ -51,13 +53,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import net.fabricmc.fabric.api.networking.v1.context.PacketContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -65,14 +71,16 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.RedstoneWireBlock;
 import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -244,6 +252,7 @@ public final class PolymerBlockProjections {
 
             BlockModelPlan plan = blockModelPlan(id, block);
             if (plan == null) {
+                Create.LOGGER.info("Polymer material fallback (no usable model): {} -> {}", id, fallbackState(id));
                 PolymerBlock.registerOverlay(block, new BlockProjection(fallbackState(id)));
                 fallbackCount++;
                 continue;
@@ -258,6 +267,15 @@ public final class PolymerBlockProjections {
             if (PolymerKineticVisuals.rotatingItemModel(plan.block().defaultBlockState()) != null
                     || plan.block() == AllBlocks.LARGE_WATER_WHEEL) {
                 PolymerBlock.registerOverlay(plan.block(), new FixedBlockProjection(KINETIC_BASE_CARRIER_STATE));
+                for (BlockState sourceState : plan.block().getStateDefinition().getPossibleStates()) {
+                    String selector = selectMatchingVariant(plan.variants(), sourceState);
+                    PolymerBedrockCarriers.candidate(
+                            sourceState,
+                            plan.models()
+                                    .getOrDefault(
+                                            selector == null ? plan.defaultSelector() : selector,
+                                            plan.models().get(plan.defaultSelector())));
+                }
                 texturedCount++;
                 continue;
             }
@@ -272,8 +290,8 @@ public final class PolymerBlockProjections {
             Block block = plan.block();
             BlockState defaultClientState = resolved.defaultClientState();
             PolymerBlockModel defaultModel = plan.models().get(plan.defaultSelector());
-            Map<BlockState, BlockState> clientStates = new HashMap<>();
-            Map<BlockState, PolymerBlockModel> displayModels = new HashMap<>();
+            Map<BlockState, BlockState> clientStates = new LinkedHashMap<>();
+            Map<BlockState, PolymerBlockModel> displayModels = new LinkedHashMap<>();
             for (BlockState sourceState : block.getStateDefinition().getPossibleStates()) {
                 String selector = selectMatchingVariant(plan.variants(), sourceState);
                 PolymerBlockModel model =
@@ -320,6 +338,7 @@ public final class PolymerBlockProjections {
                         additionalStateMappings++;
                     }
                     clientStates.put(sourceState, clientState);
+                    if (model != null) GEYSER_BLOCK_SOURCES.putIfAbsent(clientState, Map.entry(sourceState, model));
                     continue;
                 }
                 unavailableStateModelFallbacks++;
@@ -344,6 +363,7 @@ public final class PolymerBlockProjections {
             }
             BlockState replacement = defaultClientState != null ? defaultClientState : KINETIC_BASE_CARRIER_STATE;
             MOVING_DISPLAY_MODELS.putAll(displayModels);
+            displayModels.forEach(PolymerBedrockCarriers::candidate);
             if (!(block instanceof TrackBlock))
                 DISPLAY_BLOCK_MODELS.addAll(displayModels.values().stream()
                         .map(PolymerBlockModel::model)
@@ -372,6 +392,11 @@ public final class PolymerBlockProjections {
             if (block instanceof SeatBlock) PolymerSeatCarriers.register(block);
             if (block instanceof MetalLadderBlock) PolymerLadders.register(block);
         }
+        PolymerBlockParticles.register();
+        PolymerBedrockCarriers.allocate(
+                (model, source) -> requestTexturedState(model, BlockModelType.FULL_BLOCK),
+                (carrier, source, model) -> GEYSER_BLOCK_SOURCES.putIfAbsent(carrier, Map.entry(source, model)));
+        writeGeyserBlockSources();
         Create.LOGGER.info(
                 "Registered Polymer projections for {} Create blocks ({} resource-pack models, {} with source-state variants, {} additional state mappings, {} source states without a supported model, {} source states without an allocated model state, {} material fallbacks)",
                 texturedCount + fallbackCount,
@@ -410,6 +435,36 @@ public final class PolymerBlockProjections {
 
     private static String describeState(@Nullable BlockState state) {
         return state == null ? "unavailable" : state.toString();
+    }
+
+    private static final Map<BlockState, Map.Entry<BlockState, PolymerBlockModel>> GEYSER_BLOCK_SOURCES =
+            new LinkedHashMap<>();
+
+    private static void writeGeyserBlockSources() {
+        JsonObject root = new JsonObject();
+        for (var entry : GEYSER_BLOCK_SOURCES.entrySet()) {
+            BlockState carrier = entry.getKey();
+            String key = BuiltInRegistries.BLOCK.getKey(carrier.getBlock()) + "["
+                    + carrier.getProperties().stream()
+                            .sorted(Comparator.comparing(Property::getName))
+                            .map(property -> property.getName() + "=" + propertyValueName(carrier, property))
+                            .collect(Collectors.joining(","))
+                    + "]";
+            JsonObject value = new JsonObject();
+            value.addProperty("source", entry.getValue().getKey().toString());
+            value.addProperty("model", entry.getValue().getValue().model().toString());
+            value.addProperty("x", entry.getValue().getValue().x());
+            value.addProperty("y", entry.getValue().getValue().y());
+            root.add(key, value);
+        }
+        try {
+            Path out = Path.of("polymerpatch", "geyser_block_sources.json");
+            Files.createDirectories(out.getParent());
+            Files.writeString(
+                    out, new GsonBuilder().setPrettyPrinting().create().toJson(root));
+        } catch (IOException | RuntimeException e) {
+            Create.LOGGER.warn("Could not write polymerpatch/geyser_block_sources.json", e);
+        }
     }
 
     public static @Nullable BlockState getPolymerModelState(String modelPath) {
@@ -482,7 +537,8 @@ public final class PolymerBlockProjections {
     private static BlockModelType modelTypeFor(BlockState sourceState) {
         BlockModelType exact = PolymerBlockCollision.typeFor(sourceState);
         if (exact != null) return exact;
-        // Only full opaque cubes may use FULL_BLOCK: canOcclude() is also true for many non-full Create blocks.
+        // Only full opaque cubes may use FULL_BLOCK: canOcclude() is also true for many non-full Create blocks,
+        // whose note-block projection then culled neighbours.
         if (sourceState.isSolidRender()) {
             return BlockModelType.FULL_BLOCK;
         }
@@ -830,6 +886,12 @@ public final class PolymerBlockProjections {
         }
 
         @Override
+        public boolean startWatching(ServerGamePacketListenerImpl player) {
+            if (PolymerBedrockCarriers.bedrockNative(player.player, targetLevel.getBlockState(targetPos))) return false;
+            return super.startWatching(player);
+        }
+
+        @Override
         public void notifyUpdate(HolderAttachment.UpdateType updateType) {
             super.notifyUpdate(updateType);
             if (updateType == BlockAwareAttachment.BLOCK_STATE_UPDATE) {
@@ -880,7 +942,7 @@ public final class PolymerBlockProjections {
             PolymerPartItems.setColors(
                     item,
                     List.of(0xFF000000
-                            | RedStoneWireBlock.getColorForPower(state.getValue(BlockStateProperties.POWER))));
+                            | RedstoneWireBlock.getColorForPower(state.getValue(BlockStateProperties.POWER))));
             display.setItem(item);
         }
 
@@ -905,7 +967,7 @@ public final class PolymerBlockProjections {
                             && hand != null
                             && player.gameMode
                                     .useItemOn(player, targetLevel, player.getItemInHand(hand), hand, target)
-                                    .consumesAction()) player.swing(hand);
+                                    .consumesAction()) player.swing(hand, SwingAnimation.DEFAULT, false);
                 }
 
                 @Override

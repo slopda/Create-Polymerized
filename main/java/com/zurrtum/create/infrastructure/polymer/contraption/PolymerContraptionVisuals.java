@@ -9,6 +9,7 @@ import com.zurrtum.create.content.trains.entity.CarriageContraptionEntity;
 import com.zurrtum.create.infrastructure.packet.c2s.ContraptionInteractionPacket;
 import com.zurrtum.create.infrastructure.polymer.AdapterHolder;
 import com.zurrtum.create.infrastructure.polymer.PolymerAdapterConfig;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockRotors;
 import com.zurrtum.create.infrastructure.polymer.PolymerBlockProjections;
 import com.zurrtum.create.infrastructure.polymer.PolymerDisplays;
 import com.zurrtum.create.infrastructure.polymer.PolymerTintedModels;
@@ -40,7 +41,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -61,6 +64,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -77,6 +81,7 @@ import org.joml.Vector3fc;
 
 public final class PolymerContraptionVisuals {
     private static final Map<AbstractContraptionEntity, Assembly> ASSEMBLIES = new IdentityHashMap<>();
+    private static final Set<Integer> BEDROCK_BODY_DISPLAYS = ConcurrentHashMap.newKeySet();
     private static final int MAX_COLLISION_SHULKERS = 512;
     private static final int CELLS_PER_BLOCK = 4;
     private static final double CELL_SCALE = 0.5;
@@ -85,6 +90,8 @@ public final class PolymerContraptionVisuals {
     private PolymerContraptionVisuals() {}
 
     public static void register() {
+        System.getProperties().put("polymerpatch.bedrockBodyDisplays", (IntPredicate)
+                id -> PolymerBedrockRotors.ENABLED && BEDROCK_BODY_DISPLAYS.contains(id));
         PolymerTrainControls.register();
         PolymerRailVisuals.register();
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> clear());
@@ -146,6 +153,8 @@ public final class PolymerContraptionVisuals {
                 boolean shift = !trial && PolymerShiftCarry.prepare(entity);
                 if (!trial && !shift) PolymerContraptionFloors.prepare(entity, assembly.getWatchingPlayers());
                 assembly.update(entity, contraption);
+                if (PolymerBedrockRotors.ENABLED && entity.level() instanceof ServerLevel level)
+                    PolymerBedrockContraptions.tick(entity, level, contraption);
                 assembly.tick();
                 PolymerContraptionLab.updated(entity);
                 if (shift) shifted.add(entity);
@@ -184,13 +193,14 @@ public final class PolymerContraptionVisuals {
     }
 
     public static void remove(AbstractContraptionEntity entity) {
-        // Destroy the holder first. Shift carry's leave bundle is paced (sent after this tick); restoring a rider's
-        // removed originals while the holder still exists would respawn them after its removal as frozen ghost
-        // blocks.
+        // Destroy the holder first. Shift carry's leave bundle is paced (sent after this tick), so restoring a
+        // rider's removed originals while the holder still exists respawned them after the holder's removal: frozen
+        // ghost blocks.
         Assembly assembly = ASSEMBLIES.remove(entity);
         if (assembly != null) {
             assembly.destroy();
         }
+        PolymerBedrockContraptions.remove(entity);
         PolymerContraptionLab.removed(entity);
         PolymerShiftCarry.remove(entity);
         PolymerContraptionPassengers.remove(entity);
@@ -202,6 +212,7 @@ public final class PolymerContraptionVisuals {
     }
 
     private static void clear() {
+        PolymerBedrockContraptions.clear();
         PolymerContraptionLab.stopping();
         PolymerShiftCarry.clear();
         PolymerContraptionFloors.clear();
@@ -340,6 +351,23 @@ public final class PolymerContraptionVisuals {
             return PolymerAdapterConfig.contraptionScale();
         }
 
+        @Override
+        public void removeElement(VirtualElement element) {
+            if (element instanceof DisplayElement display) BEDROCK_BODY_DISPLAYS.remove(display.getEntityId());
+            super.removeElement(element);
+        }
+
+        @Override
+        public void destroy() {
+            for (DisplayElement display : displays.values()) BEDROCK_BODY_DISPLAYS.remove(display.getEntityId());
+            super.destroy();
+        }
+
+        private void bedrockBody(DisplayElement display, StructureBlockInfo info) {
+            if (PolymerBedrockContraptions.replaces(info)) BEDROCK_BODY_DISPLAYS.add(display.getEntityId());
+            else BEDROCK_BODY_DISPLAYS.remove(display.getEntityId());
+        }
+
         private void update(AbstractContraptionEntity entity, Contraption contraption) {
             var bogeyParts = entity instanceof CarriageContraptionEntity carriage
                     ? PolymerRailVisuals.bogeyParts(carriage)
@@ -422,10 +450,10 @@ public final class PolymerContraptionVisuals {
 
             Quaternionf rotation = rotationOf(entity);
             // Create maps local -> global as R(local - 0.5) + 0.5 + anchor, so the pivot sits at anchor + 0.5. A
-            // BlockDisplay rotates about its own origin (the block's lower corner), so per-block positions would
-            // make blocks orbit. Instead every display shares the pivot as its origin and carries its local
-            // position inside the transform: R * T(localPos - 0.5). The client then interpolates the whole
-            // contraption as one rigid body.
+            // BlockDisplay renders its model from its own origin (the block's lower corner) and rotates about that
+            // origin, so per-block positions/rotations make blocks orbit. Instead every display shares the pivot as
+            // a fixed origin and carries its local position inside the transform: R * T(localPos - 0.5). Only the
+            // transform changes per tick, and the client interpolates it as one rigid body.
             Vec3 pivotOffset = entity.getAnchorVec().add(0.5, 0.5, 0.5).subtract(entity.position());
             lead = smoothTicks(entity) > 1
                     ? Lead.of(
@@ -517,6 +545,7 @@ public final class PolymerContraptionVisuals {
                     display.setTranslation(translation);
                     display.setLeftRotation(displayRotation);
                     PolymerContraptionLab.display(entity, display);
+                    bedrockBody(display, entry.getValue());
                     displays.put(localPos, addElement(display));
                     bodies.add(display);
                 } else {
@@ -546,7 +575,10 @@ public final class PolymerContraptionVisuals {
                     }
                 }
 
-                if (display != null) PolymerContraptionLab.display(entity, display);
+                if (display != null) {
+                    bedrockBody(display, entry.getValue());
+                    PolymerContraptionLab.display(entity, display);
+                }
                 GenericEntityElement interaction = interactions.get(localPos);
                 if (!clickable(entity, contraption, localPos)) {
                     if (interaction != null) {
@@ -815,7 +847,7 @@ public final class PolymerContraptionVisuals {
                                 player, hand, PolymerMinecartInteractions.cartTarget(entity))
                         != null
                 || MinecartContraptionItem.wrenchCanBeUsedToPickUpMinecartContraptions(player, hand, entity) != null) {
-            player.swing(hand);
+            player.swing(hand, SwingAnimation.DEFAULT, false);
             player.getInventory().setChanged();
             return;
         }
@@ -849,7 +881,7 @@ public final class PolymerContraptionVisuals {
         return Math.max(0, Math.min(1, value));
     }
 
-    private static Quaternionf rotationOf(AbstractContraptionEntity entity) {
+    static Quaternionf rotationOf(AbstractContraptionEntity entity) {
         Vec3 origin = entity.applyRotation(Vec3.ZERO, 1);
         Vector3f xAxis = vector(entity.applyRotation(new Vec3(1, 0, 0), 1).subtract(origin));
         Vector3f yAxis = vector(entity.applyRotation(new Vec3(0, 1, 0), 1).subtract(origin));

@@ -1,8 +1,6 @@
 classTweaker v1 official
 accessible method net/minecraft/world/entity/Display setPosRotInterpolationDuration (I)V
-accessible class net/minecraft/world/clock/ServerClockManager$ClockInstance
 accessible class net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior$TrackIteration
-accessible class net/minecraft/world/item/alchemy/PotionBrewing$Mix
 accessible class net/minecraft/world/item/CreativeModeTab$Output
 accessible class net/minecraft/world/item/CreativeModeTab$TabVisibility
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
@@ -24,21 +22,16 @@ accessible field net/minecraft/server/network/ServerGamePacketListenerImpl await
 accessible field net/minecraft/SystemReport JAVA_VERSION Ljava/lang/String;
 accessible field net/minecraft/SystemReport OPERATING_SYSTEM Ljava/lang/String;
 accessible field net/minecraft/util/LightCoordsUtil MAX_SMOOTH_LIGHT_LEVEL I
-accessible field net/minecraft/world/clock/ServerClockManager$ClockInstance timeMarkers Ljava/util/Map;
-accessible field net/minecraft/world/clock/ServerClockManager$ClockInstance totalTicks J
+accessible field net/minecraft/world/clock/ServerClockManager$ServerClockInstance timeMarkers Ljava/util/Map;
 accessible field net/minecraft/world/entity/Entity DATA_POSE Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/Entity removalReason Lnet/minecraft/world/entity/Entity$RemovalReason;
-accessible field net/minecraft/world/entity/InterpolationHandler interpolationData Lnet/minecraft/world/entity/InterpolationHandler$InterpolationData;
-accessible field net/minecraft/world/entity/InterpolationHandler$InterpolationData steps I
 accessible field net/minecraft/world/entity/item/ItemEntity age I
 accessible field net/minecraft/world/entity/LivingEntity lastEquipmentItems Ljava/util/Map;
+accessible field net/minecraft/world/entity/LivingEntity DATA_LIVING_ENTITY_FLAGS Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/Mob targetSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;
 accessible field net/minecraft/world/entity/Mob DATA_MOB_FLAGS_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/vehicle/minecart/MinecartFurnace fuel I
 accessible field net/minecraft/world/entity/vehicle/minecart/NewMinecartBehavior$TrackIteration firstIteration Z
-accessible field net/minecraft/world/item/alchemy/PotionBrewing containerMixes Ljava/util/List;
-accessible field net/minecraft/world/item/alchemy/PotionBrewing containers Ljava/util/List;
-accessible field net/minecraft/world/item/alchemy/PotionBrewing potionMixes Ljava/util/List;
 accessible field net/minecraft/world/item/BucketItem content Lnet/minecraft/world/level/material/Fluid;
 accessible field net/minecraft/world/item/context/BlockPlaceContext relativePos Lnet/minecraft/core/BlockPos;
 accessible field net/minecraft/world/item/crafting/Ingredient values Lnet/minecraft/core/HolderSet;
@@ -88,7 +81,6 @@ accessible method net/minecraft/server/level/ServerLevel getEntities ()Lnet/mine
 accessible method net/minecraft/server/level/ServerPlayer initMenu (Lnet/minecraft/world/inventory/AbstractContainerMenu;)V
 accessible method net/minecraft/server/level/ServerPlayer nextContainerCounter ()V
 accessible method net/minecraft/server/level/ServerPlayerGameMode setGameModeForPlayer (Lnet/minecraft/world/level/GameType;Lnet/minecraft/world/level/GameType;)V
-accessible method net/minecraft/world/clock/ServerClockManager getInstance (Lnet/minecraft/core/Holder;)Lnet/minecraft/world/clock/ServerClockManager$ClockInstance;
 accessible method net/minecraft/world/entity/animal/parrot/Parrot setVariant (Lnet/minecraft/world/entity/animal/parrot/Parrot$Variant;)V
 accessible method net/minecraft/world/entity/decoration/ItemFrame getFrameItemStack ()Lnet/minecraft/world/item/ItemStack;
 accessible method net/minecraft/world/entity/Entity setLevel (Lnet/minecraft/world/level/Level;)V
@@ -96,8 +88,6 @@ accessible method net/minecraft/world/entity/item/FallingBlockEntity <init> (Lne
 accessible method net/minecraft/world/entity/item/ItemEntity addAdditionalSaveData (Lnet/minecraft/world/level/storage/ValueOutput;)V
 accessible method net/minecraft/world/entity/LivingEntity setLastHurtByPlayer (Lnet/minecraft/world/entity/EntityReference;I)V
 accessible method net/minecraft/world/entity/vehicle/minecart/AbstractMinecart getMaxSpeed (Lnet/minecraft/server/level/ServerLevel;)D
-accessible method net/minecraft/world/item/alchemy/PotionBrewing isContainer (Lnet/minecraft/world/item/ItemStack;)Z
-accessible method net/minecraft/world/item/AxeItem getStripped (Lnet/minecraft/world/level/block/state/BlockState;)Ljava/util/Optional;
 accessible method net/minecraft/world/item/component/ItemContainerContents <init> (Ljava/util/List;)V
 accessible method net/minecraft/world/item/context/UseOnContext <init> (Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/phys/BlockHitResult;)V
 accessible method net/minecraft/world/item/crafting/CraftingInput <init> (IILjava/util/List;)V
@@ -153,4 +143,4 @@ accessible field net/minecraft/world/entity/Display DATA_TRANSFORMATION_INTERPOL
 accessible field net/minecraft/world/entity/Display DATA_TRANSLATION_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/Display DATA_LEFT_ROTATION_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/Display DATA_VIEW_RANGE_ID Lnet/minecraft/network/syncher/EntityDataAccessor;
-accessible field net/minecraft/world/entity/LivingEntity DATA_LIVING_ENTITY_FLAGS Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible method net/minecraft/world/entity/AbstractInterpolationHandler interpolationData ()Lnet/minecraft/core/PositionAndRotation$Mutable;

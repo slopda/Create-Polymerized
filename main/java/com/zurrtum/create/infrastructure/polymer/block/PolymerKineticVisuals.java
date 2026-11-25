@@ -16,14 +16,14 @@ import com.zurrtum.create.content.kinetics.waterwheel.LargeWaterWheelBlockEntity
 import com.zurrtum.create.content.kinetics.waterwheel.WaterWheelBlock;
 import com.zurrtum.create.content.kinetics.waterwheel.WaterWheelBlockEntity;
 import com.zurrtum.create.infrastructure.polymer.AdapterHolder;
-import com.zurrtum.create.infrastructure.polymer.PolymerBlockProjections;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockCarriers;
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockRotors;
 import com.zurrtum.create.infrastructure.polymer.PolymerDisplays;
 import com.zurrtum.create.infrastructure.polymer.PolymerLitModelHolder;
 import com.zurrtum.create.infrastructure.polymer.PolymerPartItems;
 import dev.veeda.createpoly.assets.CreateIds;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.attachment.ChunkAttachment;
-import eu.pb4.polymer.virtualentity.api.elements.BlockDisplayElement;
 import eu.pb4.polymer.virtualentity.api.elements.DisplayElement;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
 import java.util.IdentityHashMap;
@@ -55,10 +55,8 @@ public final class PolymerKineticVisuals {
     private static final Map<KineticBlockEntity, ShaftDisplay> SHAFTS = new IdentityHashMap<>();
     private static final Map<CrushingWheelBlockEntity, CrushingWheelDisplay> CRUSHING_WHEELS = new IdentityHashMap<>();
     private static final Map<FlywheelBlockEntity, FlywheelDisplay> FLYWHEELS = new IdentityHashMap<>();
-    private static final Map<WaterWheelBlockEntity, WaterWheelDisplay> WATER_WHEELS = new IdentityHashMap<>();
     private static final Map<ValveHandleBlockEntity, ValveHandleDisplay> VALVE_HANDLES = new IdentityHashMap<>();
     private static final Map<RollerBlockEntity, RollerDisplay> ROLLERS = new IdentityHashMap<>();
-    private static final Vector3f BLOCK_CENTER = new Vector3f(0.5f, 0.5f, 0.5f);
     private static final Identifier SHAFT_ITEM_MODEL = CreateIds.id("polymer/shaft");
     private static final Identifier CRUSHING_WHEEL_MODEL =
             PolymerBlockParts.model(CreateIds.id("block/polymer/crushing_wheel"));
@@ -90,6 +88,7 @@ public final class PolymerKineticVisuals {
             return;
         }
         PolymerBlockParts.tick(blockEntity);
+        if (blockEntity instanceof WaterWheelBlockEntity waterWheel) tickBedrockWaterWheel(waterWheel, level);
         if (PolymerBlockParts.handles(blockEntity.getBlockState())) {
             return;
         }
@@ -100,10 +99,6 @@ public final class PolymerKineticVisuals {
         }
         if (blockEntity instanceof CrushingWheelBlockEntity crushingWheel) {
             tickCrushingWheel(crushingWheel, level);
-            return;
-        }
-        if (blockEntity instanceof WaterWheelBlockEntity waterWheel) {
-            tickWaterWheel(waterWheel, level);
             return;
         }
         if (blockEntity instanceof ValveHandleBlockEntity valveHandle) {
@@ -169,16 +164,15 @@ public final class PolymerKineticVisuals {
             }
         }
         if (blockEntity instanceof WaterWheelBlockEntity waterWheel) {
-            WaterWheelDisplay waterWheelDisplay = WATER_WHEELS.remove(waterWheel);
-            if (waterWheelDisplay != null) {
-                waterWheelDisplay.destroy();
-            }
+            PolymerBedrockRotors.Rotor bedrockWheel = BEDROCK_WATER_WHEELS.remove(waterWheel);
+            if (bedrockWheel != null) bedrockWheel.destroy();
         }
         if (blockEntity instanceof ValveHandleBlockEntity valveHandle) {
             ValveHandleDisplay valveDisplay = VALVE_HANDLES.remove(valveHandle);
             if (valveDisplay != null) {
                 valveDisplay.destroy();
             }
+            PolymerBedrockParts.removeOwnedMesh(valveHandle);
         }
     }
 
@@ -243,39 +237,40 @@ public final class PolymerKineticVisuals {
         display.update(axis, pos, blockEntity.getSpeed(), level.getGameTime());
     }
 
-    private static void tickWaterWheel(WaterWheelBlockEntity blockEntity, ServerLevel level) {
-        BlockState sourceState = blockEntity.getBlockState();
+    private static final Map<WaterWheelBlockEntity, PolymerBedrockRotors.Rotor> BEDROCK_WATER_WHEELS =
+            new IdentityHashMap<>();
+
+    private static void tickBedrockWaterWheel(WaterWheelBlockEntity blockEntity, ServerLevel level) {
+        if (!PolymerBedrockRotors.ENABLED) return;
+        BlockState state = blockEntity.getBlockState();
+        if (!(state.getBlock() instanceof IRotate rotate)) return;
+        Axis axis = rotate.getRotationAxis(state);
         boolean large = blockEntity instanceof LargeWaterWheelBlockEntity;
-        if (sourceState.getBlock() != (large ? AllBlocks.LARGE_WATER_WHEEL : AllBlocks.WATER_WHEEL)
-                || !(sourceState.getBlock() instanceof IRotate rotate)) {
-            remove(blockEntity);
-            return;
-        }
-
-        String modelPath;
         Direction direction;
+        int model;
         if (large) {
-            boolean extension = sourceState.getValue(LargeWaterWheelBlock.EXTENSION);
-            modelPath = extension ? "block/polymer/large_water_wheel_extension" : "block/polymer/large_water_wheel";
-            direction = rotate.getRotationAxis(sourceState).getPositive();
+            direction = axis.getPositive();
+            model = state.getValue(LargeWaterWheelBlock.EXTENSION)
+                    ? PolymerBedrockRotors.MODEL_LARGE_WATER_WHEEL_EXTENSION
+                    : PolymerBedrockRotors.MODEL_LARGE_WATER_WHEEL;
         } else {
-            modelPath = "block/polymer/water_wheel_rotor";
-            direction = sourceState.getValue(WaterWheelBlock.FACING);
+            direction = state.getValue(WaterWheelBlock.FACING);
+            model = PolymerBedrockRotors.MODEL_WATER_WHEEL;
         }
-        BlockState wheelState = PolymerBlockProjections.getPolymerModelState(modelPath);
-        if (wheelState == null) {
-            remove(blockEntity);
-            return;
-        }
-
         BlockPos pos = blockEntity.getBlockPos();
-        WaterWheelDisplay display = WATER_WHEELS.get(blockEntity);
-        if (display == null) {
-            display = new WaterWheelDisplay(level, pos, wheelState, large);
-            WATER_WHEELS.put(blockEntity, display);
-        }
-        Axis axis = rotate.getRotationAxis(sourceState);
-        display.update(wheelState, direction, axis, pos, blockEntity.getSpeed(), level.getGameTime());
+        float speed = blockEntity.getSpeed();
+        long gameTime = level.getGameTime();
+        BEDROCK_WATER_WHEELS
+                .computeIfAbsent(blockEntity, be -> new PolymerBedrockRotors.Rotor(pos))
+                .update(
+                        level,
+                        pos,
+                        axis,
+                        direction.getAxisDirection() == Direction.AxisDirection.NEGATIVE,
+                        model,
+                        speed,
+                        kineticAngle(pos, axis, speed, gameTime),
+                        gameTime);
     }
 
     private static void tickValveHandle(ValveHandleBlockEntity blockEntity, ServerLevel level) {
@@ -307,8 +302,8 @@ public final class PolymerKineticVisuals {
         CRUSHING_WHEELS.clear();
         FLYWHEELS.values().forEach(FlywheelDisplay::destroy);
         FLYWHEELS.clear();
-        WATER_WHEELS.values().forEach(WaterWheelDisplay::destroy);
-        WATER_WHEELS.clear();
+        BEDROCK_WATER_WHEELS.values().forEach(PolymerBedrockRotors.Rotor::destroy);
+        BEDROCK_WATER_WHEELS.clear();
         VALVE_HANDLES.values().forEach(ValveHandleDisplay::destroy);
         VALVE_HANDLES.clear();
         ROLLERS.values().forEach(RollerDisplay::destroy);
@@ -322,6 +317,14 @@ public final class PolymerKineticVisuals {
             case Z -> pos.getX() + pos.getY();
         };
         return Math.floorMod(otherAxes, 2) == 0 ? 22.5f : 0;
+    }
+
+    private static float kineticAngle(BlockPos pos, Axis axis, float speed, long gameTime) {
+        return (float) Math.IEEEremainder((double) gameTime * speed * 0.3 + rotationOffset(pos, axis), 360);
+    }
+
+    private static PolymerBedrockRotors.@org.jspecify.annotations.Nullable Rotor bedrockRotor(BlockPos pos) {
+        return PolymerBedrockRotors.ENABLED ? new PolymerBedrockRotors.Rotor(pos) : null;
     }
 
     private static Quaternionf shaftRotation(Axis axis, BlockPos pos, float speed, long gameTime) {
@@ -388,24 +391,6 @@ public final class PolymerKineticVisuals {
                 || Math.abs(current.z() - next.z) > 1.0E-5;
     }
 
-    private static void applyCenteredRotation(
-            BlockDisplayElement display, Quaternionf rotation, Vector3fc modelCenter) {
-        Vector3f transformedCenter = rotation.transform(new Vector3f(modelCenter));
-        Vector3f translation = new Vector3f(BLOCK_CENTER).sub(transformedCenter);
-        boolean changed = false;
-        if (translationDiffers(display.getTranslation(), translation)) {
-            display.setTranslation(translation);
-            changed = true;
-        }
-        if (rotationDiffers(display.getLeftRotation(), rotation)) {
-            display.setLeftRotation(rotation);
-            changed = true;
-        }
-        if (changed) {
-            display.startInterpolationIfDirty();
-        }
-    }
-
     private static void applyShaftRotation(ItemDisplayElement display, Quaternionf rotation) {
         Vector3f translation = new Vector3f(0, -(float) display.getOffset().y, 0);
         boolean changed = false;
@@ -463,12 +448,6 @@ public final class PolymerKineticVisuals {
         return align.mul(new Quaternionf().rotationY((float) Math.toRadians(degrees)));
     }
 
-    private static Quaternionf wheelRotation(Direction direction, float degrees) {
-        Quaternionf align =
-                new Quaternionf().rotationTo(0, 1, 0, direction.getStepX(), direction.getStepY(), direction.getStepZ());
-        return align.mul(new Quaternionf().rotationY((float) Math.toRadians(degrees)));
-    }
-
     private static float valveHandleAngle(
             ValveHandleBlockEntity blockEntity, Direction facing, BlockPos pos, long gameTime) {
         Axis axis = facing.getAxis();
@@ -493,6 +472,9 @@ public final class PolymerKineticVisuals {
         private final ItemDisplayElement display;
         private final Identifier itemModel;
         private final int phase;
+        private final ServerLevel level;
+        private final PolymerBedrockRotors.@org.jspecify.annotations.Nullable Rotor bedrockRotor;
+
         private Axis latestAxis;
         private BlockPos latestPos;
         private float latestSpeed;
@@ -504,9 +486,12 @@ public final class PolymerKineticVisuals {
                 Identifier itemModel,
                 Quaternionf initialRotation) {
             phase = Math.floorMod(pos.hashCode(), MAX_ROTATION_CADENCE);
+            this.level = level;
+            bedrockRotor = bedrockRotor(pos);
             holder = new PolymerLitModelHolder(level, pos) {
                 @Override
                 public boolean startWatching(ServerGamePacketListenerImpl player) {
+                    if (PolymerBedrockCarriers.skipPaperDisplays(player)) return false;
                     if (!getWatchingPlayers().contains(player) && latestAxis != null)
                         applyShaftRotation(
                                 display,
@@ -536,6 +521,10 @@ public final class PolymerKineticVisuals {
             latestAxis = axis;
             latestPos = pos;
             latestSpeed = speed;
+            int bedrockModel = bedrockRotorModel(itemModel);
+            if (bedrockRotor != null && bedrockModel >= 0)
+                bedrockRotor.update(
+                        level, pos, axis, bedrockModel, speed, kineticAngle(pos, axis, speed, gameTime), gameTime);
             if (holder.getWatchingPlayers().isEmpty()) return;
             int cadence = rotationCadence(speed);
             if (!snap && cadence > 1 && Math.floorMod(gameTime + phase, cadence) != 0) return;
@@ -546,7 +535,15 @@ public final class PolymerKineticVisuals {
 
         private void destroy() {
             holder.destroy();
+            if (bedrockRotor != null) bedrockRotor.destroy();
         }
+    }
+
+    private static int bedrockRotorModel(Identifier itemModel) {
+        if (itemModel.equals(COGWHEEL_ITEM_MODEL)) return PolymerBedrockRotors.MODEL_COGWHEEL;
+        if (itemModel.equals(LARGE_COGWHEEL_ITEM_MODEL)) return PolymerBedrockRotors.MODEL_LARGE_COGWHEEL;
+        if (itemModel.equals(SHAFT_ITEM_MODEL)) return PolymerBedrockRotors.MODEL_SHAFT;
+        return -1;
     }
 
     private static final Identifier FLYWHEEL_WHEEL = PolymerBlockParts.model("polymer/flywheel");
@@ -557,11 +554,21 @@ public final class PolymerKineticVisuals {
         private final ItemDisplayElement wheel;
 
         private final Pacing pacing;
+        private final ServerLevel level;
+        private final PolymerBedrockRotors.@org.jspecify.annotations.Nullable Rotor bedrockShaft, bedrockWheel;
 
         private FlywheelDisplay(
                 ServerLevel level, BlockPos pos, BlockState sourceState, Axis axis, float speed, long gameTime) {
             pacing = new Pacing(pos);
-            holder = new PolymerLitModelHolder(level, pos) {};
+            this.level = level;
+            bedrockShaft = bedrockRotor(pos);
+            bedrockWheel = bedrockRotor(pos);
+            holder = new PolymerLitModelHolder(level, pos) {
+                @Override
+                public boolean startWatching(ServerGamePacketListenerImpl player) {
+                    return !PolymerBedrockCarriers.skipPaperDisplays(player) && super.startWatching(player);
+                }
+            };
             holder.staticCollision(sourceState);
             ChunkAttachment.ofTicking(holder, level, pos);
             shaft = PolymerDisplays.item(rotatingDisplayItem(SHAFT_ITEM_MODEL), ItemDisplayContext.NONE);
@@ -587,6 +594,11 @@ public final class PolymerKineticVisuals {
 
         private void update(BlockState sourceState, Axis axis, BlockPos pos, float speed, long gameTime) {
             holder.staticCollision(sourceState);
+            if (bedrockShaft != null && bedrockWheel != null) {
+                float angle = kineticAngle(pos, axis, speed, gameTime);
+                bedrockShaft.update(level, pos, axis, PolymerBedrockRotors.MODEL_SHAFT, speed, angle, gameTime);
+                bedrockWheel.update(level, pos, axis, PolymerBedrockRotors.MODEL_FLYWHEEL, speed, angle, gameTime);
+            }
             int lead = pacing.lead(speed, axis, gameTime, stepCadence(Math.abs(speed) * 0.3, 0.1), shaft, wheel);
             if (lead < 0) return;
             gameTime += lead;
@@ -602,55 +614,27 @@ public final class PolymerKineticVisuals {
 
         private void destroy() {
             holder.destroy();
-        }
-    }
-
-    private static final class WaterWheelDisplay {
-        private final ElementHolder holder = new AdapterHolder();
-        private final BlockDisplayElement wheel;
-        private final Pacing pacing;
-        private final double pivot;
-
-        private WaterWheelDisplay(ServerLevel level, BlockPos pos, BlockState state, boolean large) {
-            pacing = new Pacing(pos);
-            pivot = large ? 2 * Math.sqrt(.5) : Math.sqrt(.5);
-            ChunkAttachment.ofTicking(holder, level, pos);
-            wheel = new BlockDisplayElement(state);
-            wheel.setOffset(new Vec3(-0.5, -0.5, -0.5));
-            if (large) {
-                wheel.setScale(new Vector3f(2, 2, 2));
-                wheel.setDisplaySize(6, 6);
-            } else {
-                wheel.setDisplaySize(3, 3);
-            }
-            wheel.setInterpolationDuration(2);
-            wheel.setTeleportDuration(1);
-            holder.addElement(wheel);
-        }
-
-        private void update(
-                BlockState state, Direction direction, Axis axis, BlockPos pos, float speed, long gameTime) {
-            if (!wheel.getBlockState().equals(state)) {
-                wheel.setBlockState(state);
-            }
-            int lead = pacing.lead(speed, direction, gameTime, stepCadence(Math.abs(speed) * 0.3, pivot), wheel);
-            if (lead < 0) return;
-            double degrees =
-                    Math.IEEEremainder((double) (gameTime + lead) * speed * 0.3 + rotationOffset(pos, axis), 360);
-            applyCenteredRotation(wheel, wheelRotation(direction, (float) degrees), BLOCK_CENTER);
-        }
-
-        private void destroy() {
-            holder.destroy();
+            if (bedrockShaft != null) bedrockShaft.destroy();
+            if (bedrockWheel != null) bedrockWheel.destroy();
         }
     }
 
     private static final class CrushingWheelDisplay {
-        private final ElementHolder holder = new AdapterHolder();
+        private final ElementHolder holder = new AdapterHolder() {
+            @Override
+            public boolean startWatching(ServerGamePacketListenerImpl player) {
+                return !(PolymerBedrockRotors.ENABLED && PolymerBedrockCarriers.skipPaperDisplays(player))
+                        && super.startWatching(player);
+            }
+        };
         private final ItemDisplayElement wheel;
         private Pacing pacing;
+        private final ServerLevel level;
+        private final PolymerBedrockRotors.@org.jspecify.annotations.Nullable Rotor bedrockRotor;
 
         private CrushingWheelDisplay(ServerLevel level, BlockPos pos, Quaternionf initial) {
+            this.level = level;
+            bedrockRotor = bedrockRotor(pos);
             ChunkAttachment.ofTicking(holder, level, pos);
             wheel = PolymerDisplays.item(PolymerBlockParts.displayItem(CRUSHING_WHEEL_MODEL), ItemDisplayContext.NONE);
             wheel.setRightRotation(new Quaternionf().rotationY(Mth.PI));
@@ -662,6 +646,15 @@ public final class PolymerKineticVisuals {
         }
 
         private void update(Axis axis, BlockPos pos, float speed, long gameTime) {
+            if (bedrockRotor != null)
+                bedrockRotor.update(
+                        level,
+                        pos,
+                        axis,
+                        PolymerBedrockRotors.MODEL_CRUSHING_WHEEL,
+                        speed,
+                        kineticAngle(pos, axis, speed, gameTime),
+                        gameTime);
             if (pacing == null) pacing = new Pacing(pos);
             int lead = pacing.lead(speed, axis, gameTime, rotationCadence(speed), wheel);
             if (lead < 0) return;
@@ -674,6 +667,7 @@ public final class PolymerKineticVisuals {
 
         private void destroy() {
             holder.destroy();
+            if (bedrockRotor != null) bedrockRotor.destroy();
         }
     }
 
@@ -686,7 +680,12 @@ public final class PolymerKineticVisuals {
         private float previousAngle = Float.NaN;
 
         private ValveHandleDisplay(ServerLevel level, BlockPos pos, BlockState sourceState, Identifier model) {
-            holder = new PolymerLitModelHolder(level, pos) {};
+            holder = new PolymerLitModelHolder(level, pos) {
+                @Override
+                public boolean startWatching(ServerGamePacketListenerImpl player) {
+                    return !PolymerBedrockCarriers.skipPaperDisplays(player) && super.startWatching(player);
+                }
+            };
             holder.staticCollision(sourceState);
             shown = model;
             handle = PolymerDisplays.item(PolymerBlockParts.displayItem(model), ItemDisplayContext.NONE);
@@ -720,6 +719,7 @@ public final class PolymerKineticVisuals {
                     PolymerBlockParts.spin(facing.getAxis(), angle).mul(PolymerBlockParts.rotateToFaceVertical(facing));
             handle.setTransformation(PolymerBlockParts.displayTransform(pose));
             handle.startInterpolationIfDirty();
+            if (be.getLevel() instanceof ServerLevel level) PolymerBedrockParts.ownedMesh(be, level, model, pose);
         }
 
         private void destroy() {

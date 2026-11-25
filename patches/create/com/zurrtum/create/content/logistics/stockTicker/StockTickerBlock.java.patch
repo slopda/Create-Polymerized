@@ -1,6 +1,13 @@
 --- a/com/zurrtum/create/content/logistics/stockTicker/StockTickerBlock.java
 +++ b/com/zurrtum/create/content/logistics/stockTicker/StockTickerBlock.java
-@@ -8,6 +8,8 @@
+@@ -1,6 +1,5 @@
+ package com.zurrtum.create.content.logistics.stockTicker;
+ 
+-import com.mojang.serialization.MapCodec;
+ import com.zurrtum.create.AllBlockEntityTypes;
+ import com.zurrtum.create.AllShapes;
+ import com.zurrtum.create.content.equipment.wrench.IWrenchable;
+@@ -8,6 +7,8 @@
  import com.zurrtum.create.content.logistics.stockTicker.StockTickerBlockEntity.StockTickerInventory;
  import com.zurrtum.create.foundation.block.IBE;
  import com.zurrtum.create.foundation.gui.menu.MenuProvider;
@@ -9,3 +16,41 @@
  import com.zurrtum.create.infrastructure.items.ItemInventoryProvider;
  import net.minecraft.core.BlockPos;
  import net.minecraft.core.Direction;
+@@ -15,6 +16,7 @@
+ import net.minecraft.server.level.ServerPlayer;
+ import net.minecraft.sounds.SoundEvents;
+ import net.minecraft.sounds.SoundSource;
++import net.minecraft.util.Prediction;
+ import net.minecraft.world.Container;
+ import net.minecraft.world.InteractionHand;
+ import net.minecraft.world.InteractionResult;
+@@ -37,9 +39,6 @@
+ import org.jspecify.annotations.Nullable;
+ 
+ public class StockTickerBlock extends HorizontalDirectionalBlock implements IBE<StockTickerBlockEntity>, IWrenchable, ItemInventoryProvider<StockTickerBlockEntity> {
+-
+-    public static final MapCodec<StockTickerBlock> CODEC = simpleCodec(StockTickerBlock::new);
+-
+     public StockTickerBlock(Properties pProperties) {
+         super(pProperties);
+     }
+@@ -97,7 +96,7 @@
+                             continue;
+                         }
+                         inventory.setItem(i, ItemStack.EMPTY);
+-                        playerInventory.placeItemBackInInventory(target);
++                        playerInventory.placeItemBackInInventory(target, Prediction.SERVER_ONLY);
+                         anySuccess = true;
+                     }
+                     if (anySuccess) {
+@@ -146,10 +145,5 @@
+     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
+         return false;
+     }
+-
+-    @Override
+-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+-        return CODEC;
+-    }
+ }
+ 

@@ -74,6 +74,8 @@ public final class PolymerArtKit {
             }
     }
 
+    /** A selectable layer: case value -> image drawn with top-left at (x, y). Cases are written in key order so callers
+     * may pass {@code Map.of}, whose iteration order differs per JVM run (the pack hash must not change on restart). */
     public void layer(int stringIndex, Map<String, BufferedImage> cases, int x, int y, float z) throws IOException {
         JsonArray list = new JsonArray();
         for (var entry : new TreeMap<>(cases).entrySet()) {

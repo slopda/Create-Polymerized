@@ -120,6 +120,8 @@ public final class PolymerCopycatParts {
         private @Nullable Identifier shown;
         private @Nullable BlockState collisionState;
         private final List<PolymerCopycatStepCollision.Cell> cells = new ArrayList<>();
+        private final PolymerBedrockCopycats.Skin skin = new PolymerBedrockCopycats.Skin();
+
         private int repairAge;
 
         MaterialHolder(ServerLevel level, BlockPos pos, BlockState state) {
@@ -153,6 +155,7 @@ public final class PolymerCopycatParts {
             ItemStack item = displayItem(state, material, level, pos);
             if (!ItemStack.isSameItemSameComponents(display.getItem(), item)) display.setItem(item);
             shown = next;
+            skin.update(level, pos, next, getWatchingPlayers());
             updateCollision(state);
             if (state.is(AllBlocks.COPYCAT_STEP) && ++repairAge >= 20) {
                 repairAge = 0;
@@ -173,6 +176,18 @@ public final class PolymerCopycatParts {
                 for (var box : PolymerCopycatStepCollision.boxes(state, level, pos))
                     cells.add(new PolymerCopycatStepCollision.Cell(this, level, pos, box));
             }
+        }
+
+        @Override
+        public boolean stopWatching(ServerGamePacketListenerImpl player) {
+            skin.stopWatching(player);
+            return super.stopWatching(player);
+        }
+
+        @Override
+        public void destroy() {
+            skin.destroy();
+            super.destroy();
         }
 
         @Override
@@ -262,11 +277,16 @@ public final class PolymerCopycatParts {
     }
 
     public static @Nullable Identifier contraptionItemModel(StructureBlockInfo info) {
+        Identifier mesh = contraptionMesh(info);
+        return mesh == null ? null : CreateIds.id("polymer_part/" + mesh.getPath());
+    }
+
+    public static @Nullable Identifier contraptionMesh(StructureBlockInfo info) {
         if (!info.state().is(AllBlocks.COPYCAT_PANEL) && !info.state().is(AllBlocks.COPYCAT_STEP)) return null;
         BlockState material = info.nbt() == null
                 ? AllBlocks.COPYCAT_BASE.defaultBlockState()
                 : info.nbt().read("Material", BlockState.CODEC).orElse(AllBlocks.COPYCAT_BASE.defaultBlockState());
-        return CreateIds.id("polymer_part/" + model(info.state(), material).getPath());
+        return model(info.state(), material);
     }
 
     private record Lookups(Map<String, JsonObject> byBlock) {

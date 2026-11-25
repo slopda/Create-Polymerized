@@ -14,10 +14,14 @@
          Map<UUID, Collection<ManualFrequencyEntry>> map = receivedInputs.get(world);
          for (Iterator<Map.Entry<UUID, Collection<ManualFrequencyEntry>>> iterator = map.entrySet()
              .iterator(); iterator.hasNext(); ) {
-@@ -42,6 +46,71 @@
-         }
-     }
- 
+@@ -39,6 +43,72 @@
+             if (list.isEmpty()) {
+                 iterator.remove();
+             }
++        }
++    }
++
++    /** Toggles a controller button for vanilla clients that cannot send Create keybind packets. */
 +    public static boolean togglePersistentButton(
 +        LevelAccessor world,
 +        BlockPos pos,
@@ -80,9 +84,6 @@
 +                new ArrayList<>(new HashSet<>(entry.getValue().values())),
 +                true
 +            );
-+        }
-+    }
-+
-     public static void receivePressed(
-         LevelAccessor world,
-         BlockPos pos,
+         }
+     }
+ 

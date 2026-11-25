@@ -63,9 +63,9 @@ final class PolymerKineticParts {
         PolymerBlockParts.<KineticBlockEntity>register(
                 (be, state, time, out) -> {
                     Axis axis = axisOf(state);
-                    out.add(part(
-                            ENCASED_SHAFT,
-                            spin(axis, angle(be, state, axis, time)).mul(rotateToFaceVertical(axis.getPositive()))));
+                    float angle = angle(be, state, axis, time);
+                    out.add(part(ENCASED_SHAFT, spin(axis, angle).mul(rotateToFaceVertical(axis.getPositive())))
+                            .spinning(axis.getPositive(), be.getSpeed(), angle));
                 },
                 AllBlocks.ANDESITE_ENCASED_SHAFT,
                 AllBlocks.BRASS_ENCASED_SHAFT,
@@ -74,10 +74,9 @@ final class PolymerKineticParts {
         PolymerBlockParts.<KineticBlockEntity>register(
                 (be, state, time, out) -> {
                     Direction facing = state.getValue(BlockStateProperties.FACING);
-                    out.add(part(
-                            SHAFT_HALF,
-                            spin(facing.getAxis(), angle(be, state, facing.getAxis(), time))
-                                    .mul(rotateToFace(facing))));
+                    float angle = angle(be, state, facing.getAxis(), time);
+                    out.add(part(SHAFT_HALF, spin(facing.getAxis(), angle).mul(rotateToFace(facing)))
+                            .spinning(facing, be.getSpeed(), angle));
                 },
                 AllBlocks.CREATIVE_MOTOR);
 
@@ -87,15 +86,12 @@ final class PolymerKineticParts {
                     Direction direction = axis.getPositive();
                     float offset = rotationOffset(state, axis, be.getBlockPos());
                     float progress = progress(be.getSpeed(), time);
-                    Direction bottom = direction.getOpposite();
-                    out.add(part(
-                            SHAFT_HALF,
-                            spin(direction, progress * be.getRotationSpeedModifier(direction) + offset)
-                                    .mul(rotateToFace(direction))));
-                    out.add(part(
-                            SHAFT_HALF,
-                            spin(direction, progress * be.getRotationSpeedModifier(bottom) + offset)
-                                    .mul(rotateToFace(bottom))));
+                    for (Direction face : new Direction[] {direction, direction.getOpposite()}) {
+                        float modifier = be.getRotationSpeedModifier(face);
+                        float angle = progress * modifier + offset;
+                        out.add(part(SHAFT_HALF, spin(direction, angle).mul(rotateToFace(face)))
+                                .spinning(face, be.getSpeed() * modifier, angle));
+                    }
                 },
                 AllBlocks.CLUTCH,
                 AllBlocks.GEARSHIFT,
@@ -111,45 +107,44 @@ final class PolymerKineticParts {
                     Direction direction = axis.getPositive();
                     float offset = rotationOffset(state, axis, be.getBlockPos());
                     float speed = be.getSpeed();
-                    out.add(part(
-                            SHAFT_HALF,
-                            spin(direction, progress(speed, time) + offset).mul(rotateToFace(opposite))));
+                    float shaftAngle = progress(speed, time) + offset;
+                    out.add(part(SHAFT_HALF, spin(direction, shaftAngle).mul(rotateToFace(opposite)))
+                            .spinning(opposite, speed, shaftAngle));
                     float fanSpeed = speed * 5;
                     if (fanSpeed > 0) {
                         fanSpeed = Mth.clamp(fanSpeed, 80, 1280);
                     } else if (fanSpeed < 0) {
                         fanSpeed = Mth.clamp(fanSpeed, -1280, -80);
                     }
-                    out.add(part(
-                            ENCASED_FAN_INNER,
-                            spin(direction, progress(fanSpeed, time) % 360 + offset)
-                                    .mul(rotateToFace(opposite))));
+                    float fanAngle = progress(fanSpeed, time) % 360 + offset;
+                    out.add(part(ENCASED_FAN_INNER, spin(direction, fanAngle).mul(rotateToFace(opposite)))
+                            .spinning(opposite, fanSpeed, fanAngle));
                 },
                 AllBlocks.ENCASED_FAN);
 
         PolymerBlockParts.<KineticBlockEntity>register(
                 (be, state, time, out) -> {
                     Axis axis = axisOf(state);
-                    out.add(part(MILLSTONE_COG, spin(axis, angle(be, state, axis, time))));
+                    float angle = angle(be, state, axis, time);
+                    out.add(part(MILLSTONE_COG, spin(axis, angle)).spinning(axis.getPositive(), be.getSpeed(), angle));
                 },
                 AllBlocks.MILLSTONE);
 
         PolymerBlockParts.<KineticBlockEntity>register(
                 (be, state, time, out) -> {
                     Direction facing = state.getValue(BlockStateProperties.FACING);
-                    out.add(part(
-                            DRILL_HEAD,
-                            spin(facing.getAxis(), angle(be, state, facing.getAxis(), time))
-                                    .mul(rotateToFace(facing))));
+                    float angle = angle(be, state, facing.getAxis(), time);
+                    out.add(part(DRILL_HEAD, spin(facing.getAxis(), angle).mul(rotateToFace(facing)))
+                            .spinning(facing, be.getSpeed(), angle));
                 },
                 AllBlocks.MECHANICAL_DRILL);
 
         PolymerBlockParts.<KineticBlockEntity>register(
                 (be, state, time, out) -> {
                     Axis axis = axisOf(state);
-                    out.add(part(
-                            TURNTABLE,
-                            spin(axis, angle(be, state, axis, time)).mul(rotateToFaceVertical(axis.getPositive()))));
+                    float angle = angle(be, state, axis, time);
+                    out.add(part(TURNTABLE, spin(axis, angle).mul(rotateToFaceVertical(axis.getPositive())))
+                            .spinning(axis.getPositive(), be.getSpeed(), angle));
                     PolymerGroundSkin.collect(be, state, out);
                 },
                 AllBlocks.TURNTABLE);
@@ -168,7 +163,9 @@ final class PolymerKineticParts {
         PolymerBlockParts.<MechanicalMixerBlockEntity>register(
                 (be, state, time, out) -> {
                     Axis axis = axisOf(state);
-                    out.add(part(MIXER_COG, spin(axis, angle(be, state, axis, time))));
+                    float cogAngle = angle(be, state, axis, time);
+                    out.add(part(MIXER_COG, spin(axis, cogAngle))
+                            .spinning(axis.getPositive(), be.getSpeed(), cogAngle));
                     float headOffset = mixerHeadOffset(be);
                     Matrix4f lowered = new Matrix4f().translate(0, headOffset, 0);
                     out.add(part(MIXER_POLE, lowered));
@@ -183,9 +180,9 @@ final class PolymerKineticParts {
                     Direction facing = state.getValue(BlockStateProperties.FACING);
                     Axis axis = facing.getAxis();
                     Direction direction = axis.getPositive();
-                    out.add(part(
-                            HAND_CRANK_BASE,
-                            spin(direction, angle(be, state, axis, time)).mul(rotateToFaceVertical(facing))));
+                    float baseAngle = angle(be, state, axis, time);
+                    out.add(part(HAND_CRANK_BASE, spin(direction, baseAngle).mul(rotateToFaceVertical(facing)))
+                            .spinning(facing, be.getSpeed(), baseAngle));
                     out.add(part(
                             HAND_CRANK_HANDLE,
                             spin(direction, be.independentAngle).mul(rotateToFace(facing.getOpposite()))));
@@ -204,7 +201,9 @@ final class PolymerKineticParts {
 
     private static PolymerBlockParts.Part fullShaft(KineticBlockEntity be, BlockState state, float time) {
         Axis axis = axisOf(state);
-        return part(SHAFT, spin(axis, angle(be, state, axis, time)).mul(rotateToFaceVertical(axis.getPositive())));
+        float angle = angle(be, state, axis, time);
+        return part(SHAFT, spin(axis, angle).mul(rotateToFaceVertical(axis.getPositive())))
+                .spinning(axis.getPositive(), be.getSpeed(), angle);
     }
 
     private static void gearbox(KineticBlockEntity be, BlockState state, float time, List<PolymerBlockParts.Part> out) {
@@ -221,8 +220,8 @@ final class PolymerKineticParts {
         float angle = progress(speed, time) % 360;
         Direction first = axis == Axis.Y ? Direction.SOUTH : Direction.UP;
         Direction second = axis == Axis.Z ? Direction.EAST : axis == Axis.Y ? Direction.EAST : Direction.SOUTH;
-        gearboxPair(state, be.getBlockPos(), first, angle, flag, false, out);
-        gearboxPair(state, be.getBlockPos(), second, angle, flag, true, out);
+        gearboxPair(state, be.getBlockPos(), first, angle, speed, flag, false, out);
+        gearboxPair(state, be.getBlockPos(), second, angle, speed, flag, true, out);
     }
 
     private static void gearboxPair(
@@ -230,6 +229,7 @@ final class PolymerKineticParts {
             BlockPos pos,
             Direction direction,
             float angle,
+            float speed,
             boolean flag,
             boolean second,
             List<PolymerBlockParts.Part> out) {
@@ -237,8 +237,11 @@ final class PolymerKineticParts {
         boolean forward = flag != second;
         float near = forward ? angle + offset : offset - angle;
         float far = forward ? offset - angle : angle + offset;
-        out.add(part(SHAFT_HALF, spin(direction, near).mul(rotateToFace(direction))));
-        out.add(part(SHAFT_HALF, spin(direction, far).mul(rotateToFace(direction.getOpposite()))));
+        float nearSpeed = forward ? speed : -speed;
+        out.add(part(SHAFT_HALF, spin(direction, near).mul(rotateToFace(direction)))
+                .spinning(direction, nearSpeed, near));
+        out.add(part(SHAFT_HALF, spin(direction, far).mul(rotateToFace(direction.getOpposite())))
+                .spinning(direction.getOpposite(), -nearSpeed, far));
     }
 
     private static float mixerHeadOffset(MechanicalMixerBlockEntity be) {

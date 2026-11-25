@@ -29,7 +29,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.LevelResource;
 
 // Kept outside com.zurrtum.create.infrastructure.polymer: NativePresentationPolicy.adapterPacket drops packets to
-// native clients whose first Create frame is an adapter class, which would hide this harness's packets from them.
+// native clients whose first Create frame is an adapter class, which hid this harness's teleports, break events and
+// particles from native clients (Nov 9 run).
 public final class PolymerParticleHarness implements ModInitializer {
     private static final BlockPos STAGE = new BlockPos(9000, 129, 9000);
     private static final int PLACE_TICKS = 4, SHOT_TICKS = 5, ACK_TIMEOUT = 200;

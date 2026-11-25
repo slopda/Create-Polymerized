@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.phys.BlockHitResult;
 
 public final class PolymerBogeyInteractions {
@@ -46,7 +47,7 @@ public final class PolymerBogeyInteractions {
             if (!entry.getValue().isInside(trackPos)) continue;
             if (level.getBlockEntity(entry.getKey()) instanceof StationBlockEntity station
                     && station.trackClicked(player, hand, track, trackState, trackPos)) {
-                player.swing(hand);
+                player.swing(hand, SwingAnimation.DEFAULT, false);
                 return InteractionResult.SUCCESS;
             }
         }

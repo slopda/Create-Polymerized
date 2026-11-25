@@ -33,6 +33,6 @@ abstract class AirCurrentHooksMixin {
                                     "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;aboveGroundTickCount:I",
                             shift = At.Shift.AFTER))
     private void polymerpatch$syncPushedPlayer(CallbackInfo ci, @Local ServerPlayer player) {
-        player.hurtMarked = true;
+        player.syncVelocity = true;
     }
 }

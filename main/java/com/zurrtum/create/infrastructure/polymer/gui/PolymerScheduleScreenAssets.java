@@ -90,6 +90,8 @@ final class PolymerScheduleScreenAssets {
                         providers.add(PolymerGuiGlyphs.bitmap(
                                 "create:font/schedule/stacks.png", 8, ascent, Character.toString(STACKS)));
                 }
+                // Declaration order: the placement sets iterate in a per-JVM order, which changed the pack hash per
+                // restart.
                 for (Piece piece : new TreeSet<>(PLACEMENTS.getOrDefault(top, Set.of()))) {
                     if (ascent > piece.height)
                         throw new IOException("Schedule glyph " + piece + " cannot reach top " + top);

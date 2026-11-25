@@ -1,11 +1,9 @@
 package com.zurrtum.create.infrastructure.polymer;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -110,18 +108,7 @@ public final class PolymerPonderReview implements ModInitializer {
                                             }
                                             start(player, index);
                                         }))))
-                        .then(Commands.literal("mark").then(mark("correct")).then(mark("wrong")))
-                        .then(Commands.literal("frame")
-                                .then(Commands.argument("id", StringArgumentType.word())
-                                        .then(Commands.argument("tick", IntegerArgumentType.integer(0))
-                                                .executes(c -> run(c, player -> {
-                                                    String id = StringArgumentType.getString(c, "id");
-                                                    int tick = IntegerArgumentType.getInteger(c, "tick");
-                                                    if (!PolymerPonderScenes.openAt(player, id, tick))
-                                                        player.sendSystemMessage(Component.literal(
-                                                                        "PONDER-FRAME-FAILED " + id + " " + tick)
-                                                                .withStyle(ChatFormatting.RED));
-                                                })))))));
+                        .then(Commands.literal("mark").then(mark("correct")).then(mark("wrong")))));
         ServerLifecycleEvents.SERVER_STARTED.register(PolymerPonderReview::load);
         ServerTickEvents.END_SERVER_TICK.register(PolymerPonderReview::tick);
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> SESSIONS.remove(handler.player.getUUID()));
@@ -393,29 +380,7 @@ public final class PolymerPonderReview implements ModInitializer {
                         style.withColor(color).withClickEvent(new ClickEvent.RunCommand("pr goto " + scene.id()))));
     }
 
-    private static void exportScenes(MinecraftServer server) {
-        JsonArray list = new JsonArray();
-        for (PolymerPonderScenes.Summary scene : scenes()) {
-            JsonObject row = new JsonObject();
-            row.addProperty("id", scene.id());
-            row.addProperty("item", scene.item());
-            row.addProperty("title", scene.title());
-            row.addProperty("index", scene.index());
-            list.add(row);
-        }
-        Path file =
-                server.getWorldPath(LevelResource.ROOT).resolve("polymerpatch").resolve("ponder_scenes.json");
-        try {
-            Files.createDirectories(file.getParent());
-            Files.writeString(
-                    file, new GsonBuilder().setPrettyPrinting().create().toJson(list), StandardCharsets.UTF_8);
-        } catch (IOException failure) {
-            Create.LOGGER.warn("Could not write Ponder scene list {}", file, failure);
-        }
-    }
-
     private static void load(MinecraftServer server) {
-        exportScenes(server);
         resultsFile =
                 server.getWorldPath(LevelResource.ROOT).resolve("polymerpatch").resolve("ponder_review.json");
         RESULTS.clear();

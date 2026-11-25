@@ -30,6 +30,8 @@ public final class PolymerInventorySync {
                 iterator.remove();
                 continue;
             }
+            // onRemoved runs before the native menu is restored. Also defer across menu-to-menu transitions: real
+            // slots would corrupt SGUI.
             if (SguiUtils.getCurrentGui(player) != null) continue;
             player.inventoryMenu.sendAllDataToRemote();
             if (player.containerMenu != player.inventoryMenu) player.containerMenu.sendAllDataToRemote();

@@ -26,6 +26,6 @@ public abstract class EjectorPlayerNativeMixin {
         var pos = self.getBlockPos();
         entity.setPos(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
         launcher.applyMotion(entity, facing);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
     }
 }

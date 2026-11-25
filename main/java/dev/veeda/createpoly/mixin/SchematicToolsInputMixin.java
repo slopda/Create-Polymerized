@@ -6,9 +6,8 @@ import com.zurrtum.create.infrastructure.polymer.hud.PolymerToolbelt;
 import com.zurrtum.create.infrastructure.polymer.schematic.PolymerQuill;
 import com.zurrtum.create.infrastructure.polymer.schematic.PolymerSchematicTools;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
-import net.minecraft.network.protocol.game.ServerboundSwingPacket;
+import net.minecraft.network.protocol.game.ServerboundPunchPacket;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.world.InteractionHand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,10 +33,9 @@ public abstract class SchematicToolsInputMixin {
                         || PolymerToolbelt.open(player))) ci.cancel();
     }
 
-    @Inject(method = "handleAnimate", at = @At("TAIL"))
-    private void leftClick(ServerboundSwingPacket packet, CallbackInfo ci) {
+    @Inject(method = "handlePunch", at = @At("TAIL"))
+    private void leftClick(ServerboundPunchPacket packet, CallbackInfo ci) {
         var player = ((ServerGamePacketListenerImpl) (Object) this).player;
-        if (packet.getHand() == InteractionHand.MAIN_HAND && !PolymerHudRadial.leftClick(player))
-            PolymerSchematicTools.swing(player);
+        if (!PolymerHudRadial.leftClick(player)) PolymerSchematicTools.swing(player);
     }
 }

@@ -56,7 +56,7 @@ final class PolymerContraptionItems {
         item.setDeltaMovement(item.getDeltaMovement().multiply(.5, 1, .5));
         item.setOnGround(true);
         item.fallDistance = 0;
-        item.hurtMarked = true;
+        item.syncVelocity = true;
         item.needsSync = true;
         surface.entity().registerColliding(item);
         return true;

@@ -1,5 +1,6 @@
 package com.zurrtum.create.infrastructure.polymer.collision;
 
+import com.zurrtum.create.infrastructure.polymer.PolymerBedrockCarriers;
 import eu.pb4.polymer.virtualentity.api.ElementHolder;
 import eu.pb4.polymer.virtualentity.api.VirtualEntityUtils;
 import eu.pb4.polymer.virtualentity.api.elements.ItemDisplayElement;
@@ -56,6 +57,7 @@ public final class PolymerCopycatStepCollision {
 
                 @Override
                 public void startWatching(ServerPlayer player, Consumer<Packet<ClientGamePacketListener>> packets) {
+                    if (PolymerBedrockCarriers.bedrockNative(player, level.getBlockState(pos))) return;
                     if (PolymerProxyMining.hidden(player, level, pos) || !visible.add(player.getUUID())) return;
                     super.startWatching(player, packets);
                     Cell.this.link(packets);

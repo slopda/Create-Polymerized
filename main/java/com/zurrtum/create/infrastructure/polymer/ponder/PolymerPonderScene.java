@@ -87,25 +87,13 @@ final class PolymerPonderScene {
             Fade exitFade,
             ModelRef axle) {}
 
-    record ModelRef(String model, int rx, int ry, int rz, String track, int tint, JsonObject special) {
+    record ModelRef(String model, int rx, int ry, int rz, String track) {
         ModelRef(String model, int rx, int ry) {
-            this(model, rx, ry, 0, null, -1, null);
+            this(model, rx, ry, 0, null);
         }
 
         ModelRef(String model, int rx, int ry, int rz) {
-            this(model, rx, ry, rz, null, -1, null);
-        }
-
-        ModelRef(String model, int rx, int ry, int rz, String track) {
-            this(model, rx, ry, rz, track, -1, null);
-        }
-
-        ModelRef tinted(int tint) {
-            return new ModelRef(model, rx, ry, rz, track, tint, special);
-        }
-
-        static ModelRef special(String model, int ry, JsonObject special) {
-            return new ModelRef(model, 0, ry, 0, null, -1, special);
+            this(model, rx, ry, rz, null);
         }
     }
 
@@ -621,29 +609,9 @@ final class PolymerPonderScene {
         }
 
         Builder moveSection(String id, float x, float y, float z, int duration) {
-            // Create scenes retire a section by moving it 1000 blocks away. Baked into the scene item that would
-            // stretch the item bounds past the GPU texture limit (vanilla client crash, GL error 1281), so the
-            // section is hidden instead.
-            if (duration == 0 && Math.max(Math.abs(x), Math.max(Math.abs(y), Math.abs(z))) >= OFF_SCREEN) {
-                List<Function<Select, List<Block>>> owned = sections.stream()
-                        .filter(section -> section.id.equals(id))
-                        .map(Section::selection)
-                        .toList();
-                if (owned.isEmpty()) throw new IllegalStateException("moveSection off screen: unknown section " + id);
-                visibility.add(new Visibility(
-                        time,
-                        select -> owned.stream()
-                                .flatMap(selection -> selection.apply(select).stream())
-                                .toList(),
-                        Fade.NONE,
-                        false));
-                return this;
-            }
             motions.add(new Motion(id, time, duration, new Point(x, y, z), false));
             return this;
         }
-
-        private static final float OFF_SCREEN = 100;
 
         Builder rotateSection(String id, float x, float y, float z, int duration) {
             motions.add(new Motion(id, time, duration, new Point(x, y, z), true));
@@ -1658,7 +1626,7 @@ final class PolymerPonderScene {
             for (ModelRef model : part.models) {
                 Matrix4f placed = place(tracked(part, model, tick).translate(ox + .5f, oy + .5f, oz + .5f), model);
                 if (part.spinner == null || part.spinner.housed) {
-                    entries.add(blockEntry(model, new Matrix4f(placed).translate(-.5f, -.5f, -.5f)));
+                    entries.add(entry(stillModel(model.model), new Matrix4f(placed).translate(-.5f, -.5f, -.5f)));
                     if (!axle) continue;
                     axle = false;
                     if (part.axle != null)
@@ -1927,26 +1895,15 @@ final class PolymerPonderScene {
     }
 
     private static JsonObject entry(PolymerPonderItems.Draw draw, Matrix4f transform) {
-        return tinted(entry(stillModel(draw.model()), transform, 1e4f), draw.tint());
-    }
-
-    private static JsonObject blockEntry(ModelRef model, Matrix4f transform) {
-        JsonObject entry = tinted(entry(stillModel(model.model), transform), model.tint);
-        if (model.special == null) return entry;
-        entry.addProperty("type", "minecraft:special");
-        entry.add("base", entry.remove("model"));
-        entry.add("model", model.special.deepCopy());
-        return entry;
-    }
-
-    private static JsonObject tinted(JsonObject entry, int value) {
-        if (value == -1) return entry;
-        JsonObject tint = new JsonObject();
-        tint.addProperty("type", "minecraft:constant");
-        tint.addProperty("value", value);
-        JsonArray tints = new JsonArray();
-        tints.add(tint);
-        entry.add("tints", tints);
+        JsonObject entry = entry(stillModel(draw.model()), transform, 1e4f);
+        if (draw.tint() != -1) {
+            JsonObject tint = new JsonObject();
+            tint.addProperty("type", "minecraft:constant");
+            tint.addProperty("value", draw.tint());
+            JsonArray tints = new JsonArray();
+            tints.add(tint);
+            entry.add("tints", tints);
+        }
         return entry;
     }
 
