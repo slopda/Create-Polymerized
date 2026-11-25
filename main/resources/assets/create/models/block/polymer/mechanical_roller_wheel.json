@@ -1,1938 +1,358 @@
 {
-  "ambientocclusion" : true,
-  "elements" : [
-    {
-      "faces" : {
-        "up" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        0.7568,
-        4.83,
-        0.4992
-      ],
-      "to" : [
-        3.2432,
-        4.85,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "east" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        3.9516,
-        2.8784,
-        0.4992
-      ],
-      "rotation" : {
-        "angle" : 45,
-        "axis" : "z",
-        "origin" : [
-          4.1216,
-          4.1216,
-          2
-        ],
-        "rescale" : false
-      },
-      "to" : [
-        3.9716,
-        5.3632,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "east" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        4.83,
-        0.7568,
-        0.4992
-      ],
-      "to" : [
-        4.85,
-        3.2432,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "east" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        3.9516,
-        -1.3632,
-        0.4992
-      ],
-      "rotation" : {
-        "angle" : -45,
-        "axis" : "z",
-        "origin" : [
-          4.1216,
-          -0.1216,
-          2
-        ],
-        "rescale" : false
-      },
-      "to" : [
-        3.9716,
-        1.1216,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "down" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        0.7568,
-        -0.85,
-        0.4992
-      ],
-      "to" : [
-        3.2432,
-        -0.83,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "west" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        0.0284,
-        -1.3632,
-        0.4992
-      ],
-      "rotation" : {
-        "angle" : 45,
-        "axis" : "z",
-        "origin" : [
-          -0.1216,
-          -0.1216,
-          2
-        ],
-        "rescale" : false
-      },
-      "to" : [
-        0.0484,
-        1.1216,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "west" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        -0.85,
-        0.7568,
-        0.4992
-      ],
-      "to" : [
-        -0.83,
-        3.2432,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "up" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            0,
-            0,
-            5,
-            6
-          ]
-        }
-      },
-      "from" : [
-        -1.3632,
-        3.9516,
-        0.4992
-      ],
-      "rotation" : {
-        "angle" : 45,
-        "axis" : "z",
-        "origin" : [
-          -0.1216,
-          4.1216,
-          2
-        ],
-        "rescale" : false
-      },
-      "to" : [
-        1.1216,
-        3.9716,
-        3.5008
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.75,
-        -1,
-        0.65
-      ],
-      "to" : [
-        3.25,
-        -0.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.5,
-        -0.75,
-        0.65
-      ],
-      "to" : [
-        0.75,
-        -0.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.25,
-        -0.75,
-        0.65
-      ],
-      "to" : [
-        3.5,
-        -0.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.25,
-        -0.5,
-        0.65
-      ],
-      "to" : [
-        0.5,
-        0,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            8.5,
-            0,
-            13.5,
-            10
-          ]
-        }
-      },
-      "from" : [
-        0.75,
-        -0.5,
-        0.65
-      ],
-      "to" : [
-        3.25,
-        4.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.5,
-        -0.5,
-        0.65
-      ],
-      "to" : [
-        3.75,
-        0,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0,
-        -0.25,
-        0.65
-      ],
-      "to" : [
-        0.25,
-        0.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            13.5,
-            0.5,
-            14,
-            9.5
-          ]
-        }
-      },
-      "from" : [
-        0.5,
-        -0.25,
-        0.65
-      ],
-      "to" : [
-        0.75,
-        4.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            8,
-            0.5,
-            8.5,
-            9.5
-          ]
-        }
-      },
-      "from" : [
-        3.25,
-        -0.25,
-        0.65
-      ],
-      "to" : [
-        3.5,
-        4.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.75,
-        -0.25,
-        0.65
-      ],
-      "to" : [
-        4,
-        0.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.25,
-        0,
-        0.65
-      ],
-      "to" : [
-        0,
-        0.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            14,
-            1,
-            14.5,
-            9
-          ]
-        }
-      },
-      "from" : [
-        0.25,
-        0,
-        0.65
-      ],
-      "to" : [
-        0.5,
-        4,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            7.5,
-            1,
-            8,
-            9
-          ]
-        }
-      },
-      "from" : [
-        3.5,
-        0,
-        0.65
-      ],
-      "to" : [
-        3.75,
-        4,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4,
-        0,
-        0.65
-      ],
-      "to" : [
-        4.25,
-        0.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.5,
-        0.25,
-        0.65
-      ],
-      "to" : [
-        -0.25,
-        0.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            14.5,
-            1.5,
-            15,
-            8.5
-          ]
-        }
-      },
-      "from" : [
-        0,
-        0.25,
-        0.65
-      ],
-      "to" : [
-        0.25,
-        3.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            7,
-            1.5,
-            7.5,
-            8.5
-          ]
-        }
-      },
-      "from" : [
-        3.75,
-        0.25,
-        0.65
-      ],
-      "to" : [
-        4,
-        3.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.25,
-        0.25,
-        0.65
-      ],
-      "to" : [
-        4.5,
-        0.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.75,
-        0.5,
-        0.65
-      ],
-      "to" : [
-        -0.5,
-        3.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            15,
-            2,
-            15.5,
-            8
-          ]
-        }
-      },
-      "from" : [
-        -0.25,
-        0.5,
-        0.65
-      ],
-      "to" : [
-        0,
-        3.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            6.5,
-            2,
-            7,
-            8
-          ]
-        }
-      },
-      "from" : [
-        4,
-        0.5,
-        0.65
-      ],
-      "to" : [
-        4.25,
-        3.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.5,
-        0.5,
-        0.65
-      ],
-      "to" : [
-        4.75,
-        3.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -1,
-        0.75,
-        0.65
-      ],
-      "to" : [
-        -0.75,
-        3.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            15.5,
-            2.5,
-            16,
-            7.5
-          ]
-        }
-      },
-      "from" : [
-        -0.5,
-        0.75,
-        0.65
-      ],
-      "to" : [
-        -0.25,
-        3.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            6,
-            2.5,
-            6.5,
-            7.5
-          ]
-        }
-      },
-      "from" : [
-        4.25,
-        0.75,
-        0.65
-      ],
-      "to" : [
-        4.5,
-        3.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.75,
-        0.75,
-        0.65
-      ],
-      "to" : [
-        5,
-        3.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.5,
-        3.25,
-        0.65
-      ],
-      "to" : [
-        -0.25,
-        3.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.25,
-        3.25,
-        0.65
-      ],
-      "to" : [
-        4.5,
-        3.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.25,
-        3.5,
-        0.65
-      ],
-      "to" : [
-        0,
-        4,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4,
-        3.5,
-        0.65
-      ],
-      "to" : [
-        4.25,
-        4,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0,
-        3.75,
-        0.65
-      ],
-      "to" : [
-        0.25,
-        4.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.75,
-        3.75,
-        0.65
-      ],
-      "to" : [
-        4,
-        4.25,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.25,
-        4,
-        0.65
-      ],
-      "to" : [
-        0.5,
-        4.5,
-        0.67
-      ]
-    },
+  "ambientocclusion": true,
+  "elements": [
     {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.5,
-        4,
-        0.65
-      ],
-      "to" : [
-        3.75,
-        4.5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.5,
-        4.25,
-        0.65
-      ],
-      "to" : [
-        0.75,
-        4.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.25,
-        4.25,
-        0.65
-      ],
-      "to" : [
-        3.5,
-        4.75,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "north" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.75,
-        4.5,
-        0.65
-      ],
-      "to" : [
-        3.25,
-        5,
-        0.67
-      ]
-    },
-    {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.75,
-        -1,
-        3.3308
-      ],
-      "to" : [
-        3.25,
-        -0.5,
-        3.3508
-      ]
-    },
-    {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.5,
-        -0.75,
-        3.3308
-      ],
-      "to" : [
-        0.75,
-        -0.25,
-        3.3508
-      ]
-    },
-    {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.25,
-        -0.75,
-        3.3308
-      ],
-      "to" : [
-        3.5,
-        -0.25,
-        3.3508
-      ]
-    },
-    {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.25,
-        -0.5,
-        3.3308
-      ],
-      "to" : [
-        0.5,
-        0,
-        3.3508
-      ]
-    },
-    {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            8.5,
-            0,
-            13.5,
-            10
-          ]
-        }
-      },
-      "from" : [
-        0.75,
-        -0.5,
-        3.3308
-      ],
-      "to" : [
-        3.25,
-        4.5,
-        3.3508
-      ]
-    },
-    {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.5,
-        -0.5,
-        3.3308
-      ],
-      "to" : [
-        3.75,
-        0,
-        3.3508
-      ]
+      "faces": {
+        "up": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6]
+        }
+      },
+      "from": [0.7554, 4.98, 0.5],
+      "to": [3.2446, 5, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0,
-        -0.25,
-        3.3308
-      ],
-      "to" : [
-        0.25,
-        0.25,
-        3.3508
-      ]
+      "faces": {
+        "down": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6]
+        }
+      },
+      "from": [0.7554, -1, 0.5],
+      "to": [3.2446, -0.98, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            8,
-            0.5,
-            8.5,
-            9.5
-          ]
-        }
-      },
-      "from" : [
-        0.5,
-        -0.25,
-        3.3308
-      ],
-      "to" : [
-        0.75,
-        4.25,
-        3.3508
-      ]
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6],
+          "rotation": 90
+        }
+      },
+      "from": [4.98, 0.7554, 0.5],
+      "to": [5, 3.2446, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            13.5,
-            0.5,
-            14,
-            9.5
-          ]
-        }
-      },
-      "from" : [
-        3.25,
-        -0.25,
-        3.3308
-      ],
-      "to" : [
-        3.5,
-        4.25,
-        3.3508
-      ]
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6],
+          "rotation": 90
+        }
+      },
+      "from": [-1, 0.7554, 0.5],
+      "to": [-0.98, 3.2446, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.75,
-        -0.25,
-        3.3308
-      ],
-      "to" : [
-        4,
-        0.25,
-        3.3508
-      ]
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6],
+          "rotation": 90
+        }
+      },
+      "from": [4.98, 0.7554, 0.5],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [5, 3.2446, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.25,
-        0,
-        3.3308
-      ],
-      "to" : [
-        0,
-        0.5,
-        3.3508
-      ]
+      "faces": {
+        "east": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6],
+          "rotation": 90
+        }
+      },
+      "from": [4.98, 0.7554, 0.5],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [5, 3.2446, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            7.5,
-            1,
-            8,
-            9
-          ]
-        }
-      },
-      "from" : [
-        0.25,
-        0,
-        3.3308
-      ],
-      "to" : [
-        0.5,
-        4,
-        3.3508
-      ]
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6],
+          "rotation": 90
+        }
+      },
+      "from": [-1, 0.7554, 0.5],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [-0.98, 3.2446, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            14,
-            1,
-            14.5,
-            9
-          ]
-        }
-      },
-      "from" : [
-        3.5,
-        0,
-        3.3308
-      ],
-      "to" : [
-        3.75,
-        4,
-        3.3508
-      ]
+      "faces": {
+        "west": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [0, 0, 5, 6],
+          "rotation": 90
+        }
+      },
+      "from": [-1, 0.7554, 0.5],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [-0.98, 3.2446, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4,
-        0,
-        3.3308
-      ],
-      "to" : [
-        4.25,
-        0.5,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [6, 2.9289, 16, 7.0711]
+        }
+      },
+      "from": [-0.5, 0.9645, 0.5],
+      "to": [4.5, 3.0355, 0.505]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.5,
-        0.25,
-        3.3308
-      ],
-      "to" : [
-        -0.25,
-        0.75,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [8.9289, 0, 13.0711, 10]
+        }
+      },
+      "from": [0.9645, -0.5, 0.5],
+      "to": [3.0355, 4.5, 0.505]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            7,
-            1.5,
-            7.5,
-            8.5
-          ]
-        }
-      },
-      "from" : [
-        0,
-        0.25,
-        3.3308
-      ],
-      "to" : [
-        0.25,
-        3.75,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [7.135, 0.1889, 9.385, 4.331]
+        }
+      },
+      "from": [3.375, 0.9645, 0.51],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [4.5, 3.0355, 0.515]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            14.5,
-            1.5,
-            15,
-            8.5
-          ]
-        }
-      },
-      "from" : [
-        3.75,
-        0.25,
-        3.3308
-      ],
-      "to" : [
-        4,
-        3.75,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [7.135, 5.669, 9.385, 9.8111]
+        }
+      },
+      "from": [3.375, 0.9645, 0.51],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [4.5, 3.0355, 0.515]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.25,
-        0.25,
-        3.3308
-      ],
-      "to" : [
-        4.5,
-        0.75,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [12.615, 5.669, 14.865, 9.8111]
+        }
+      },
+      "from": [-0.5, 0.9645, 0.51],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.625, 3.0355, 0.515]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.75,
-        0.5,
-        3.3308
-      ],
-      "to" : [
-        -0.5,
-        3.5,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [12.615, 0.1889, 14.865, 4.331]
+        }
+      },
+      "from": [-0.5, 0.9645, 0.51],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.625, 3.0355, 0.515]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            6.5,
-            2,
-            7,
-            8
-          ]
-        }
-      },
-      "from" : [
-        -0.25,
-        0.5,
-        3.3308
-      ],
-      "to" : [
-        0,
-        3.5,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [-1, 0.7574, 0.52],
+      "to": [5, 3.2426, 0.525]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            15,
-            2,
-            15.5,
-            8
-          ]
-        }
-      },
-      "from" : [
-        4,
-        0.5,
-        3.3308
-      ],
-      "to" : [
-        4.25,
-        3.5,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [0.7574, -1, 0.52],
+      "to": [3.2426, 5, 0.525]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.5,
-        0.5,
-        3.3308
-      ],
-      "to" : [
-        4.75,
-        3.5,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [3.65, 0.7574, 0.53],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [5, 3.2426, 0.535]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -1,
-        0.75,
-        3.3308
-      ],
-      "to" : [
-        -0.75,
-        3.25,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [3.65, 0.7574, 0.53],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [5, 3.2426, 0.535]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            6,
-            2.5,
-            6.5,
-            7.5
-          ]
-        }
-      },
-      "from" : [
-        -0.5,
-        0.75,
-        3.3308
-      ],
-      "to" : [
-        -0.25,
-        3.25,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [-1, 0.7574, 0.53],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.35, 3.2426, 0.535]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            15.5,
-            2.5,
-            16,
-            7.5
-          ]
-        }
-      },
-      "from" : [
-        4.25,
-        0.75,
-        3.3308
-      ],
-      "to" : [
-        4.5,
-        3.25,
-        3.3508
-      ]
+      "faces": {
+        "north": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [-1, 0.7574, 0.53],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.35, 3.2426, 0.535]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.75,
-        0.75,
-        3.3308
-      ],
-      "to" : [
-        5,
-        3.25,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [6, 2.9289, 16, 7.0711]
+        }
+      },
+      "from": [-0.5, 0.9645, 3.495],
+      "to": [4.5, 3.0355, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.5,
-        3.25,
-        3.3308
-      ],
-      "to" : [
-        -0.25,
-        3.75,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [8.9289, 0, 13.0711, 10]
+        }
+      },
+      "from": [0.9645, -0.5, 3.495],
+      "to": [3.0355, 4.5, 3.5]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4.25,
-        3.25,
-        3.3308
-      ],
-      "to" : [
-        4.5,
-        3.75,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [12.615, 0.1889, 14.865, 4.331]
+        }
+      },
+      "from": [3.375, 0.9645, 3.485],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [4.5, 3.0355, 3.49]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        -0.25,
-        3.5,
-        3.3308
-      ],
-      "to" : [
-        0,
-        4,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [12.615, 5.669, 14.865, 9.8111]
+        }
+      },
+      "from": [3.375, 0.9645, 3.485],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [4.5, 3.0355, 3.49]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        4,
-        3.5,
-        3.3308
-      ],
-      "to" : [
-        4.25,
-        4,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [7.135, 5.669, 9.385, 9.8111]
+        }
+      },
+      "from": [-0.5, 0.9645, 3.485],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.625, 3.0355, 3.49]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0,
-        3.75,
-        3.3308
-      ],
-      "to" : [
-        0.25,
-        4.25,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [7.135, 0.1889, 9.385, 4.331]
+        }
+      },
+      "from": [-0.5, 0.9645, 3.485],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.625, 3.0355, 3.49]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.75,
-        3.75,
-        3.3308
-      ],
-      "to" : [
-        4,
-        4.25,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [-1, 0.7574, 3.475],
+      "to": [5, 3.2426, 3.48]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.25,
-        4,
-        3.3308
-      ],
-      "to" : [
-        0.5,
-        4.5,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [0.7574, -1, 3.475],
+      "to": [3.2426, 5, 3.48]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.5,
-        4,
-        3.3308
-      ],
-      "to" : [
-        3.75,
-        4.5,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [3.65, 0.7574, 3.465],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [5, 3.2426, 3.47]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.5,
-        4.25,
-        3.3308
-      ],
-      "to" : [
-        0.75,
-        4.75,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [3.65, 0.7574, 3.465],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [5, 3.2426, 3.47]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        3.25,
-        4.25,
-        3.3308
-      ],
-      "to" : [
-        3.5,
-        4.75,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [-1, 0.7574, 3.465],
+      "rotation": {"angle": 45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.35, 3.2426, 3.47]
     },
     {
-      "faces" : {
-        "south" : {
-          "texture" : "#polymer_material_roller_wheel",
-          "uv" : [
-            5,
-            0,
-            6,
-            5
-          ]
-        }
-      },
-      "from" : [
-        0.75,
-        4.5,
-        3.3308
-      ],
-      "to" : [
-        3.25,
-        5,
-        3.3508
-      ]
+      "faces": {
+        "south": {
+          "texture": "#polymer_material_roller_wheel",
+          "uv": [5.5, 0.5, 6, 4.5]
+        }
+      },
+      "from": [-1, 0.7574, 3.465],
+      "rotation": {"angle": -45, "axis": "z", "origin": [2, 2, 2], "rescale": false},
+      "to": [0.35, 3.2426, 3.47]
     }
   ],
-  "parent" : "minecraft:block/block",
-  "textures" : {
-    "particle" : "create:block/roller_wheel",
-    "polymer_material_default" : "create:block/roller_wheel",
-    "polymer_material_roller_wheel" : "create:block/roller_wheel",
-    "wheel" : "create:block/roller_wheel"
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "create:block/roller_wheel",
+    "polymer_material_default": "create:block/roller_wheel",
+    "polymer_material_roller_wheel": "create:block/roller_wheel",
+    "wheel": "create:block/roller_wheel"
   }
 }
